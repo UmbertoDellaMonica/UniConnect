@@ -1,0 +1,49 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "id": "bsYXCiGX2vWW9sCD5CMAH",
+      "type": "text",
+      "x": -876.8919585480412,
+      "y": 655.6467496047704,
+      "width": 435.91961669921875,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "b9B",
+      "roundness": null,
+      "seed": 920778862,
+      "version": 96,
+      "versionNonce": 836665966,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1716468692820,
+      "link": null,
+      "locked": false,
+      "text": "Definizione Obiettivi di Analisi Project DB2 ",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Definizione Obiettivi di Analisi Project DB2 ",
+      "autoResize": true,
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
