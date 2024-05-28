@@ -10,6 +10,9 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class MovieResponse implements Serializable {
+    private Long id;
 
+    private String title;
 
+    private  String description;
 }

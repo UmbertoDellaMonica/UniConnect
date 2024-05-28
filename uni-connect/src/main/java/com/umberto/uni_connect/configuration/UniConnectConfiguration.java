@@ -15,8 +15,5 @@ public class UniConnectConfiguration {
                 .withDialect(Dialect.NEO4J_5).build();
     }
 
-    @Bean
-    public ModelMapper modelMapper(){
-        return new ModelMapper();
-    }
+
 }

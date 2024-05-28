@@ -6,6 +6,7 @@ import com.umberto.uni_connect.repository.MovieRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
@@ -29,14 +30,11 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieModel getMovieByTitle(String title){
-        Optional<MovieEntity> optionalMovieEntity = movieRepository.findOneByTitle(title).blockOptional();
-        if(optionalMovieEntity.isEmpty()) {
-            return null;
-        }else{
-            MovieEntity movieEntity = optionalMovieEntity.get();
-            MovieModel movieModel = mapper.map(movieEntity,MovieModel.class);
-            return movieModel;
-        }
+        Mono<MovieEntity> movieEntityMono = movieRepository.findOneByTitle(title);
+        Optional<MovieEntity> optionalMovieEntity = Optional.ofNullable(movieEntityMono.block());
+        MovieEntity movieEntity = optionalMovieEntity.get();
+        MovieModel movieModel = mapper.map(movieEntity, MovieModel.class);
+        return movieModel;
     }
 
 

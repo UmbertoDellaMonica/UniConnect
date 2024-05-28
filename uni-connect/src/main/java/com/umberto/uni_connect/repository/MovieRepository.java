@@ -9,7 +9,7 @@ import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
 
 
 @Repository
-public interface MovieRepository extends ReactiveNeo4jRepository<MovieEntity, String> {
+public interface MovieRepository extends ReactiveNeo4jRepository<MovieEntity, Long> {
 
     /**
      * Metodo per Ricercare un Film dal Titolo
