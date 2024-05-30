@@ -8,14 +8,17 @@ class UniConnectSignUpService {
 
 
   // Service to Call API from Student 
-  final StudentService _studentService = StudentService();
+  final StudentService studentService = StudentService();
 
 
-  /// signUpStudent mi permette di registrare un utente sulla piattaforma 
-  /// 
-  Future<bool> SignUpStudent(String email, String fullName, String password, String StudentDepartement) async {
-    
-    return await _studentService.SignUpStudent(email,fullName,password);
+  /// signUpStudent - Registra uno Studente 
+  Future<bool> signUpStudent(
+    String email,
+    String fullName,
+    String password,
+    String studentDepartement
+  ) async {
+    return await studentService.signUpStudent(email,fullName,password,studentDepartement);
   }
 
 

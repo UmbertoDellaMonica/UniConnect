@@ -1,11 +1,6 @@
 import 'package:bcrypt/bcrypt.dart';
 
 
-
-
-
-
-
 import 'package:uni_connect_front_end/shared/components/atoms/custom_input_validator.dart';
 import 'package:uni_connect_front_end/shared/components/atoms/custom_button.dart';
 import 'package:uni_connect_front_end/shared/color_utils.dart';
@@ -17,13 +12,6 @@ import 'package:uni_connect_front_end/shared/components/molecules/custom_nav_bar
 import 'package:uni_connect_front_end/sign_up/components/custom_menu_singup.dart';
 import 'package:uni_connect_front_end/shared/custom_alert_dialog.dart';
 import 'package:uni_connect_front_end/shared/components/atoms/custom_dropdown.dart';
-
-
-
-
-
-
-
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -49,26 +37,8 @@ class UniConnectSignUpPage extends StatefulWidget {
 
 class _MySignUpPageAnimations extends State<UniConnectSignUpPage> with SingleTickerProviderStateMixin{
 
-  var dropdownItems = ["Dipartimento di Agraria",
-"Dipartimento di Architettura",
-"Dipartimento di Scienze Biomediche",
-"Dipartimento di Scienze della Formazione", "Beni Culturali e Turismo",
-"Dipartimento di Scienze Chimiche",
-"Dipartimento di Scienze Economiche e Statistiche" ,
-"Dipartimento di Scienze Giuridiche",
-"Dipartimento di Ingegneria dell'Informazione ed Elettrica", 
-"Dipartimento di Ingegneria Civile, Edile e Ambientale", 
-"Dipartimento di Ingegneria Industriale", 
-"Dipartimento di Informatica",
-"Dipartimento di Matematica e Fisica",
-"Dipartimento di Medicina, Chirurgia e Odontoiatria", 
-"Dipartimento di Farmacia" ,
-"Dipartimento di Scienze Motorie, Umane e Sociali", 
-"Dipartimento di Scienze Politiche e Sociali",
-"Dipartimento di Scienze del Linguaggio e Beni Culturali",
-"Dipartimento di Fisica",
-"Scuola di Medicina" ];
 
+  var dropdownItems = Enums.dropdownItems;
 
 
 
@@ -241,8 +211,9 @@ class _MySignUpPageAnimations extends State<UniConnectSignUpPage> with SingleTic
                       CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.error, errorDetail: "Le password non corrispondono.");
                   } else {
                     String passwordHashed = _hashPassword(confermaPasswordInput);
-                    if (await signUpService.SignUpStudent(
-                        emailInput, fullName, passwordHashed, selectedDepartementStudent)) {
+                    print("Questo è l'oggetto che passo : "+Enums.getDepartementAsvalue(selectedDepartementStudent).toString());
+                    if (await signUpService.signUpStudent(
+                        emailInput, fullName, passwordHashed, Enums.getDepartementAsvalue(selectedDepartementStudent).toString())) {
                       /// TRUE Registration
                       CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.success, path: "/signin");
                     } else {

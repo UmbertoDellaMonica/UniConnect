@@ -30,9 +30,9 @@ class SigninService {
     /// Create a JWT (Optional)  
     
     /// Move to home-page-user and select our product 
-    Student? userProvider =  await studentService.getData(selectedValueUserType);
+    Student? userProvider =  studentService.getData(selectedValueUserType);
     // Inserisco nel Database Singleton
-    await _saveUserReference(userProvider!, secureStorageService);
+    await _saveUserReference(userProvider, secureStorageService);
 
     String tokenJWT = await  jwtService.generateJwtToken(
         userProvider.email,

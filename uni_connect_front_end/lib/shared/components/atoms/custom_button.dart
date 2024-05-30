@@ -31,7 +31,7 @@ class CustomButton extends StatelessWidget {
               ? ColorUtils.getColor(CustomType.neutral)
               : Colors.white
           ),
-          child: Text(text.isEmpty ? Enums.getDefaultText(type) : text),
+          child: Text(text.isEmpty ? Enums.getTypeButton(type) : text),
         );
       } else {
         return ElevatedButton(
@@ -53,7 +53,7 @@ class CustomButton extends StatelessWidget {
         child: Container(
           width: double.infinity,
           child: Center(
-            child: Text(text.isEmpty ? Enums.getDefaultText(type) : text),
+            child: Text(text.isEmpty ? Enums.getTypeButton(type) : text),
           ),
         ),
       );

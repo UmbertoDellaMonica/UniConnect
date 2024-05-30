@@ -106,11 +106,8 @@ class _MySignInPageAnimations extends State<UniConnectSignInPage> with SingleTic
       duration: const Duration(milliseconds: 150),
     );
     final storage = GetIt.I.get<SecureStorageService>();
-    if(storage!=null){
-      print("storage non è nullo!");
-      secureStorageService = storage;
-    }
-    
+    secureStorageService = storage;
+      
   }
 
 
@@ -147,9 +144,7 @@ class _MySignInPageAnimations extends State<UniConnectSignInPage> with SingleTic
 
 
 
-  /**
-   * Build Back Button
-   */
+  /// Build Back Button
    Widget _buildRegisterButton(BuildContext context) {
     return  Row(
               mainAxisAlignment: MainAxisAlignment.center,

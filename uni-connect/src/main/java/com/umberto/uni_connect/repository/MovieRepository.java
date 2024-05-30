@@ -2,19 +2,17 @@ package com.umberto.uni_connect.repository;
 
 
 import com.umberto.uni_connect.entity.MovieEntity;
+import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Mono;
-
-import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
 
 
 @Repository
-public interface MovieRepository extends ReactiveNeo4jRepository<MovieEntity, Long> {
+public interface MovieRepository extends Neo4jRepository<MovieEntity, Long> {
 
     /**
      * Metodo per Ricercare un Film dal Titolo
-     * @param title
-     * @return
+     * @param title title of Film
      */
-    Mono<MovieEntity> findOneByTitle(String title);
+    MovieEntity findOneByTitle(String title);
 }

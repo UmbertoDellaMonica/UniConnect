@@ -1,125 +1,112 @@
+// ignore_for_file: constant_identifier_names
+
 enum CustomType { neutral, neutralShade, error, warning, success }
-
-enum Actor { MilkHub, CheeseProducer, Retailer, Consumer, unknown }
-
-enum Asset { MilkBatch, CheeseBlock, CheesePiece }
 
 enum DialogType { DialogConversion, DialogPurchase, Inventory }
 
 enum AlertDialogType { Signup, Signin, Buy, Conversion, Add }
 
-enum DipartimentoUnisa {
-  Agraria,
-  Architettura,
-  ScienzeBiomediche,
-  ScienzeFormazioneBeniCulturaliTurismo,
-  ScienzeChimiche,
-  ScienzeEconomicheStatistiche,
-  ScienzeGiuridiche,
-  IngegneriaInformazioneElettrica,
-  IngegneriaCivileEdileAmbientale,
-  IngegneriaIndustriale,
-  informatica,
-  Matematica,
-  MedicinaChirurgiaOdontoiatria,
-  Farmacia,
-  ScienzeMotorieUmaneSociali,
-  ScienzePoliticheSociali,
-  ScienzeLinguaggioBeniCulturali,
-  Fisica,
-  scuolaMedicina,
+enum DepartementUnisa {
+  AGRICOLA,
+  ARCHITETTURA,
+  BIOMEDICHE,
+  FORMAZIONE_BENICULTURALI,
+  CHIMICHE,
+  ECONOMICHE_STATISTICHE,
+  GIURIDICHE,
+  INGEGNERIA_ELETTRICA,
+  INGEGNERIA_EDILE,
+  INGEGNERIA_INDUSTRIALE,
+  INFORMATICA,
+  MATEMATICA_FISICA,
+  MEDICINA_CHIRURGIA_ODONTOIATRIA,
+  FARMACIA,
+  MOTORIE_UMANE_SOCIALI,
+  POLITICHE_SOCIALI,
+  LINGUAGGIO_BENICULTURALI,
+  FISICA,
+  SCUOLA_MEDICINA;
 }
 
 
 
 class Enums {
   
-  /*
-  *   Questa funzione restituisce un testo di default basandosi sull'Actor dati in input
-  */
-  static String getActorText(Actor actor) {
-    switch(actor) {
-      case Actor.MilkHub:
-        return "MilkHub";
-      case Actor.CheeseProducer:
-        return "CheeseProducer";
-      case Actor.Retailer:
-        return "Retailer";
-      case Actor.Consumer:
-        return "Consumer";
-      case Actor.unknown:
+    static Map<String,String> departementUnisaAsString = {
+    
+        "Dipartimento di Agraria":DepartementUnisa.AGRICOLA.name,
+        "Dipartimento di Architettura":DepartementUnisa.ARCHITETTURA.name,
+        "Dipartimento di Scienze Biomediche":DepartementUnisa.BIOMEDICHE.name,
+        "Dipartimento di Scienze della Formazione ,Beni Culturali e Turismo":DepartementUnisa.FORMAZIONE_BENICULTURALI.name,
+        "Dipartimento di Scienze Chimiche":DepartementUnisa.CHIMICHE.name,
+        "Dipartimento di Scienze Economiche e Statistiche":DepartementUnisa.ECONOMICHE_STATISTICHE.name ,
+        "Dipartimento di Scienze Giuridiche":DepartementUnisa.GIURIDICHE.name,
+        "Dipartimento di Ingegneria dell'Informazione ed Elettrica":DepartementUnisa.INGEGNERIA_ELETTRICA.name, 
+        "Dipartimento di Ingegneria Civile, Edile e Ambientale":DepartementUnisa.INGEGNERIA_EDILE.name, 
+        "Dipartimento di Ingegneria Industriale":DepartementUnisa.INGEGNERIA_INDUSTRIALE.name, 
+        "Dipartimento di Informatica":DepartementUnisa.INFORMATICA.name,
+        "Dipartimento di Matematica e Fisica":DepartementUnisa.MATEMATICA_FISICA.name,
+        "Dipartimento di Medicina, Chirurgia e Odontoiatria":DepartementUnisa.MEDICINA_CHIRURGIA_ODONTOIATRIA.name, 
+        "Dipartimento di Farmacia":DepartementUnisa.FARMACIA.name,
+        "Dipartimento di Scienze Motorie, Umane e Sociali":DepartementUnisa.MOTORIE_UMANE_SOCIALI.name, 
+        "Dipartimento di Scienze Politiche e Sociali":DepartementUnisa.POLITICHE_SOCIALI.name,
+        "Dipartimento di Scienze del Linguaggio e Beni Culturali":DepartementUnisa.LINGUAGGIO_BENICULTURALI.name,
+        "Dipartimento di Fisica":DepartementUnisa.FISICA.name,
+        "Scuola di Medicina":DepartementUnisa.SCUOLA_MEDICINA.name 
+
+    };
+
+      static List<String> dropdownItems = [
+        "Dipartimento di Agraria",
+        "Dipartimento di Architettura",
+        "Dipartimento di Scienze Biomediche",
+        "Dipartimento di Scienze della Formazione", "Beni Culturali e Turismo",
+        "Dipartimento di Scienze Chimiche",
+        "Dipartimento di Scienze Economiche e Statistiche" ,
+        "Dipartimento di Scienze Giuridiche",
+        "Dipartimento di Ingegneria dell'Informazione ed Elettrica", 
+        "Dipartimento di Ingegneria Civile, Edile e Ambientale", 
+        "Dipartimento di Ingegneria Industriale", 
+        "Dipartimento di Informatica",
+        "Dipartimento di Matematica e Fisica",
+        "Dipartimento di Medicina, Chirurgia e Odontoiatria", 
+        "Dipartimento di Farmacia" ,
+        "Dipartimento di Scienze Motorie, Umane e Sociali", 
+        "Dipartimento di Scienze Politiche e Sociali",
+        "Dipartimento di Scienze del Linguaggio e Beni Culturali",
+        "Dipartimento di Fisica",
+        "Scuola di Medicina" 
+      ];
+
+    static String getDepartementAsvalue(String departementSelected){
+      if(departementUnisaAsString.containsKey(departementSelected)){
+        print("Questo è il dipartimento selezionato : "+departementUnisaAsString[departementSelected].toString());
+        return departementUnisaAsString[departementSelected].toString();
+      }else{
         return "";
+      }
     }
-  }
 
 
-  /*
-  *   Questa funzione restituisce un testo di default basandosi sull'Actor dati in input
-  */
-  static Actor getActor(String actorName) {
-    print("Get Actor Name : "+actorName);
-    switch(actorName) {
-      case "MilkHub":
-        return Actor.MilkHub;
-      case "CheeseProducer":
-        return Actor.CheeseProducer;
-      case "Retailer":
-        return Actor.Retailer;
-      case "Consumer":
-      return Actor.Consumer;
-      default :
-      return Actor.unknown;  
+
+
+    /*
+    *  Questa funzione restituisce un testo di default basandosi sul CustomType
+    */
+    static String getTypeButton(CustomType type) {
+      switch (type) {
+        case CustomType.neutral: case CustomType.neutralShade:
+          return "Conferma";
+        case CustomType.error:
+          return "Cancella";
+        case CustomType.warning:
+          return "Annulla";
+        case CustomType.success:
+          return "OK";
+      }
     }
-  }
 
 
-
-  /*
-   *  Questa funzione restituisce un testo di default basandosi sul CustomType
-   */
-  static String getDefaultText(CustomType type) {
-    switch (type) {
-      case CustomType.neutral: case CustomType.neutralShade:
-        return "Conferma";
-      case CustomType.error:
-        return "Cancella";
-      case CustomType.warning:
-        return "Annulla";
-      case CustomType.success:
-        return "OK";
-    }
-  }
-
-  /*
-   *  Questa funzione restituisce il path di un asset passato in input 
-   */
-  static String getAssetPath(Asset asset) {
-    switch(asset) {
-      case Asset.MilkBatch:
-        return "milk.png";
-      case Asset.CheeseBlock:
-        return "cheese_block.png";
-      case Asset.CheesePiece:
-        return "cheese_piece.png";
-    }
-  }
-
-  /*
-  *   Questa funzione restituisce un id basandosi sull'Actor dati in input
-  */
-  static int getActorId(Actor actor) {
-    switch(actor) {
-      case Actor.MilkHub:
-        return 1;
-      case Actor.CheeseProducer:
-        return 2;
-      case Actor.Retailer:
-        return 3;
-      case Actor.Consumer:
-        return 4;
-      case Actor.unknown:
-        return 0;
-    }
-  } 
+  
 
 }

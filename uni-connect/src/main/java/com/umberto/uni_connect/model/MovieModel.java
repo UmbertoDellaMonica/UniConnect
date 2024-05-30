@@ -14,4 +14,5 @@ public class MovieModel {
     private String title;
 
     private  String description;
+
 }

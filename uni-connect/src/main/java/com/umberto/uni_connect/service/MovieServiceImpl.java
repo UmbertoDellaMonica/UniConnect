@@ -30,10 +30,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieModel getMovieByTitle(String title){
-        Mono<MovieEntity> movieEntityMono = movieRepository.findOneByTitle(title);
-        Optional<MovieEntity> optionalMovieEntity = Optional.ofNullable(movieEntityMono.block());
-        MovieEntity movieEntity = optionalMovieEntity.get();
-        MovieModel movieModel = mapper.map(movieEntity, MovieModel.class);
+        MovieEntity movieEntityMono = movieRepository.findOneByTitle(title);
+
+        MovieModel movieModel = mapper.map(movieEntityMono, MovieModel.class);
         return movieModel;
     }
 
