@@ -15,4 +15,10 @@ public interface StudentService {
      * @param studentModel dati dello Studente
      */
     Boolean signIn(StudentModel studentModel);
+
+    /**
+     * Recupero dei Dati dello Studente
+     * @param email dello studente
+     */
+    StudentModel getStudentData(String email);
 }

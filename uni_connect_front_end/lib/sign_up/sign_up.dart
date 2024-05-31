@@ -1,4 +1,5 @@
-import 'package:bcrypt/bcrypt.dart';
+import 'dart:async';
+
 
 
 import 'package:uni_connect_front_end/shared/components/atoms/custom_input_validator.dart';
@@ -13,15 +14,12 @@ import 'package:uni_connect_front_end/sign_up/components/custom_menu_singup.dart
 import 'package:uni_connect_front_end/shared/custom_alert_dialog.dart';
 import 'package:uni_connect_front_end/shared/components/atoms/custom_dropdown.dart';
 
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
-
-
-// UserService - Registration
-import 'package:uni_connect_front_end/sign_up/service/uni_connect_signup_service.dart';
-
+import 'package:uni_connect_front_end/sign_up/service/signup_service.dart';
+import 'package:uni_connect_front_end/student/utils/password_service_utils.dart';
 
 
 class UniConnectSignUpPage extends StatefulWidget {
@@ -37,22 +35,12 @@ class UniConnectSignUpPage extends StatefulWidget {
 
 class _MySignUpPageAnimations extends State<UniConnectSignUpPage> with SingleTickerProviderStateMixin{
 
-
   var dropdownItems = Enums.dropdownItems;
-
-
-
   
   late String selectedDepartementStudent;
-
   late String nameInput;
   late String cognomeInput;
   late String fullName;
-
-  String salt = "\$2a\$10\$Gs.PmaGJQtm0ThQF3VkX2u";
-
-
-
   late String emailInput;
   late String passwordInput;
   late String confermaPasswordInput;
@@ -65,7 +53,7 @@ class _MySignUpPageAnimations extends State<UniConnectSignUpPage> with SingleTic
   TextEditingController ?_confirmPasswordController;
 
   /// Injection of Service 
-  final signUpService = UniConnectSignUpService();
+  final signUpService = SignUpService();
   /// Injection of Static Widget 
   final customPopUpDialog = CustomPopUpDialog();
 
@@ -123,174 +111,7 @@ class _MySignUpPageAnimations extends State<UniConnectSignUpPage> with SingleTic
     }
   }
 
-
   /**
-   * Build Form di Registrazione 
-   */
-  Widget buildFormRegistrazione(BuildContext context) {
-    // Form di iscrizione
-    return Center(
-      child: Expanded(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.4,
-          height: MediaQuery.of(context).size.height*2.5,
-          padding: const EdgeInsets.all(30.0),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: ColorUtils.getColor(CustomType.neutral),
-            ),
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Registrazione', // Titolo "Login"
-                style: TextStyle(
-                  fontSize: 24.0, // Dimensione del testo
-                  fontWeight: FontWeight.bold, // Grassetto
-                  color: ColorUtils.getColor(CustomType.neutral), // Colore neutral
-                ),
-              ),
-              const SizedBox(height: 10),
-              CustomInputValidator(
-                inputType: TextInputType.name,
-                labelText: 'Nome',
-                controller: _nameController!,
-              ),
-              const SizedBox(height: 10),
-              CustomInputValidator(
-                inputType: TextInputType.name,
-                labelText: 'Cognome',
-                controller: _lastNameController!,
-              ),
-              const SizedBox(height: 10),
-              CustomInputValidator(
-                inputType: TextInputType.emailAddress,
-                labelText: 'Email',
-                controller: _emailController!,
-              ),
-              const SizedBox(height: 10),
-              CustomInputValidator(
-                inputType: TextInputType.visiblePassword,
-                labelText: 'Password',
-                controller: _passwordController!,
-              ),
-              const SizedBox(height: 10),
-              CustomInputValidator(
-                inputType: TextInputType.visiblePassword,
-                labelText: 'Conferma password',
-                controller: _confirmPasswordController!,
-              ),
-              const SizedBox(height: 10),
-              CustomDropdown<String>(
-                items: dropdownItems,
-                value: "Dipartimento di Informatica",
-                onChanged: (value) {
-                  setState(() {
-                    selectedDepartementStudent = value!;
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              CustomButton(
-                expandWidth: true,
-                text: "Registrati",
-                type: CustomType.neutral,
-                onPressed: () async {
-                  // Recupera i valori dai controller
-                  nameInput = _nameController!.text;
-                  cognomeInput = _lastNameController!.text;
-                  emailInput = _emailController!.text;
-                  passwordInput = _passwordController!.text;
-                  confermaPasswordInput = _confirmPasswordController!.text;
-
-                  fullName = nameInput + " " + cognomeInput;
-
-                  if(passwordInput != confermaPasswordInput) {
-                      CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.error, errorDetail: "Le password non corrispondono.");
-                  } else {
-                    String passwordHashed = _hashPassword(confermaPasswordInput);
-                    print("Questo è l'oggetto che passo : "+Enums.getDepartementAsvalue(selectedDepartementStudent).toString());
-                    if (await signUpService.signUpStudent(
-                        emailInput, fullName, passwordHashed, Enums.getDepartementAsvalue(selectedDepartementStudent).toString())) {
-                      /// TRUE Registration
-                      CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.success, path: "/signin");
-                    } else {
-                      /// FALSE Registration
-                      CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.error);
-                    }
-                  }
-                },
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: Text(
-                  'Hai già un account?',
-                  style: TextStyle(
-                    color: ColorUtils.labelColor,
-                  ),
-                ),
-              ),
-              CustomButton(
-                expandWidth: true,
-                text: "Login",
-                type: CustomType.neutral,
-                onPressed: () => context.go('/signin')),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-
-  String _hashPassword(String password) {
-    final hashedPassword = BCrypt.hashpw(password, salt);
-    return hashedPassword;
-  }
-
-
-
-
-  /***
-   * Build Registered Action 
-   */
-  Widget buildIsRegistered(BuildContext context){
-      return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Hai già un account?'),
-                SizedBox(width: 20,height: 0),
-                
-                CustomButton(
-                  text: "Login",
-                  type: CustomType.neutral,
-                  onPressed: () => context.go('/signin'),
-                ),
-              ],
-            );
-  }
-
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: Stack(
-          children: <Widget>[
-            /// Registration Form 
-            buildFormRegistrazione(context),
-            _buildDrawer(),
-          ],
-        ),
-    );
-  }
-
-
-     /**
    * Construisce la NavBar Custom
    * - Inserimento del Logo 
    * - Inserimento del Testo 
@@ -327,7 +148,7 @@ class _MySignUpPageAnimations extends State<UniConnectSignUpPage> with SingleTic
   }
 
 
-    Widget _buildDrawer() {
+  Widget _buildDrawer() {
     return AnimatedBuilder(
       animation: _drawerSlideController,
       builder: (context, child) {
@@ -337,5 +158,176 @@ class _MySignUpPageAnimations extends State<UniConnectSignUpPage> with SingleTic
         );
       },
     );
+}
+
+
+  /**
+   * Build Form di Registrazione 
+   */
+  Widget buildFormRegistrazione(BuildContext context) {
+    // Form di iscrizione
+    return Center(
+      child: Expanded(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.height*2.5,
+          padding: const EdgeInsets.all(30.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: ColorUtils.getColor(CustomType.neutral),
+            ),
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Registrazione', // Titolo "Login"
+                style: TextStyle(
+                  fontSize: 24.0, // Dimensione del testo
+                  fontWeight: FontWeight.bold, // Grassetto
+                  color: ColorUtils.getColor(CustomType.neutral), // Colore neutral
+                ),
+              ),
+              const SizedBox(height: 10),
+              /// Name Controller 
+              CustomInputValidator(
+                inputType: TextInputType.name,
+                labelText: 'Nome',
+                controller: _nameController!,
+              ),
+              const SizedBox(height: 10),
+              /// Cognome Controller 
+              CustomInputValidator(
+                inputType: TextInputType.name,
+                labelText: 'Cognome',
+                controller: _lastNameController!,
+              ),
+              const SizedBox(height: 10),
+              /// Email Controller 
+              CustomInputValidator(
+                inputType: TextInputType.emailAddress,
+                labelText: 'Email',
+                controller: _emailController!,
+              ),
+              const SizedBox(height: 10),
+              /// Password Controller 
+              CustomInputValidator(
+                inputType: TextInputType.visiblePassword,
+                labelText: 'Password',
+                controller: _passwordController!,
+              ),
+              const SizedBox(height: 10),
+              /// Password Confirmed Controller 
+              CustomInputValidator(
+                inputType: TextInputType.visiblePassword,
+                labelText: 'Conferma password',
+                controller: _confirmPasswordController!,
+              ),
+              const SizedBox(height: 10),
+              /// DropDown Section
+                buildDropDownSection(context),
+              const SizedBox(height: 10),
+              /// Registration - Section 
+                buildRegisterButton(context),
+              const SizedBox(height: 10),
+              /// Login Text - Section 
+              Center(
+                child: Text(
+                  'Hai già un account?',
+                  style: TextStyle(
+                    color: ColorUtils.labelColor,
+                  ),
+                ),
+              ),
+              /// Login Button 
+              buildIsRegisteredButton(context),
+            ],
+          ),
+        ),
+      ),
+    );
   }
+
+  Widget buildIsRegisteredButton(BuildContext context){
+      return 
+          CustomButton(
+            expandWidth: true,
+            text: "Login",
+            type: CustomType.neutral,
+            onPressed: () => context.go('/signin'),
+      );
+  }
+
+  Widget buildRegisterButton(BuildContext context){
+    return 
+    CustomButton(
+                expandWidth: true,
+                text: "Registrati",
+                type: CustomType.neutral,
+                onPressed: () async =>await _SignUpButtonPressed() 
+      );
+  }
+
+  Widget buildDropDownSection(BuildContext context){
+      return CustomDropdown<String>(
+                items: dropdownItems,
+                value: "Dipartimento di Informatica",
+                onChanged: (value) {
+                  setState(() {
+                    selectedDepartementStudent = value!;
+                  });
+                },
+              );
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: Stack(
+          children: <Widget>[
+            /// Registration Form 
+            buildFormRegistrazione(context),
+            _buildDrawer(),
+          ],
+        ),
+    );
+  }
+
+
+
+
+
+  /// Metodo per eseguire tutta la logica della registrazione 
+  /// Recupera i valori dal Form 
+  /// Verifica se le password coincidono
+  Future<void>_SignUpButtonPressed() async {
+      // Recupera i valori dai controller
+      nameInput = _nameController!.text;
+      cognomeInput = _lastNameController!.text;
+      emailInput = _emailController!.text;
+      passwordInput = _passwordController!.text;
+      confermaPasswordInput = _confirmPasswordController!.text;
+      fullName = nameInput + " " + cognomeInput;
+      /// Check Password and Password Hashed 
+      if(PasswordService.checkPassword(passwordInput,confermaPasswordInput)) {
+          /// Visualizza il Dialog - Error 
+          CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.error, errorDetail: "Le password non corrispondono.");
+      } else {
+        /// SignUp Action 
+        bool registrationStatus = await signUpService.signUpStudent(emailInput,fullName,passwordInput,selectedDepartementStudent);
+        if(registrationStatus){
+          /// TRUE Registration
+          CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.success, path: "/signin");
+          }else{
+          /// FALSE Registration
+          CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.error);
+        }
+      }
+    } 
+
+
+
+
 }

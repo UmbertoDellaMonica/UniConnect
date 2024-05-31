@@ -1,4 +1,3 @@
-import 'package:bcrypt/bcrypt.dart';
 import 'package:flutter/material.dart';
 
 
@@ -48,32 +47,15 @@ class UniConnectSignInPage extends StatefulWidget {
 
 class _MySignInPageAnimations extends State<UniConnectSignInPage> with SingleTickerProviderStateMixin{
 
-  var dropdownItems = ["Dipartimento di Agraria",
-      "Dipartimento di Architettura",
-      "Dipartimento di Scienze Biomediche",
-      "Dipartimento di Scienze della Formazione", "Beni Culturali e Turismo",
-      "Dipartimento di Scienze Chimiche",
-      "Dipartimento di Scienze Economiche e Statistiche" ,
-      "Dipartimento di Scienze Giuridiche",
-      "Dipartimento di Ingegneria dell'Informazione ed Elettrica", 
-      "Dipartimento di Ingegneria Civile, Edile e Ambientale", 
-      "Dipartimento di Ingegneria Industriale", 
-      "Dipartimento di Informatica",
-      "Dipartimento di Matematica e Fisica",
-      "Dipartimento di Medicina, Chirurgia e Odontoiatria", 
-      "Dipartimento di Farmacia" ,
-      "Dipartimento di Scienze Motorie, Umane e Sociali", 
-      "Dipartimento di Scienze Politiche e Sociali",
-      "Dipartimento di Scienze del Linguaggio e Beni Culturali",
-      "Dipartimento di Fisica",
-      "Scuola di Medicina" 
-      ];  
+
+  /// DropDown Items - Departement Student 
+  var dropdownItems = Enums.dropdownItems;  
 
 
   late AnimationController _drawerSlideController;
 
   /// Select value to Menu 
-  late String selectedValueUserType;
+  late String selectStudentDepartement;
 
   /// Controller of Text 
   TextEditingController ? _emailController;
@@ -82,7 +64,6 @@ class _MySignInPageAnimations extends State<UniConnectSignInPage> with SingleTic
   /// Dynamic Value to Retrieve 
   late String emailInput;
   late String passwordInput;
-  String salt = "\$2a\$10\$Gs.PmaGJQtm0ThQF3VkX2u";
   
 
   final signinService = SigninService();
@@ -90,13 +71,11 @@ class _MySignInPageAnimations extends State<UniConnectSignInPage> with SingleTic
   late SecureStorageService secureStorageService;
 
 
-
-
    @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
-    selectedValueUserType = "MilkHub";
+    selectStudentDepartement = "Dipartimento di Informatica";
     
     super.initState();
 
@@ -107,9 +86,7 @@ class _MySignInPageAnimations extends State<UniConnectSignInPage> with SingleTic
     );
     final storage = GetIt.I.get<SecureStorageService>();
     secureStorageService = storage;
-      
   }
-
 
    @override
   void dispose() {
@@ -121,30 +98,165 @@ class _MySignInPageAnimations extends State<UniConnectSignInPage> with SingleTic
   }
 
 
-  bool _isDrawerOpen() {
-    return _drawerSlideController.value == 1.0;
-  }
-
-  bool _isDrawerOpening() {
-    return _drawerSlideController.status == AnimationStatus.forward;
-  }
-
-  bool _isDrawerClosed() {
-    return _drawerSlideController.value == 0.0;
-  }
-
-  void _toggleDrawer() {
-    if (_isDrawerOpen() || _isDrawerOpening()) {
-      _drawerSlideController.reverse();
-    } else {
-      _drawerSlideController.forward();
+    bool _isDrawerOpen() {
+      return _drawerSlideController.value == 1.0;
     }
+
+    bool _isDrawerOpening() {
+      return _drawerSlideController.status == AnimationStatus.forward;
+    }
+
+    bool _isDrawerClosed() {
+      return _drawerSlideController.value == 0.0;
+    }
+
+    void _toggleDrawer() {
+      if (_isDrawerOpen() || _isDrawerOpening()) {
+        _drawerSlideController.reverse();
+      } else {
+        _drawerSlideController.forward();
+      }
+    }
+
+    /**
+     * Construisce la NavBar Custom
+     * - Inserimento del Logo 
+     * - Inserimento del Testo 
+     * - Inserimento del Menù 
+     */
+    PreferredSizeWidget _buildAppBar() {
+      return CustomAppBar(
+        leading: Image.asset('../assets/filiera-token-logo.png',width: 1000, height: 1000, fit: BoxFit.fill),
+        centerTitle: true,
+        title: 'UniConnect-Login',
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        actions: [
+          AnimatedBuilder(
+            animation: _drawerSlideController,
+            builder: (context, child) {
+              return IconButton(
+                onPressed: _toggleDrawer,
+                icon: _isDrawerOpen() || _isDrawerOpening()
+                    ? const Icon(
+                        Icons.clear,
+                        color: Colors.blue,
+                      )
+                    : const Icon(
+                        Icons.menu,
+                        color: Colors.blue,
+                      ),
+              );
+            },
+          ),
+        ],
+      );
+    }
+
+
+    Widget _buildDrawer() {
+      return AnimatedBuilder(
+        animation: _drawerSlideController,
+        builder: (context, child) {
+          return FractionalTranslation(
+            translation: Offset(1.0 - _drawerSlideController.value, 0.0),
+            child: _isDrawerClosed() ? const SizedBox() : const CustomMenuSignin(),
+          );
+        },
+      );
+    }
+
+
+      /**
+     * Build Layout 
+     */
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        // Nav Bar 
+        appBar: _buildAppBar(),
+        body: Stack(
+            children: <Widget>[
+              // Form di iscrizione
+              _buildFormLogin(context),
+              _buildDrawer()
+            ],
+          ),
+      );
+    }
+
+
+
+  
+    /**
+     * Build Login Form 
+     */
+    Widget _buildFormLogin(BuildContext context) {
+    return Center(
+      child: Expanded(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.4,
+          padding: const EdgeInsets.all(40.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: ColorUtils.getColor(CustomType.neutral),
+            ),
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, // Allineato a sinistra
+            children: <Widget>[
+              Text(
+                'Login', // Titolo "Login"
+                style: TextStyle(
+                  fontSize: 24.0, // Dimensione del testo
+                  fontWeight: FontWeight.bold, // Grassetto
+                  color: ColorUtils.getColor(CustomType.neutral), // Colore neutral
+                ),
+              ),
+              const SizedBox(height: 20),
+              /// Email Controller 
+              CustomInputValidator(
+                inputType: TextInputType.emailAddress,
+                labelText: 'Email',
+                controller: _emailController!,
+              ),
+              const SizedBox(height: 20),
+              /// Password Controller 
+              CustomInputValidator(
+                inputType: TextInputType.visiblePassword,
+                labelText: 'Password',
+                controller: _passwordController!,
+              ),
+              const SizedBox(height: 20),
+              /// DropDown - Section
+              _buildDropDownSection(context),
+              const SizedBox(height: 20),
+              /// Login Button - Action
+              _buildLoginButton(context), 
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  'Non sei ancora registrato ?',
+                  style: TextStyle(
+                    color: ColorUtils.labelColor,
+                  ),
+                ),
+              ),
+              CustomButton(
+                  expandWidth: true,
+                  text: "Registrati",
+                  type: CustomType.neutral,
+                  onPressed: () => context.go('/signup')),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-
-
-
-  /// Build Back Button
+   /// Build Back Button
    Widget _buildRegisterButton(BuildContext context) {
     return  Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -163,171 +275,65 @@ class _MySignInPageAnimations extends State<UniConnectSignInPage> with SingleTic
   }
 
 
-  /**
-   * Build Login Form 
-   */
-  Widget _buildFormLogin(BuildContext context) {
-  return Center(
-    child: IntrinsicHeight(
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.4,
-        padding: const EdgeInsets.all(40.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: ColorUtils.getColor(CustomType.neutral),
-          ),
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Allineato a sinistra
-          children: <Widget>[
-            Text(
-              'Login', // Titolo "Login"
-              style: TextStyle(
-                fontSize: 24.0, // Dimensione del testo
-                fontWeight: FontWeight.bold, // Grassetto
-                color: ColorUtils.getColor(CustomType.neutral), // Colore neutral
-              ),
-            ),
-            const SizedBox(height: 20),
-            CustomInputValidator(
-              inputType: TextInputType.emailAddress,
-              labelText: 'Email',
-              controller: _emailController!,
-            ),
-            const SizedBox(height: 20),
-            CustomInputValidator(
-              inputType: TextInputType.visiblePassword,
-              labelText: 'Password',
-              controller: _passwordController!,
-            ),
-            const SizedBox(height: 20),
-            CustomDropdown<String>(
-              items: dropdownItems,
-              value: "Dipartimento di Informatica",
-              onChanged: (value) {
-                setState(() {
-                  selectedValueUserType = value!;
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            CustomButton(
-              expandWidth: true,
-              text: "Login",
-              type: CustomType.neutral,
-              onPressed: () async {
-                emailInput = _emailController!.text;
-                passwordInput = _passwordController!.text;
-                String passwordHashed = _hashPassword(passwordInput);
-                if (await signinService.checkLogin(
-                    emailInput, passwordHashed, selectedValueUserType)) {
-                  Student? userLogged = await signinService.onLoginSuccess(
-                      selectedValueUserType, secureStorageService);
-                  Student? userDataStored = await secureStorageService.get();
+  Widget _buildDropDownSection(BuildContext context){
+    return CustomDropdown<String>(
+                items: dropdownItems,
+                value: "Dipartimento di Informatica",
+                onChanged: (value) {
+                  setState(() {
+                    selectStudentDepartement = value!;
+                  });
+                },
+              );
+  }
 
-                  if (userDataStored != null) {
-                    CustomPopUpDialog.show(context, AlertDialogType.Signin, CustomType.success, path: '/home-page-user/$selectedValueUserType/' + userLogged!.getId);
-                  }
-                } else {
-                  CustomPopUpDialog.show(context, AlertDialogType.Signin, CustomType.error);
-                }
-              },
-            ),
-            const SizedBox(height: 20),
-            Center(
-              child: Text(
-                'Non sei ancora registrato ?',
-                style: TextStyle(
-                  color: ColorUtils.labelColor,
-                ),
-              ),
-            ),
-            CustomButton(
+  /// Login Button - Section 
+  Widget _buildLoginButton(BuildContext context){
+    return 
+    CustomButton(
                 expandWidth: true,
-                text: "Registrati",
+                text: "Login",
                 type: CustomType.neutral,
-                onPressed: () => context.go('/signup')),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-
-
-    String _hashPassword(String password) {
-    final hashedPassword = BCrypt.hashpw(password, salt);
-    return hashedPassword;
-  }
-
-
-
-  /**
-   * Build Layout 
-   */
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // Nav Bar 
-      appBar: _buildAppBar(),
-      body: Stack(
-          children: <Widget>[
-            // Form di iscrizione
-            _buildFormLogin(context),
-            _buildDrawer()
-          ],
-        ),
-    );
-  }
-
-     /**
-   * Construisce la NavBar Custom
-   * - Inserimento del Logo 
-   * - Inserimento del Testo 
-   * - Inserimento del Menù 
-   */
-  PreferredSizeWidget _buildAppBar() {
-    return CustomAppBar(
-      leading: Image.asset('../assets/filiera-token-logo.png',width: 1000, height: 1000, fit: BoxFit.fill),
-      centerTitle: true,
-      title: 'UniConnect-Login',
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
-      automaticallyImplyLeading: false,
-      actions: [
-        AnimatedBuilder(
-          animation: _drawerSlideController,
-          builder: (context, child) {
-            return IconButton(
-              onPressed: _toggleDrawer,
-              icon: _isDrawerOpen() || _isDrawerOpening()
-                  ? const Icon(
-                      Icons.clear,
-                      color: Colors.blue,
-                    )
-                  : const Icon(
-                      Icons.menu,
-                      color: Colors.blue,
-                    ),
-            );
-          },
-        ),
-      ],
+                onPressed: () async => await  _SignInButtonPressed()
     );
   }
 
 
-    Widget _buildDrawer() {
-    return AnimatedBuilder(
-      animation: _drawerSlideController,
-      builder: (context, child) {
-        return FractionalTranslation(
-          translation: Offset(1.0 - _drawerSlideController.value, 0.0),
-          child: _isDrawerClosed() ? const SizedBox() : const CustomMenuSignin(),
-        );
-      },
-    );
+
+  /// Login Button - Action 
+  Future<void> _SignInButtonPressed() async {
+    emailInput = _emailController!.text;
+    passwordInput = _passwordController!.text;
+    /// SignIn Student - Action 
+    bool loginStatus = await signinService.signInStudent(emailInput, passwordInput, selectStudentDepartement);
+    if(loginStatus){ 
+      print("Sono qui, sto per prendere i dati!");
+      /// Show Success Login 
+      Student? userLogged = await signinService.onLoginSuccess(emailInput);
+
+      /// TODO : SecureStorageService 
+      /// SecureStorageService.save() salva i miei dati nel SecureStorage di Flutter  
+      await secureStorageService.save(userLogged!);
+
+      /// Mostra un alert di Successo in riferimento alla Login()
+      /// Mi ridireziona alla pagina di Home-Page-User
+      CustomPopUpDialog.show(context, AlertDialogType.Signin, CustomType.success, path: '/home-page-user');
+    }  else{
+
+      /// Error Login 
+      /// Show Error Login 
+      CustomPopUpDialog.show(context, AlertDialogType.Signin, CustomType.error);
+    }
+      
+      
+
   }
+
+ 
+
+
+
+
+
+
 }

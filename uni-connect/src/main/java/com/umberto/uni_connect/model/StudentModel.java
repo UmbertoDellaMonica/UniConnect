@@ -7,7 +7,6 @@ import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.neo4j.core.schema.Node;
 
 import java.util.UUID;
 

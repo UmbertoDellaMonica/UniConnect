@@ -1,61 +1,60 @@
-
-
-
-import 'package:uni_connect_front_end/shared/services/jwt_service.dart';
-import 'package:uni_connect_front_end/shared/services/secure_storage_service.dart';
+import 'package:uni_connect_front_end/shared/enums.dart';
 import 'package:uni_connect_front_end/student/services/student_service.dart';
 import 'package:uni_connect_front_end/student/student.dart';
+import 'package:uni_connect_front_end/student/utils/password_service_utils.dart';
 
 class SigninService {
 
 
   /// Injection of Service 
+  final PasswordService _passwordService = PasswordService();
   
-  final studentService = StudentService();
-
-  final jwtService = JwtService();
+  final StudentService _studentService = StudentService();
 
 
 
-  Future<bool> checkLogin(
-    String emailInput,
-    String passwordInput,
-    String selectedValueUserType, 
+  /// SignInStudent - Metodo per effettuare il Login dello Studente 
+  /// Lo studente inserisce : 
+  /// - email
+  /// - password 
+  /// - Dipartimento di Appartenenza 
+  /// Viene fatto un check sulla password inserita, sull'email e sul dipartimento ( se corrispondono )
+  Future<bool> signInStudent(
+    String email,
+    String password,
+    String studentDepartement, 
     )async {
-      return studentService.login(emailInput, passwordInput, selectedValueUserType);
-    }
 
-  Future<Student?> onLoginSuccess(String selectedValueUserType, SecureStorageService secureStorageService) async{
-    /// Go to Home User page 
-    /// Create a JWT (Optional)  
+      /// Hashing Password del Form di Login 
+      String passwordHashed = _passwordService.hashPassword(password);
+
+      /// Change Value Student Departement 
+      String studentDepartementSelected = Enums.getDepartmentStudent(studentDepartement);
+      
+      
+      return _studentService.signInStudent(email, passwordHashed, studentDepartementSelected);
+  }
+
+
+  
+  /// onLoginSuccess - Metodo per effettuare il recupero dei dati dello Studente 
+  /// Una volta che ha avuto successo il login 
+  Future<Student?> onLoginSuccess(String email) async {
     
-    /// Move to home-page-user and select our product 
-    Student? userProvider =  studentService.getData(selectedValueUserType);
-    // Inserisco nel Database Singleton
-    await _saveUserReference(userProvider, secureStorageService);
-
-    String tokenJWT = await  jwtService.generateJwtToken(
-        userProvider.email,
-        userProvider.password,
-        userProvider.email,
-        //Enums.getActorText(userProvider.getType)
-      );
-
-    secureStorageService.saveJWT(tokenJWT);
-
-    return userProvider;
+    /// Recupero di tutte le informazioni dello studente che si è loggato 
+    Student? student = await _studentService.getStudent(email);
+    print("Ho recuperato tutte le informazioni!");
+    if(student == null){
+      /// Error 
+      /// TODO: Error Code Correction
+      print("Error : ");
+      return null;
+    }else{
+      /// save Student Information 
+      print("Sono arrivato qui ---");
+      return student;
+    }
   }
 
-
-
-
-  Future<void> _saveUserReference(Student student, SecureStorageService secureStorageService) async {    
-      await secureStorageService.save(
-        student.id,
-        student.fullName,
-        student.email,
-        student.password,
-        //user.type
-      );
-  }
+  
 }

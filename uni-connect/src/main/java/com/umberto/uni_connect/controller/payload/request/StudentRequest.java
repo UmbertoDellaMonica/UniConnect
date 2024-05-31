@@ -25,10 +25,9 @@ public class StudentRequest implements Serializable {
     private String passwordHash;
 
     @JsonProperty("fullName")
-    @NotNull @NotBlank
     private String fullName;
 
-    @JsonProperty("departement")
+    @JsonProperty("department")
     @Enumerated(EnumType.STRING)
     @NotNull
     private DepartementUnisa departementUnisa;

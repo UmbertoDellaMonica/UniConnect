@@ -1,7 +1,7 @@
 
 import 'package:uni_connect_front_end/shared/payloads/StudentRequest.dart';
 
-class StudentServiceUtils {
+class StudentApiService {
 
 
   static String? _apiVersion;
@@ -49,11 +49,23 @@ class StudentServiceUtils {
       };
   }
   
+  
+  
   /**
-   * Body - SignUp - method - Student Request 
+   * Body - SignUp - method - Student SignUp Request 
    */
-   StudentRequest getBodySignUpMethod(String email, String password,String fullName,String studentDepartement){
-    StudentRequest studentRequest = StudentRequest(email: email, passwordHash: password, fullName: fullName, departement: studentDepartement);
+   StudentSignupRequest getBodySignUpMethod(String email, String password,String fullName,String studentDepartement){
+
+    StudentSignupRequest studentRequest = StudentSignupRequest(email: email, passwordHash: password, fullName: fullName, departement: studentDepartement);
+    return studentRequest;
+  }
+
+
+  /**
+   * Body - SignIn - method - Student SignIn Request 
+   */
+  StudentSigninRequest getBodySignInMethod(String email, String password, String selectedDepartement) {
+    StudentSigninRequest studentRequest = StudentSigninRequest(email: email, passwordHash: password, department: selectedDepartement);
     return studentRequest;
   }
 }

@@ -1,11 +1,15 @@
 package com.umberto.uni_connect.service;
 
 import com.umberto.uni_connect.entity.StudentEntity;
+import com.umberto.uni_connect.exception.NotFoundException;
+import com.umberto.uni_connect.exception.StudentNotFoundException;
 import com.umberto.uni_connect.model.StudentModel;
 import com.umberto.uni_connect.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -18,7 +22,7 @@ public class StudentServiceImpl implements StudentService{
 
 
     /**
-     * SignUp - Registrazione dello Studente
+     * signUp - Registrazione dello Studente
      * @param studentModel dati dello Studente
      */
     @Override
@@ -50,6 +54,43 @@ public class StudentServiceImpl implements StudentService{
      */
     @Override
     public Boolean signIn(StudentModel studentModel) {
-        return Boolean.TRUE;
+        Optional<StudentEntity> studentEntityOptional = studentRepository.retrieveByEmail(studentModel.getEmail());
+        if(studentEntityOptional.isPresent()) {
+            if (
+                studentEntityOptional.get().getPasswordHash().equals(studentModel.getPasswordHash()) &&
+                studentEntityOptional.get().getDepartementUnisa().getDepartementName()
+                        .equalsIgnoreCase(studentModel.getDepartementUnisa().getDepartementName())
+            ) {
+                return Boolean.TRUE;
+            } else{
+                return Boolean.FALSE;
+            }
+        }else{
+            return Boolean.FALSE;
+        }
+    }
+
+    /**
+     * getStudentData - Studente recupera i suoi dati mediante la sua email
+     * @param email dello studente
+     */
+    @Override
+    public StudentModel getStudentData(String email) {
+        try {
+            // Recupera lo studente
+            Optional<StudentEntity> studentEntityOptional = studentRepository.retrieveByEmail(email);
+
+            if (studentEntityOptional.isPresent()) {
+                // Retrieve Student Data
+                StudentModel studentModel = mapper.map(studentEntityOptional.get(), StudentModel.class);
+                return studentModel;
+            } else {
+                // TODO: Student Not Found
+                throw new StudentNotFoundException("Email Not Found !:" + email);
+            }
+        }catch (NotFoundException e){
+            // Return Null
+            return null;
+        }
     }
 }

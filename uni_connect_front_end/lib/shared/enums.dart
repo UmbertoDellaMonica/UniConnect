@@ -6,7 +6,7 @@ enum DialogType { DialogConversion, DialogPurchase, Inventory }
 
 enum AlertDialogType { Signup, Signin, Buy, Conversion, Add }
 
-enum DepartementUnisa {
+enum DepartmentUnisa {
   AGRICOLA,
   ARCHITETTURA,
   BIOMEDICHE,
@@ -29,32 +29,8 @@ enum DepartementUnisa {
 }
 
 
-
 class Enums {
   
-    static Map<String,String> departementUnisaAsString = {
-    
-        "Dipartimento di Agraria":DepartementUnisa.AGRICOLA.name,
-        "Dipartimento di Architettura":DepartementUnisa.ARCHITETTURA.name,
-        "Dipartimento di Scienze Biomediche":DepartementUnisa.BIOMEDICHE.name,
-        "Dipartimento di Scienze della Formazione ,Beni Culturali e Turismo":DepartementUnisa.FORMAZIONE_BENICULTURALI.name,
-        "Dipartimento di Scienze Chimiche":DepartementUnisa.CHIMICHE.name,
-        "Dipartimento di Scienze Economiche e Statistiche":DepartementUnisa.ECONOMICHE_STATISTICHE.name ,
-        "Dipartimento di Scienze Giuridiche":DepartementUnisa.GIURIDICHE.name,
-        "Dipartimento di Ingegneria dell'Informazione ed Elettrica":DepartementUnisa.INGEGNERIA_ELETTRICA.name, 
-        "Dipartimento di Ingegneria Civile, Edile e Ambientale":DepartementUnisa.INGEGNERIA_EDILE.name, 
-        "Dipartimento di Ingegneria Industriale":DepartementUnisa.INGEGNERIA_INDUSTRIALE.name, 
-        "Dipartimento di Informatica":DepartementUnisa.INFORMATICA.name,
-        "Dipartimento di Matematica e Fisica":DepartementUnisa.MATEMATICA_FISICA.name,
-        "Dipartimento di Medicina, Chirurgia e Odontoiatria":DepartementUnisa.MEDICINA_CHIRURGIA_ODONTOIATRIA.name, 
-        "Dipartimento di Farmacia":DepartementUnisa.FARMACIA.name,
-        "Dipartimento di Scienze Motorie, Umane e Sociali":DepartementUnisa.MOTORIE_UMANE_SOCIALI.name, 
-        "Dipartimento di Scienze Politiche e Sociali":DepartementUnisa.POLITICHE_SOCIALI.name,
-        "Dipartimento di Scienze del Linguaggio e Beni Culturali":DepartementUnisa.LINGUAGGIO_BENICULTURALI.name,
-        "Dipartimento di Fisica":DepartementUnisa.FISICA.name,
-        "Scuola di Medicina":DepartementUnisa.SCUOLA_MEDICINA.name 
-
-    };
 
       static List<String> dropdownItems = [
         "Dipartimento di Agraria",
@@ -78,15 +54,41 @@ class Enums {
         "Scuola di Medicina" 
       ];
 
-    static String getDepartementAsvalue(String departementSelected){
-      if(departementUnisaAsString.containsKey(departementSelected)){
-        print("Questo è il dipartimento selezionato : "+departementUnisaAsString[departementSelected].toString());
-        return departementUnisaAsString[departementSelected].toString();
-      }else{
-        return "";
-      }
-    }
 
+      /// Dropdown -> Name Student Department
+      /// Questo metodo viene utilizzato nel momento in cui ,io voglio scegliere nel SignUp a quale dipartimento appartengo 
+      /// Lo mando al Server e lo riconosce come uno degli Enum che abbiamo Segnalato 
+      static String getDepartmentStudent(String department){
+
+        if(dropdownItems.contains(department)){
+          switch(department){
+
+              case "Dipartimento di Agraria": return DepartmentUnisa.AGRICOLA.name;
+              case"Dipartimento di Architettura":return DepartmentUnisa.ARCHITETTURA.name;
+              case"Dipartimento di Scienze Biomediche":return DepartmentUnisa.BIOMEDICHE.name;
+              case"Dipartimento di Scienze della Formazione Beni Culturali e Turismo":return DepartmentUnisa.FORMAZIONE_BENICULTURALI.name;
+              case "Dipartimento di Scienze Chimiche":return DepartmentUnisa.CHIMICHE.name;
+              case"Dipartimento di Scienze Economiche e Statistiche":return DepartmentUnisa.ECONOMICHE_STATISTICHE.name;
+              case "Dipartimento di Scienze Giuridiche":return DepartmentUnisa.GIURIDICHE.name;
+              case"Dipartimento di Ingegneria dell'Informazione ed Elettrica":return DepartmentUnisa.INGEGNERIA_ELETTRICA.name; 
+              case "Dipartimento di Ingegneria Civile, Edile e Ambientale":return  DepartmentUnisa.INGEGNERIA_EDILE.name;
+              case"Dipartimento di Ingegneria Industriale":return DepartmentUnisa.INGEGNERIA_INDUSTRIALE.name; 
+              case "Dipartimento di Informatica":return DepartmentUnisa.INFORMATICA.name;
+              case"Dipartimento di Matematica e Fisica":return DepartmentUnisa.MATEMATICA_FISICA.name;
+              case"Dipartimento di Medicina, Chirurgia e Odontoiatria": return DepartmentUnisa.MEDICINA_CHIRURGIA_ODONTOIATRIA.name;
+              case "Dipartimento di Farmacia": return DepartmentUnisa.FARMACIA.name;
+              case "Dipartimento di Scienze Motorie, Umane e Sociali": return DepartmentUnisa.MOTORIE_UMANE_SOCIALI.name;
+              case "Dipartimento di Scienze Politiche e Sociali":return DepartmentUnisa.POLITICHE_SOCIALI.name;
+              case "Dipartimento di Scienze del Linguaggio e Beni Culturali": return DepartmentUnisa.LINGUAGGIO_BENICULTURALI.name;
+              case "Dipartimento di Fisica": return DepartmentUnisa.FISICA.name;
+              case"Scuola di Medicina" : return DepartmentUnisa.SCUOLA_MEDICINA.name;
+
+              default : return ""; 
+          }
+        }else {
+          return "";
+        }
+      }
 
 
 

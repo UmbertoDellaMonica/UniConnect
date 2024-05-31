@@ -1,14 +1,13 @@
-import 'package:json_annotation/json_annotation.dart';
-import 'package:uni_connect_front_end/shared/enums.dart';
 
-// Definizione della classe StudentRequest
-class StudentRequest {
+// Definizione della classe StudentSignUpRequest
+
+class StudentSignupRequest {
   String email;
   String passwordHash;
   String fullName;
   String departement;
 
-  StudentRequest({
+  StudentSignupRequest({
     required this.email,
     required this.passwordHash,
     required this.fullName,
@@ -21,7 +20,30 @@ class StudentRequest {
       'email': email,
       'passwordHash': passwordHash,
       'fullName': fullName,
-      'departement': departement,
+      'department': departement,
+    };
+  }
+}
+
+
+// Definizione della classe StudentSignInRequest
+class StudentSigninRequest {
+  String email;
+  String passwordHash;
+  String department;
+
+  StudentSigninRequest({
+    required this.email,
+    required this.passwordHash,
+    required this.department,
+  });
+
+  // Metodo per convertire l'oggetto in un mappa JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'email': email,
+      'passwordHash': passwordHash,
+      'department': department,
     };
   }
 }

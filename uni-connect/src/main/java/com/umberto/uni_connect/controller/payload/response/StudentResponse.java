@@ -29,7 +29,7 @@ public class StudentResponse implements Serializable {
     @JsonProperty("passwordHash")
     private String passwordHash;
 
-    @JsonProperty("departementUnisa")
+    @JsonProperty("department")
     @Enumerated(EnumType.STRING)
     private DepartementUnisa departementUnisa;
 }

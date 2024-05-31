@@ -19,4 +19,12 @@ public interface StudentRepository extends Neo4jRepository<StudentEntity, UUID> 
     @Query("MATCH (s:Student) WHERE s.email = $email RETURN COUNT(s) = 1")
     Boolean existsByEmail(String email);
 
+    /**
+     * RetrieveByEmail - Metodo che recupera i Dati dello studente esistente
+     * @param email dello studente
+     * @return Uno Studente singolo
+     */
+    @Query("MATCH (s:Student) WHERE s.email = $email RETURN s")
+    Optional<StudentEntity> retrieveByEmail(String email);
+
 }
