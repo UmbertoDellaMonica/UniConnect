@@ -1,35 +1,15 @@
 import 'package:flutter/material.dart';
-
-
-
 import 'package:uni_connect_front_end/shared/components/atoms/custom_input_validator.dart';
 import 'package:uni_connect_front_end/shared/components/atoms/custom_button.dart';
 import 'package:uni_connect_front_end/shared/color_utils.dart';
 import 'package:uni_connect_front_end/shared/enums.dart';
-
-
-
 import 'package:uni_connect_front_end/shared/components/molecules/custom_nav_bar.dart';
 import 'package:uni_connect_front_end/shared/custom_alert_dialog.dart';
 import 'package:uni_connect_front_end/shared/components/atoms/custom_dropdown.dart';
-
-
-
-
-
 import 'package:uni_connect_front_end/sign_in/components/custom_menu_singin.dart';
 import 'package:uni_connect_front_end/sign_in/service/sign_in_service.dart';
 import 'package:uni_connect_front_end/shared/services/secure_storage_service.dart';
-
-
 import 'package:uni_connect_front_end/student/student.dart';
-
-
-
-
-
-
-
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -317,7 +297,7 @@ class _MySignInPageAnimations extends State<UniConnectSignInPage> with SingleTic
 
       /// Mostra un alert di Successo in riferimento alla Login()
       /// Mi ridireziona alla pagina di Home-Page-User
-      CustomPopUpDialog.show(context, AlertDialogType.Signin, CustomType.success, path: '/home-page-user');
+      CustomPopUpDialog.show(context, AlertDialogType.Signin, CustomType.success, path: '/home-page/'+userLogged.id);
     }  else{
 
       /// Error Login 

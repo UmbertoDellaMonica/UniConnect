@@ -9,6 +9,8 @@ import 'package:uni_connect_front_end/home/home_page.dart';
 import 'package:uni_connect_front_end/shared/services/secure_storage_service.dart';
 import 'package:uni_connect_front_end/sign_in/sign_in.dart';
 import 'package:uni_connect_front_end/sign_up/sign_up.dart';
+import 'package:uni_connect_front_end/student/home-page-student/home_page_student.dart';
+import 'package:uni_connect_front_end/student/student-profile/student_profile_page.dart';
 
 
 void setupDependencies() {
@@ -28,6 +30,7 @@ class UniConnectApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: "UniConnect App",
       routerConfig: _router,
     );
@@ -61,72 +64,28 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/signin',
       builder: (context, state) => const UniConnectSignInPage(title: "UniConnect-SignIn"),
-    ),/*
+    ),
 
     // Dynamically pass user data to nested routes
     GoRoute(
-      path: '/home-page-user/:userType/:id_user',
+      path: '/home-page/:id_user',
       builder: (context, state) {
-        final userType = state.pathParameters['userType']!;
-        final idUser = state.pathParameters['id_user']!;
-        return HomePageUser(
-          userType: userType,
-          idUser: idUser,
-
-        );
+        final IDStudent = state.pathParameters['id_user']!;
+        return HomePageUser(IDStudent: IDStudent);
       },
       routes: [
         GoRoute(
           path: 'profile',
           builder: (context, state)  {
-            final userType = state.pathParameters['userType']!;
-            final idUser = state.pathParameters['id_user']!;
+            final IDStudent = state.pathParameters['id_user']!;
             return UserProfilePage(
-              userType: userType,
-              idUser: idUser,
+              IDStudent: IDStudent,
             );
           },
           routes: [
-            GoRoute(
-              path: 'history',
-              builder: (context, state) {
-                final userType = state.pathParameters['userType']!;
-                final idUser = state.pathParameters['id_user']!;
-
-                return UserProfileHistoryPage(
-                  userType: userType,
-                  idUser: idUser,
-                );
-              },
-            ),
-            GoRoute(
-              path: 'inventory',
-              builder: (context, state) {
-                final userType = state.pathParameters['userType']!;
-                final idUser = state.pathParameters['id_user']!;
-
-                return UserProfileInventoryProductPage(
-                  userType: userType,
-                  idUser: idUser,
-                );
-              },
-            ),
-            GoRoute(
-              path: 'product-buyed',
-              builder: (context, state) {
-                final userType = state.pathParameters['userType']!;
-                final idUser = state.pathParameters['id_user']!;
-
-                return UserProfileProductBuyed(
-                  userType: userType,
-                  idUser: idUser,
-                );
-              },
-            ),
           ],
         ),
       ],
     ),
-  */
   ],
 );

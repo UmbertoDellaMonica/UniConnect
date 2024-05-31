@@ -2,6 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uni_connect_front_end/student/student.dart';
 
 class SecureStorageService{
+
   SecureStorageService._internal();
 
   static final SecureStorageService instance = SecureStorageService._internal();
@@ -75,6 +76,8 @@ class SecureStorageService{
     }
   }
 
+
+
   /// checkParams - Semplice controllo dei parametri per vedere che nessuno di loro è nullo 
   bool _checkParams(String id,String email,String fullName,String password,String departement){
     if ( id != null && fullName != null && email != null && password!=null && departement!=null ){
@@ -82,4 +85,6 @@ class SecureStorageService{
     }
     return false;
   }
+
+
 }

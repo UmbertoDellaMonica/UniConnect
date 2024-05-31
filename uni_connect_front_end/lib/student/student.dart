@@ -30,7 +30,8 @@ class Student{
     return Student(id: id, fullName: fullName, password: password, email: email, departmentUnisa: departmentUnisa);
   }
 
-  // Metodo per deserializzare un oggetto JSON in un'istanza di Student
+  /// Metodo per deserializzare un oggetto JSON in un'istanza di Student
+  /// Utilizzato quando devo ricevere dati dal Server 
   factory Student.fromJson(Map<dynamic, dynamic> json) {
     return Student(
       email: json['email'],

@@ -51,9 +51,7 @@ class StudentApiService {
   
   
   
-  /**
-   * Body - SignUp - method - Student SignUp Request 
-   */
+  /// Body - SignUp - method - Student SignUp Request 
    StudentSignupRequest getBodySignUpMethod(String email, String password,String fullName,String studentDepartement){
 
     StudentSignupRequest studentRequest = StudentSignupRequest(email: email, passwordHash: password, fullName: fullName, departement: studentDepartement);
@@ -61,9 +59,7 @@ class StudentApiService {
   }
 
 
-  /**
-   * Body - SignIn - method - Student SignIn Request 
-   */
+  /// Body - SignIn - method - Student SignIn Request 
   StudentSigninRequest getBodySignInMethod(String email, String password, String selectedDepartement) {
     StudentSigninRequest studentRequest = StudentSigninRequest(email: email, passwordHash: password, department: selectedDepartement);
     return studentRequest;

@@ -4,7 +4,7 @@ class PasswordService {
 
   
     // Salt per fare l'Hashing della Password 
-  String _salt = "\$2a\$10\$Gs.PmaGJQtm0ThQF3VkX2u";
+  final _salt = "\$2a\$10\$Gs.PmaGJQtm0ThQF3VkX2u";
   
   /// Method per effettuare l'hashing della password 
   /// - Password come Parametro
