@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/welcome_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,8 +17,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       shadowColor: Color(0xA9D0ECFF),
       foregroundColor: Colors.lightBlueAccent,
       backgroundColor: Color(0x244BCCA9),
-      leading: RoundedImage(logoImage),
+      leading: _buildImageAppBar(context),
       title: _buildTextNavBar(Constants.titleApp),
+    );
+  }
+  
+  GestureDetector _buildImageAppBar(BuildContext context){
+    return GestureDetector(
+      onTap: () {
+        context.go("/");  // Naviga verso la home page
+      },
+      child: RoundedImage(logoImage),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/welcome_image.dart';
 
 class ContentRow extends StatelessWidget {
@@ -29,7 +30,7 @@ class ContentRow extends StatelessWidget {
     List<Widget> children = [
       _buildImage(),
       SizedBox(width: 50),
-      _buildSectionDescription()
+      _buildSectionDescription(context)
       
     ];
     /// Check if is reverse the Order
@@ -66,7 +67,7 @@ class ContentRow extends StatelessWidget {
   }
 
 
-  Expanded _buildSectionDescription(){
+  Expanded _buildSectionDescription(BuildContext context){
     /// Check if there are reverse Order 
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.end;
     TextAlign textAlign = TextAlign.start;
@@ -99,6 +100,15 @@ class ContentRow extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Azione per il pulsante
+                // Check Action
+                if(titleContent.contains("Login")){
+                  context.go('/signin');
+                }
+                else if( titleContent.contains("SignUp")){
+                  context.go('/signup');
+                }else if( titleContent.contains("Follow")){
+                  /// TODO: Inserisci la route per il contesto giusto
+                }
               },
               child: Text('Scopri di più'),
             ),

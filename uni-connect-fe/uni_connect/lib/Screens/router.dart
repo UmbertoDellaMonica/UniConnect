@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/home_screen.dart';
+import 'package:uni_connect/Screens/signin/signin_screen.dart';
 import 'package:uni_connect/Screens/signup/signup_screen.dart';
 
 class UniConnectRouter{
@@ -17,10 +18,10 @@ static  GoRouter routerConfig = GoRouter(
       path: '/signup',
       builder: (context, state) =>  SignupPage(),
     ),
-    /*GoRoute(
+    GoRoute(
       path: '/signin',
-      builder: (context, state) => const MySignInPage(title: "Filiera-Token-SignIn"),
-    ),*/
+      builder: (context, state) => SigninPage(),
+    ),
   ]);
 
 }

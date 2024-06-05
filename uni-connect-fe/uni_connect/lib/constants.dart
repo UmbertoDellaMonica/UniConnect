@@ -153,16 +153,16 @@ class Constants{
   static Color kPrimaryLightColor = Colors.white;
 
 
- static  TextStyle kLoginTitleStyle(Size size) => GoogleFonts.ubuntu(
-    fontSize: size.height * 0.040,
+ static TextStyle kLoginTitleStyle(Size size) => GoogleFonts.ubuntu(
+    fontSize: size.height * 0.030,
     fontWeight: FontWeight.bold,
   );
 
   static TextStyle kLoginSubtitleStyle(Size size) => GoogleFonts.ubuntu(
-    fontSize: size.height * 0.020,
+    fontSize: size.height * 0.030,
   );
 
- static  TextStyle kLoginTermsAndPrivacyStyle(Size size) =>
+ static TextStyle kLoginTermsAndPrivacyStyle(Size size) =>
       GoogleFonts.ubuntu(fontSize: 15, color: Colors.grey, height: 1.5);
 
   static TextStyle kHaveAnAccountStyle(Size size) =>

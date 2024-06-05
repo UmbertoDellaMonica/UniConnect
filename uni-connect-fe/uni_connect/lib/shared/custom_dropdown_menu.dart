@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
+import '../constants.dart';
 
 class CustomDropdown<T> extends StatefulWidget {
   final List<T> items;

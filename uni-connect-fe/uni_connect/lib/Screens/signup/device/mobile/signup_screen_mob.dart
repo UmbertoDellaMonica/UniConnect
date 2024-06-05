@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../constants.dart';
 import '../../../../shared/custom_loading_bar.dart';
 import '../../../home/components/nav_bar.dart';
-import '../../components/custom_dropdown_menu.dart';
+import '../../../../shared/custom_dropdown_menu.dart';
 
 class MobileSignupPage extends StatefulWidget {
   @override
@@ -53,7 +53,6 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
     }
     var size = MediaQuery.of(context).size;
     var theme = Theme.of(context);
-    print("Larghezza in questo momento : "+size.width.toString());
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -123,7 +122,12 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
               height: size.height * 0.03,
             ),
             /// Build  Section - AlreadyRegister
-            _buildAlreadyRegisteres(size)
+            _buildAlreadyRegisteres(size),
+            SizedBox(
+              height: size.height * 0.03,
+            ),
+            /// Build Home Button
+            _buildHomeButton(context)
           ],
         ),
       ),
@@ -154,7 +158,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
             // ... Navigate To your Home Page
           }
         },
-        child: const Text('Registrati'),
+        child: const Text('Registrati',style: TextStyle(color: Colors.white),),
       ),
     );
   }
@@ -162,7 +166,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
   GestureDetector _buildAlreadyRegisteres(Size size) {
     return GestureDetector(
       onTap: () {
-        context.go("/");
+        context.go("/signin");
         nameController.clear();
         emailController.clear();
         passwordController.clear();
@@ -272,6 +276,27 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
           _selectedItem = value!;
         });
       },
+    );
+  }
+
+  /// HomeButton
+  Widget _buildHomeButton(BuildContext context) {
+    // Aggiungiamo il bottone per tornare alla home
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          context.go("/");  // Naviga verso la home page
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Color(0xA91E88D0)),
+          padding: MaterialStateProperty.all(EdgeInsets.all(20)),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          )),
+        ),
+        child: Text('Torna alla Home', style: TextStyle(color: Colors.white, fontSize: 16)),
+      ),
     );
   }
 

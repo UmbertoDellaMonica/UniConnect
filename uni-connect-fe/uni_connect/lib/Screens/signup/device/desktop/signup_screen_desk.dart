@@ -4,7 +4,7 @@ import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/constants.dart';
 import 'package:uni_connect/shared/custom_loading_bar.dart';
 
-import '../../components/custom_dropdown_menu.dart';
+import '../../../../shared/custom_dropdown_menu.dart';
 
 class DesktopSignupPage extends StatefulWidget {
   @override
@@ -52,7 +52,6 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
     }
     var size = MediaQuery.of(context).size;
     var theme = Theme.of(context);
-    print("Larghezza in questo momento : "+size.width.toString());
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -72,33 +71,32 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Animation o Immagine
+        // Image
         Expanded(
           flex: 1,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: Image.asset(
-              '/images/signup.jpg',
-              fit: BoxFit.cover,
+          child: Transform.scale(
+            scale: 0.8,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image.asset(
+                '/images/signup.jpg',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
 
         SizedBox(width: 20),
         // Form
-        Expanded(
-          flex: 1,
-          child:_buildForm(size),
-          ),
+        _buildForm(size)
       ],
     );
   }
 
   /// Build Form
-  Padding _buildForm(Size size){
-    return Padding(
-      padding: EdgeInsets.all(30),
-      child:
+  Expanded _buildForm(Size size){
+    return Expanded(
+      flex: 1, child:
       Form(
         key: _formKey,
         child: Column(
@@ -110,12 +108,12 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
             /// Username Form
             _buildUsernameForm(),
             SizedBox(
-              height: size.height * 0.02,
+              height: size.height * 0.01,
             ),
             /// Email Form
             _buildEmailForm(),
             SizedBox(
-              height: size.height * 0.02,
+              height: size.height * 0.01,
             ),
             /// Password Controller
             _buildPasswordForm(),
@@ -123,7 +121,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
               height: size.height * 0.01,
             ),
             SizedBox(
-              height: size.height * 0.02,
+              height: size.height * 0.01,
             ),
             _buildDropDownMenu(context),
             Text(
@@ -132,22 +130,23 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: size.height * 0.02,
+              height: size.height * 0.01,
             ),
             signUpButton(),
             SizedBox(
               height: size.height * 0.03,
             ),
             /// Build  Section - AlreadyRegister
-            _buildAlreadyRegisteres(size)
+            _buildAlreadyRegisteres(size),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            _buildHomeButton(context)
           ],
         ),
       ),
     );
   }
-
-
-
 
   /// Form Component --- Section
 
@@ -170,7 +169,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
             // ... Navigate To your Home Page
           }
         },
-        child: const Text('Registrati'),
+        child: const Text('Registrati', style: TextStyle(color: Colors.white, fontSize: 16)),
       ),
     );
   }
@@ -178,7 +177,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
   GestureDetector _buildAlreadyRegisteres(Size size) {
     return GestureDetector(
       onTap: () {
-        context.go("/");
+        context.go("/signin");
         nameController.clear();
         emailController.clear();
         passwordController.clear();
@@ -290,5 +289,26 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
         },
       );
     }
+    
+  ///Build Home Button 
+  Widget _buildHomeButton(BuildContext context) {
+    // Aggiungiamo il bottone per tornare alla home
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          context.go("/");  // Naviga verso la home page
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Color(0xA91E88D0)),
+          padding: MaterialStateProperty.all(EdgeInsets.all(20)),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          )),
+        ),
+        child: Text('Torna alla Home', style: TextStyle(color: Colors.white, fontSize: 16)),
+      ),
+    );
+  }
 
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/content_row.dart';
 import 'package:uni_connect/Screens/home/components/footer_bar.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
@@ -86,8 +87,9 @@ class _MobileWelcomePageState extends State<MobileWelcomePage> {
                   ElevatedButton(
                     onPressed: () {
                       // Azione per il pulsante di accesso
+                      context.go('/signup');
                     },
-                    child: Text("Scopri di più!"),
+                    child: Text("Registrati"),
                   ),
                   // Ulteriori informazioni
                   SizedBox(height: 100),

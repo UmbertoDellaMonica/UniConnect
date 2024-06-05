@@ -5,8 +5,6 @@ import 'device/mobile/signup_screen_mob.dart';
 
 class SignupPage extends StatelessWidget {
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
