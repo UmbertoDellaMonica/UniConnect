@@ -104,11 +104,22 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
                           ),
                           SizedBox(height: 40),
                           ElevatedButton(
-                            onPressed: () async {
+                            onPressed: () {
                               // Azione per il pulsante di accesso
-                              context.go("/signup");
+                              context.go('/signup');
                             },
-                            child: Text('Registrati'),
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white, backgroundColor: Colors.blueAccent, padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Colore del testo del pulsante
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30), // Bordi arrotondati
+                                side: BorderSide(color: Colors.blueAccent), // Bordo del pulsante
+                              ),
+                              elevation: 3, // Aggiungi un'ombra leggera
+                            ),
+                            child: Text(
+                              "Registrati",
+                              style: TextStyle(fontSize: 18), // Aggiorna le dimensioni del testo
+                            ),
                           ),
                         ],
                       ),
@@ -137,7 +148,7 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
                     SizedBox(height: 100),
                     ContentRow(
                       imagePath: followImage,
-                      titleContent: "Follow",
+                      titleContent: "Follow us",
                       description: homePageFeaturesDesccription,
                       reverseOrder: true,
                     ),

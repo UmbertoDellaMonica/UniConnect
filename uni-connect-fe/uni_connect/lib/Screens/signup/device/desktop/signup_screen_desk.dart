@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
-import 'package:uni_connect/constants.dart';
+import 'package:uni_connect/Screens/signup/services/signup_service.dart';
+import 'package:uni_connect/shared/utils/constants.dart';
 import 'package:uni_connect/shared/custom_loading_bar.dart';
 
+import '../../../../shared/custom_alert_dialog.dart';
 import '../../../../shared/custom_dropdown_menu.dart';
 
 class DesktopSignupPage extends StatefulWidget {
@@ -17,12 +19,13 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String? _selectedItem; // Variabile per memorizzare l'elemento selezionato nel dropdown
+  late String _selectedItem; // Variabile per memorizzare l'elemento selezionato nel dropdown
 
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;
 
   bool isLoading = true; // Variabile per tracciare lo stato del caricamento
+  SignUpService signUpService = SignUpService();
 
   @override
   void initState() {
@@ -31,7 +34,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
         isLoading = false; // Imposta isLoading su false quando il caricamento è completo
-        _selectedItem="Dipartimento di Informatica";
+        this._selectedItem= "Dipartimento di Informatica";
       });
     });
   }
@@ -164,9 +167,10 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
             ),
           ),
         ),
-        onPressed: () {
+        onPressed: () => {
           if (_formKey.currentState!.validate()) {
             // ... Navigate To your Home Page
+             _SignUpButtonPressed()
           }
         },
         child: const Text('Registrati', style: TextStyle(color: Colors.white, fontSize: 16)),
@@ -223,9 +227,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
         if (value == null || value.isEmpty) {
           return 'Per favore inserisci una password';
         } else if (value.length < 7) {
-          return 'Almeno 6 caratteri';
-        } else if (value.length > 13) {
-          return 'Massimo 13 caratteri';
+          return 'Almeno 7 caratteri';
         }
         return null;
       },
@@ -267,11 +269,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
       controller: nameController,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Per favore inserisci uno username';
-        } else if (value.length < 4) {
-          return 'Almeno 4 caratteri';
-        } else if (value.length > 13) {
-          return 'Massimo 13 caratteri';
+          return 'Per favore inserisci il tuo Nome e Cognome ';
         }
         return null;
       },
@@ -311,4 +309,26 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
     );
   }
 
+
+
+  /// Metodo per eseguire tutta la logica della registrazione
+  /// Recupera i valori dal Form
+  /// Verifica se le password coincidono
+  void _SignUpButtonPressed() async {
+    // Recupera i valori dai controller
+    String fullName = this.nameController.text;
+    String email = this.emailController.text;
+    String password = this.passwordController.text;
+    String departmentStudent = this._selectedItem;
+    /// SignUp Action
+    bool registrationStatus = await signUpService.signUpStudent(email,fullName,password,departmentStudent);
+    if(registrationStatus){
+      /// TRUE Registration
+      CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.success, path: "/signin");
+    }else{
+      /// FALSE Registration
+      CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.error);
+    }
   }
+
+}

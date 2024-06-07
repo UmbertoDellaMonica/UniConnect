@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:uni_connect/Screens/router.dart';
+import 'package:get_it/get_it.dart';
+import 'package:uni_connect/shared/router/router.dart';
+import 'package:uni_connect/shared/services/storage_service.dart';
+
+
+
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  setupDependencies();
+  runApp(UniConnectApp());
 }
 
-class MyApp extends StatelessWidget {
+class UniConnectApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
@@ -19,4 +26,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+void setupDependencies() {
+  GetIt.I.registerSingleton<SecureStorageService>(SecureStorageService.instance);
+}
 

@@ -4,7 +4,6 @@ import 'package:uni_connect/Screens/home/components/content_row.dart';
 import 'package:uni_connect/Screens/home/components/footer_bar.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/Screens/home/components/welcome_image.dart';
-import 'package:uni_connect/constants.dart';
 
 import '../../utils/constants_home.dart';
 
@@ -89,7 +88,18 @@ class _MobileWelcomePageState extends State<MobileWelcomePage> {
                       // Azione per il pulsante di accesso
                       context.go('/signup');
                     },
-                    child: Text("Registrati"),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black, backgroundColor: Colors.greenAccent, padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Colore del testo del pulsante
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30), // Bordi arrotondati
+                        side: BorderSide(color: Colors.greenAccent), // Bordo del pulsante
+                      ),
+                      elevation: 3, // Aggiungi un'ombra leggera
+                    ),
+                    child: Text(
+                      "Registrati",
+                      style: TextStyle(fontSize: 18), // Aggiorna le dimensioni del testo
+                    ),
                   ),
                   // Ulteriori informazioni
                   SizedBox(height: 100),
@@ -109,7 +119,7 @@ class _MobileWelcomePageState extends State<MobileWelcomePage> {
                   SizedBox(height: 100),
                   ContentRow(
                     imagePath: followImage,
-                    titleContent: "Follow",
+                    titleContent: "Follow us",
                     description: homePageFeaturesDesccription,
                     reverseOrder: true,
                   ),

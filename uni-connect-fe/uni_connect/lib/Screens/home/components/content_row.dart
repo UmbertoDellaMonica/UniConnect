@@ -101,17 +101,28 @@ class ContentRow extends StatelessWidget {
               onPressed: () {
                 // Azione per il pulsante
                 // Check Action
-                if(titleContent.contains("Login")){
+                if (titleContent.contains("Login")) {
                   context.go('/signin');
-                }
-                else if( titleContent.contains("SignUp")){
+                } else if (titleContent.contains("SignUp")) {
                   context.go('/signup');
-                }else if( titleContent.contains("Follow")){
+                } else if (titleContent.contains("Follow")) {
                   /// TODO: Inserisci la route per il contesto giusto
                 }
               },
-              child: Text('Scopri di più'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white, backgroundColor: Colors.blueAccent, padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Colore del testo del pulsante
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30), // Bordi arrotondati
+                  side: BorderSide(color: Colors.blueAccent), // Bordo del pulsante
+                ),
+                elevation: 3, // Aggiungi un'ombra leggera
+              ),
+              child: Text(
+                titleContent,
+                style: TextStyle(fontSize: 18), // Aggiorna le dimensioni del testo
+              ),
             ),
+
           ],
         ),
       );

@@ -8,7 +8,6 @@ class SigninPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,

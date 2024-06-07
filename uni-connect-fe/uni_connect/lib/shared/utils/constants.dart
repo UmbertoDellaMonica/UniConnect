@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 enum CustomType { neutral, neutralShade, error, warning, success }
 
+enum AlertDialogType { Signup, Signin, Logout }
+
+
 enum DepartmentUnisa {
   AGRICOLA,
   ARCHITETTURA,

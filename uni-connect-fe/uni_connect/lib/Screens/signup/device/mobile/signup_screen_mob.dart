@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../constants.dart';
+import '../../../../shared/utils/constants.dart';
 import '../../../../shared/custom_loading_bar.dart';
 import '../../../home/components/nav_bar.dart';
 import '../../../../shared/custom_dropdown_menu.dart';
@@ -18,7 +17,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String? _selectedItem; // Variabile per memorizzare l'elemento selezionato nel dropdown
+  late String _selectedItem; // Variabile per memorizzare l'elemento selezionato nel dropdown
 
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true;

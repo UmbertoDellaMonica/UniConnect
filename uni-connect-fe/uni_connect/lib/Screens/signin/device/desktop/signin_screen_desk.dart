@@ -1,10 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:uni_connect/Screens/home/components/welcome_image.dart';
+import 'package:uni_connect/Screens/signin/services/signin_service.dart';
+import 'package:uni_connect/shared/services/storage_service.dart';
 
-import '../../../../constants.dart';
+import '../../../../models/student.dart';
+import '../../../../shared/custom_alert_dialog.dart';
+import '../../../../shared/custom_dropdown_menu.dart';
+import '../../../../shared/utils/constants.dart';
 import '../../../../shared/custom_loading_bar.dart';
 import '../../../home/components/nav_bar.dart';
 
@@ -17,31 +22,51 @@ class DesktopSigninPage extends StatefulWidget {
 
 class _DesktopSigninPageState extends State<DesktopSigninPage> {
 
-  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  late String _selectedItem;
+
 
   bool _isObscure = true;
   bool isLoading = true; // Variabile per tracciare lo stato del caricamento
 
 
   final _formKey = GlobalKey<FormState>();
+  /// Signin Service
+  SigninService signinService = SigninService();
+  /// Secure Storage Service
+  late SecureStorageService secureStorageService;
+
+  Student? student_logged ;
 
   @override
   void initState() {
-
     super.initState();
+    // Secure Storage Service - retrieve
+    final storage = GetIt.I.get<SecureStorageService>();
+    secureStorageService = storage;
     // Simula un caricamento asincrono dei dati per 2 secondi
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
-        isLoading = false; // Imposta isLoading su false quando il caricamento è completo
+        _selectedItem = "Dipartimento di Informatica";
+        isLoading = false;
+      });
+
+      // Esegui la navigazione solo dopo che la pagina è stata completamente costruita
+      WidgetsBinding.instance?.addPostFrameCallback((_) async {
+        var retrieveUser = await secureStorageService.get();
+        student_logged = retrieveUser;
+        if (student_logged != null) {
+          context.go('/home-page/'+student_logged!.id);
+        }else{
+          return;
+        }
       });
     });
   }
 
   @override
   void dispose() {
-    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -50,27 +75,32 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    if(isLoading){
+    if (this.isLoading) {
       return CustomLoadingIndicator(progress: 4.5);
-    }
-    return Scaffold(
-      appBar: CustomAppBar(),
-      body: Row(
-        children: [
-          Expanded(
-            flex: 3,
-            child: RoundedImage('images/login.jpg'),
-          ),
-          SizedBox(width: size.width * 0.06),
-          Expanded(
-            flex: 5,
-            child: _buildMainBody(
-              size,
+    } else {
+      if(this.student_logged !=null){
+        context.go('/home-page/'+student_logged!.id);
+      }
+
+      return Scaffold(
+        appBar: CustomAppBar(),
+        body: Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: RoundedImage('images/login.jpg'),
             ),
-          ),
-        ],
-      ),
-    );
+            SizedBox(width: size.width * 0.06),
+            Expanded(
+              flex: 5,
+              child: _buildMainBody(
+                size,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
 
@@ -152,7 +182,10 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
             SizedBox(
               height: size.height * 0.02,
             ),
-
+            _buildDropDownMenu(context),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
             /// Login Button
             _loginButton(),
             SizedBox(
@@ -163,7 +196,6 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
             GestureDetector(
               onTap: () {
                 context.go('/signup');
-                nameController.clear();
                 emailController.clear();
                 passwordController.clear();
                 _formKey.currentState?.reset();
@@ -191,26 +223,23 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
   }
 
 
-  /// Build Email Form
-  Widget _buildEmailForm() {
-    return TextFormField(
+  /// Email Field - Section
+  TextFormField _buildEmailForm() {
+    return                 TextFormField(
       style: Constants.kTextFormFieldStyle(),
+      controller: emailController,
       decoration: const InputDecoration(
-        prefixIcon: Icon(Icons.person),
-        hintText: 'Username or Gmail',
+        prefixIcon: Icon(Icons.email_rounded),
+        hintText: 'Email',
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
       ),
-      controller: nameController,
-      // The validator receives the text that the user has entered.
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter username';
-        } else if (value.length < 4) {
-          return 'at least enter 4 characters';
-        } else if (value.length > 13) {
-          return 'maximum character is 13';
+          return 'Per favore inserisci una email';
+        } else if (!value.contains('@')) {
+          return 'Per favore inserisci una email valida';
         }
         return null;
       },
@@ -247,8 +276,6 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
           return 'Please enter some text';
         } else if (value.length < 7) {
           return 'at least enter 6 characters';
-        } else if (value.length > 13) {
-          return 'maximum character is 13';
         }
         return null;
       },
@@ -268,10 +295,11 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
             ),
           ),
         ),
-        onPressed: () {
+        onPressed: () async {
           // Validate returns true if the form is valid, or false otherwise.
           if (_formKey.currentState!.validate()) {
             // ... Navigate To your Home Page
+            _SignInButtonPressed();
           }
         },
         child: Text('Login', style: TextStyle(color: Colors.white, fontSize: 16)),
@@ -298,6 +326,46 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
         ),
       );
     }
+  /// DropDown Menu - section
+  Widget _buildDropDownMenu(BuildContext context) {
+    return CustomDropdown<String>(
+      items: Enums.dropdownItems,
+      value: "Dipartimento di Informatica",
+      onChanged: (value) {
+        setState(() {
+          _selectedItem = value!;
+        });
+      },
+    );
+  }
 
+  /// Login Button - Action
+  void _SignInButtonPressed() async {
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    /// SignIn Student - Action
+    bool loginStatus = await signinService.signInStudent(
+        email, password, _selectedItem);
+    if (loginStatus) {
+
+      /// Show Success Login
+      Student? userLogged = await signinService.onLoginSuccess(email);
+
+      /// SecureStorageService.save() salva i miei dati nel SecureStorage di Flutter
+      await secureStorageService.save(userLogged!);
+
+      /// Mostra un alert di Successo in riferimento alla Login()
+      /// Mi ridireziona alla pagina di Home-Page-User
+      CustomPopUpDialog.show(
+          context, AlertDialogType.Signin, CustomType.success,
+          path: '/home-page/' + userLogged.id);
+    } else {
+
+      /// Error Login
+      /// Show Error Login
+      CustomPopUpDialog.show(context, AlertDialogType.Signin, CustomType.error);
+    }
+  }
 
 }

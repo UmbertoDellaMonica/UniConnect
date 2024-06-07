@@ -1,12 +1,15 @@
+import 'package:get_it/get_it.dart';
 
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
+import 'package:uni_connect/Screens/signin/services/signin_service.dart';
 
-import '../../../../constants.dart';
+import '../../../../models/student.dart';
+import '../../../../shared/custom_alert_dialog.dart';
+import '../../../../shared/custom_dropdown_menu.dart';
+import '../../../../shared/services/storage_service.dart';
+import '../../../../shared/utils/constants.dart';
 import '../../../../shared/custom_loading_bar.dart';
 
 class MobileSigninPage extends StatefulWidget {
@@ -17,22 +20,33 @@ class MobileSigninPage extends StatefulWidget {
 }
 
 class _MobileSigninPageState extends State<MobileSigninPage> {
+
+
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  late String _selectedItem;
+
   bool _isObscure = true;
   bool isLoading = true;
+
+  SigninService signinService = SigninService();
+  late SecureStorageService secureStorageService;
 
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
+    super.initState();
+    /// Retrieve SecureStorageService
+    final storage = GetIt.I.get<SecureStorageService>();
+    secureStorageService = storage;
     // Simula un caricamento asincrono dei dati per 2 secondi
     Future.delayed(Duration(seconds: 1), () {
       setState(() {
-        isLoading =
-        false; // Imposta isLoading su false quando il caricamento è completo
+        _selectedItem = "Dipartimento di Informatica";
+        isLoading = false; // Imposta isLoading su false quando il caricamento è completo
       });
     });
   }
@@ -116,7 +130,10 @@ class _MobileSigninPageState extends State<MobileSigninPage> {
             SizedBox(
               height: size.height * 0.02,
             ),
-
+            _buildDropDownMenu(context),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
             /// Login Button
             _loginButton(),
             SizedBox(
@@ -283,7 +300,49 @@ class _MobileSigninPageState extends State<MobileSigninPage> {
       ),
     );
   }
+  /// DropDown Menu - section
+  Widget _buildDropDownMenu(BuildContext context) {
+    return CustomDropdown<String>(
+      items: Enums.dropdownItems,
+      value: "Dipartimento di Informatica",
+      onChanged: (value) {
+        setState(() {
+          _selectedItem = value!;
+        });
+      },
+    );
+  }
 
+  /// Login Button - Action
+  Future<void> _SignInButtonPressed() async {
+    String emailInput = emailController.text;
+    String passwordInput = passwordController.text;
+
+    /// SignIn Student - Action
+    bool loginStatus = await signinService.signInStudent(
+        emailInput, passwordInput, _selectedItem);
+    if (loginStatus) {
+      print("Sono qui, sto per prendere i dati!");
+
+      /// Show Success Login
+      Student? userLogged = await signinService.onLoginSuccess(emailInput);
+
+      /// TODO : SecureStorageService
+      /// SecureStorageService.save() salva i miei dati nel SecureStorage di Flutter
+      await secureStorageService.save(userLogged!);
+
+      /// Mostra un alert di Successo in riferimento alla Login()
+      /// Mi ridireziona alla pagina di Home-Page-User
+      CustomPopUpDialog.show(
+          context, AlertDialogType.Signin, CustomType.success,
+          path: '/home-page/' + userLogged.id);
+    } else {
+
+      /// Error Login
+      /// Show Error Login
+      CustomPopUpDialog.show(context, AlertDialogType.Signin, CustomType.error);
+    }
+  }
 
 
 
