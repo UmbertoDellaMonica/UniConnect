@@ -104,7 +104,7 @@ class _DesktopStudentHomePageState extends State<DesktopStudentHomePage> {
                     // Colonna destra: Persone connesse
                     const SizedBox(width: 20),
                     Expanded(
-                      flex: 1,
+                      flex: 2,
                       child: ConnectedPeopleHome(),
                     ),
                   ],

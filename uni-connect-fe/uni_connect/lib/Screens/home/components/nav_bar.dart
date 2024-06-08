@@ -78,6 +78,7 @@ class CustomAppBarLogged extends StatefulWidget implements PreferredSizeWidget{
 class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
 
   LogoutService logoutService = LogoutService();
+
   // Secure Storage Service - retrieve
   final storage = GetIt.I.get<SecureStorageService>();
   late SecureStorageService secureStorageService = storage;
@@ -85,10 +86,28 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
   Student? student_logged;
 
 
+  @override
+  void initState() {
+    super.initState();
+
+    // Esegui la navigazione solo dopo che la pagina è stata completamente costruita
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      var retrieveUser = await secureStorageService.get();
+      student_logged = retrieveUser;
+      if (student_logged != null) {
+        print("OK!");
+      } else {
+        print("Error");
+      }
+    });
+  }
+
 
 
   @override
   Widget build(BuildContext context) {
+
+
     return AppBar(
       elevation: 3,
       shadowColor: Color(0xA9D0ECFF),

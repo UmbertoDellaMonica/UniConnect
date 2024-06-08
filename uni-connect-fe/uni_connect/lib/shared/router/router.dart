@@ -38,7 +38,7 @@ static  GoRouter routerConfig = GoRouter(
       path: '/student/:id_user/profile',
       builder: (context, state)  {
         final IDStudent = state.pathParameters['id_user']!;
-        return StudentProfileScreen(IDStudent: IDStudent,);
+        return StudentProfilePage(IDStudent: IDStudent,);
       },
     ),
 

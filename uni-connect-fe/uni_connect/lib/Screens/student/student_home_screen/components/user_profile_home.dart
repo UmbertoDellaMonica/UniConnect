@@ -25,12 +25,9 @@ class UserProfileHome extends StatelessWidget {
             SizedBox(height: 10),
             Text('Nome Utente', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
-            Text('Email: user@example.com'),
-            Text('Amici: 150'),
-            SizedBox(height: 20),
             UserProfileSection(
-              icon: Icons.settings,
-              title: 'Impostazioni',
+              icon: Icons.account_circle,
+              title: 'Profile',
               onPressed: () {
                 // Azione per andare alle impostazioni del profilo
                 context.go('/student/'+this.IDStudent+'/profile');
@@ -39,8 +36,8 @@ class UserProfileHome extends StatelessWidget {
               textColor: Colors.black,
             ),
             UserProfileSection(
-              icon: Icons.article,
-              title: 'I miei Post',
+              icon: Icons.image_rounded,
+              title: 'Le mie Foto',
               onPressed: () {
                 // Azione per visualizzare i post dell'utente
               },

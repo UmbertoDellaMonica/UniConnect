@@ -1,7 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
-import 'package:uni_connect/Screens/student/student_home_screen/components/post/post_form.dart';
-import 'package:uni_connect/Screens/student/student_home_screen/components/post/post_item.dart';
+import 'package:uni_connect/shared/design/post/post_item.dart';
+
+import '../../../../shared/design/post/post_form.dart';
 
 class PostListPeopleHome extends StatelessWidget{
 
