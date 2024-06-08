@@ -2,6 +2,8 @@ package com.umberto.uni_connect.service;
 
 import com.umberto.uni_connect.model.StudentModel;
 
+import java.util.UUID;
+
 public interface StudentService {
 
     /**
@@ -21,4 +23,10 @@ public interface StudentService {
      * @param email dello studente
      */
     StudentModel getStudentData(String email);
+
+    /**
+     * Recupero dei dello Studente mediante l'ID
+     * @param IDStudent id dello studente
+     */
+    StudentModel getStudentData(UUID IDStudent);
 }
