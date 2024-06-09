@@ -31,11 +31,9 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
   void initState() {
     super.initState();
     // Simula un caricamento asincrono dei dati per 2 secondi
-    Future.delayed(Duration(seconds: 1), () {
       setState(() {
         isLoading = false; // Imposta isLoading su false quando il caricamento è completo
         this._selectedItem= "Dipartimento di Informatica";
-      });
     });
   }
 

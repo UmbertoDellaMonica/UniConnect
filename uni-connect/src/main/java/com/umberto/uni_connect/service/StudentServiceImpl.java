@@ -31,6 +31,7 @@ public class StudentServiceImpl implements StudentService {
     public StudentModel signUp(StudentModel studentModel) {
 
         StudentModel newStudentModel = null;
+        System.out.println("La mail è : "+studentModel.getEmail());
         // Verifica se lo Studente esiste
         Boolean studentExists = studentRepository.existsByEmail(studentModel.getEmail());
 

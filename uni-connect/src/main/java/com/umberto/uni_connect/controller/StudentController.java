@@ -78,7 +78,6 @@ public class StudentController {
     /**
      * getStudent - Controller per inviare i dati dello Studente alla mia web app
      * @param email
-     * @return
      */
     @GetMapping("")
     public ResponseEntity<StudentResponse>getStudent(

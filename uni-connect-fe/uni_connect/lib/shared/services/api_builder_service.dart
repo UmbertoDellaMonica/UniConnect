@@ -1,7 +1,7 @@
 
-import '../../models/request/student_request.dart';
+import '../../models/payload/student_dto.dart';
 
-class StudentApiService {
+class ApiBuilderService {
 
 
     static String? _apiVersion;

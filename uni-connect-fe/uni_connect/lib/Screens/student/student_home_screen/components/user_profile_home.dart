@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uni_connect/models/student.dart';
 
 class UserProfileHome extends StatelessWidget {
 
-  final String IDStudent;
-  UserProfileHome({super.key, required this.IDStudent});
+  final Student? student_logged;
+  UserProfileHome({super.key, required this.student_logged});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +24,14 @@ class UserProfileHome extends StatelessWidget {
               child: Text('U'), // Placeholder per l'immagine del profilo
             ),
             SizedBox(height: 10),
-            Text('Nome Utente', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(this.student_logged!.fullName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
             UserProfileSection(
               icon: Icons.account_circle,
               title: 'Profile',
               onPressed: () {
                 // Azione per andare alle impostazioni del profilo
-                context.go('/student/'+this.IDStudent+'/profile');
+                context.go('/student/'+this.student_logged!.id+'/profile');
               },
               iconColor: Colors.blue,
               textColor: Colors.black,

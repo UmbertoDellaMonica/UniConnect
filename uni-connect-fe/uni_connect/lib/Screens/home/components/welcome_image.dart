@@ -11,7 +11,6 @@ class RoundedImage extends StatelessWidget {
 
       borderRadius: BorderRadius.circular(20.0),
       child: Image.asset(
-
         imagePath,
         fit: BoxFit.cover,
       ),

@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import "package:bcrypt/bcrypt.dart";
-import 'package:uni_connect/shared/services/storage_service.dart';
-import 'package:uni_connect/shared/services/student_api_service.dart';
-
-import '../../models/request/student_request.dart';
+import 'package:uni_connect/shared/services/api_builder_service.dart';
+import '../../models/payload/student_dto.dart';
 import '../../models/student.dart';
 
 
@@ -13,7 +11,7 @@ import '../../models/student.dart';
 
 class StudentService {
 
-  final studentApiService = StudentApiService();
+  final apiBuilderService = ApiBuilderService();
 
 
   static const String _Url = 'http://127.0.0.1:8443';
@@ -34,15 +32,15 @@ class StudentService {
   /// Permette di eseguire la registrazione
   Future<bool> signUpStudent (String email, String fullName, String password,String selectedDepartement) async {
 
-    late String Url = studentApiService.buildUrl(_api,_Url, _version,_querySignUpStudent);
-    StudentSignupRequest studentRequest = studentApiService.getBodySignUpMethod(email, password, fullName, selectedDepartement);
+    late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_querySignUpStudent);
+    StudentSignupRequest studentRequest = apiBuilderService.getBodySignUpMethod(email, password, fullName, selectedDepartement);
     String body = jsonEncode(studentRequest);
 
     try{
       final response = await http.post(
           Uri.parse(Url),
           body: body,
-          headers: studentApiService.getHeaders()
+          headers: apiBuilderService.getHeaders()
       );
 
       if ( response.statusCode == 200 ) {
@@ -68,15 +66,15 @@ class StudentService {
   /// Permette di eseguire il Login
   Future<bool> signInStudent (String email, String password, String selectedDepartement) async {
 
-    late String Url = studentApiService.buildUrl(_api,_Url, _version,_querySignInStudent);
-    StudentSigninRequest studentRequest = studentApiService.getBodySignInMethod(email, password, selectedDepartement);
+    late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_querySignInStudent);
+    StudentSigninRequest studentRequest = apiBuilderService.getBodySignInMethod(email, password, selectedDepartement);
     String body = jsonEncode(studentRequest);
 
     try{
       final response = await http.post(
           Uri.parse(Url),
           body: body,
-          headers: studentApiService.getHeaders()
+          headers: apiBuilderService.getHeaders()
       );
 
       if (response.statusCode == 200) {
@@ -99,10 +97,10 @@ class StudentService {
   /// Headers : 'email' -> value ( Inserisco nell'headers per motivi di sicurezza )
   Future<Student?> getStudent (String email) async {
 
-    late String Url = studentApiService.buildUrl(_api,_Url, _version,_queryGetStudent);
+    late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_queryGetStudent);
 
     /// Modifica degli Headers
-    var headers = studentApiService.getHeaders();
+    var headers = apiBuilderService.getHeaders();
     headers.addAll({'email':email});
 
     try{

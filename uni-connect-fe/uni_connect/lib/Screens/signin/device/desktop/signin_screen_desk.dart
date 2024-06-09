@@ -45,24 +45,24 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
     // Secure Storage Service - retrieve
     final storage = GetIt.I.get<SecureStorageService>();
     secureStorageService = storage;
-    // Simula un caricamento asincrono dei dati per 2 secondi
-    Future.delayed(Duration(seconds: 1), () {
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    var retrieveUser = await secureStorageService.get();
+    if (retrieveUser != null) {
+      setState(() {
+        student_logged = retrieveUser;
+        _selectedItem = "Dipartimento di Informatica";
+        isLoading = false;
+        context.go('/home-page/'+student_logged!.id);
+      });
+    }else{
       setState(() {
         _selectedItem = "Dipartimento di Informatica";
         isLoading = false;
       });
-
-      // Esegui la navigazione solo dopo che la pagina è stata completamente costruita
-      WidgetsBinding.instance?.addPostFrameCallback((_) async {
-        var retrieveUser = await secureStorageService.get();
-        student_logged = retrieveUser;
-        if (student_logged != null) {
-          context.go('/home-page/'+student_logged!.id);
-        }else{
-          return;
-        }
-      });
-    });
+    }
   }
 
   @override

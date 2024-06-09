@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:uni_connect/models/student.dart';
+
+import '../../../models/payload/post_dto.dart';
 
 class PostItemProfile extends StatelessWidget {
   final int index;
+  final Student? student_logged;
+  final PostResponse? postResponse;
+  final Function onDelete;
+  final Function onEdit;
 
-  PostItemProfile({Key? key, required this.index}) : super(key: key);
+  PostItemProfile({
+    required this.index,
+    required this.student_logged,
+    required this.postResponse,
+    required this.onDelete,
+    required this.onEdit
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +24,7 @@ class PostItemProfile extends StatelessWidget {
       builder: (context, constraints) {
         // Check if the screen is narrow or wide
         bool isWideScreen = constraints.maxWidth > 600;
+        print("Contenuto della risposta : "+this.postResponse!.content);
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -32,19 +46,18 @@ class PostItemProfile extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: Text('Utente ${index + 1}'),
+                        child: Text(this.student_logged!.fullName),
                       ),
                       PopupMenuButton<String>(
                         onSelected: (value) {
                           if (value == 'Elimina Post') {
-                            // Logica per segnalare il post
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Post eliminato')),
-                            );
+                            this.onDelete();
+                          } else if (value == 'Modifica Post') {
+                            this.onEdit();
                           }
                         },
                         itemBuilder: (BuildContext context) {
-                          return {'Elimina Post'}.map((String choice) {
+                          return {'Elimina Post', 'Modifica Post'}.map((String choice) {
                             return PopupMenuItem<String>(
                               value: choice,
                               child: Text(choice),
@@ -55,7 +68,7 @@ class PostItemProfile extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 10),
-                  Text('Testo del post'),
+                  Text(this.postResponse!.content),
                   SizedBox(height: 10),
                   // Aggiungi qui il widget per le immagini del post se necessario
                   Divider(),
@@ -90,4 +103,6 @@ class PostItemProfile extends StatelessWidget {
       },
     );
   }
+
+
 }

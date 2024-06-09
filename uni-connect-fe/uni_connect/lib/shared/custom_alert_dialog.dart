@@ -19,6 +19,14 @@ class CustomPopUpDialog  {
 
       case AlertDialogType.Logout:
         return (isSuccess) ? "Logout riuscito" :" Errore Logout";
+
+      case AlertDialogType.PostCreate:
+        return (isSuccess) ? "Post pubblicato" :" Errore creazioen del Post! ";
+
+      case AlertDialogType.PostDelete:
+        return (isSuccess) ? "Post Cancellato" :" Errore cancellazione del Post! ";
+      case AlertDialogType.PostUpdate:
+        return (isSuccess) ? "Post Aggiornato" :" Errore aggiornamento del Post! ";
     }
 
   }
@@ -41,6 +49,17 @@ class CustomPopUpDialog  {
       case AlertDialogType.Logout:
         return(isSuccess)
             ? "Premere OK per andare alla pagina iniziale!" : "Logout non andato a buon fine!";
+
+      case AlertDialogType.PostCreate:
+        return(isSuccess)
+            ? "Premere OK per ritornare a pubblicare post!" : "Pubblicazione Post non riuscita !";
+
+      case AlertDialogType.PostDelete:
+        return(isSuccess)
+            ? "Premere OK per ritornare a visualizzare il profilo!" : "Eliminazione Post Non riuscita !";
+      case AlertDialogType.PostUpdate:
+        return(isSuccess)
+            ? "Premere OK per ritornare a visualizzare il profilo!" : "Aggiornamento Post Non riuscita !";
     }
 
   }

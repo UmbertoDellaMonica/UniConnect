@@ -40,24 +40,18 @@ class _DesktopStudentHomePageState extends State<DesktopStudentHomePage> {
     // Secure Storage Service - retrieve
     final storage = GetIt.I.get<SecureStorageService>();
     secureStorageService = storage;
-    // Simula un caricamento asincrono dei dati per 2 secondi
-    Future.delayed(Duration(seconds: 1), () {
-      setState(() {
-        isLoading = false; // Imposta isLoading su false quando il caricamento è completo
-        this._selectedItem= "Dipartimento di Informatica";
-      });
-    });
+    _fetchData();
+  }
 
-    // Esegui la navigazione solo dopo che la pagina è stata completamente costruita
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      var retrieveUser = await secureStorageService.get();
-      student_logged = retrieveUser;
-      if (student_logged != null) {
-        print("OK!");
-      }else{
-        print("Error");
-      }
-    });
+  Future<void> _fetchData() async {
+    var retrieveUser = await secureStorageService.get();
+    if (retrieveUser != null) {
+      setState(() {
+        isLoading = false;
+        _selectedItem = "Dipartimento di Informatica";
+        student_logged = retrieveUser;
+      });
+    }
   }
 
 
@@ -93,13 +87,13 @@ class _DesktopStudentHomePageState extends State<DesktopStudentHomePage> {
                     // Colonna sinistra: Profilo utente
                     Expanded(
                       flex: 2,
-                      child: UserProfileHome(IDStudent: this.student_logged!.id,),
+                      child: UserProfileHome(student_logged: this.student_logged,),
                     ),
                     const SizedBox(width: 20),
                     // Colonna centrale: Post e form del post
                     Expanded(
                       flex: 4,
-                      child: PostListPeopleHome(),
+                      child: PostListPeopleHome(IDStudent: this.student_logged!.id),
                     ),
                     // Colonna destra: Persone connesse
                     const SizedBox(width: 20),
