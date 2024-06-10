@@ -86,19 +86,26 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
                     String IDStudent = widget.studentLogged!.id;
                     String newContent = await _showEditDialog(
                         context, widget.listPostResponse![index]!.content);
-                    PostResponse? response  = await widget.postService.editPost(IDPost, IDStudent, newContent);
-                    if(response!=null){
 
-                    setState(() {
-                        widget.listPostResponse![index] = response;
-                      });
-                      CustomPopUpDialog.show(
-                          context, AlertDialogType.PostUpdate,
-                          CustomType.success);
+                    /// Equals or Not
+                    if (newContent.compareTo(
+                        widget.listPostResponse![index]!.content) != 0) {
+                      PostResponse? response = await widget.postService
+                          .editPost(IDPost, IDStudent, newContent);
+                      if (response != null) {
+                        setState(() {
+                          widget.listPostResponse![index] = response;
+                        });
+                        CustomPopUpDialog.show(
+                            context, AlertDialogType.PostUpdate,
+                            CustomType.success);
+                      } else {
+                        CustomPopUpDialog.show(
+                            context, AlertDialogType.PostUpdate,
+                            CustomType.error);
+                      }
                     } else {
-                      CustomPopUpDialog.show(
-                          context, AlertDialogType.PostUpdate,
-                          CustomType.error);
+                      return;
                     }
                   },
                 );

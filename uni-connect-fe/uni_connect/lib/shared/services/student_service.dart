@@ -26,6 +26,8 @@ class StudentService {
 
   static const String _queryGetStudent = 'student';
 
+  static const String _querySearchStudent = 'student/search';
+
 
 
   /// Registrazione dello Studente
@@ -126,6 +128,29 @@ class StudentService {
     }
 
   }
+
+
+  Future<List<Student>> searchStudents(String query, String studentId) async {
+    late String Url = apiBuilderService.buildUrl(_api,_Url, _version,'$_querySearchStudent?query=$query');
+    final headers = {
+      'Content-Type': 'application/json',
+      'IDStudent': studentId,
+    };
+
+    final response = await http.get(Uri.parse(Url), headers: headers);
+    print("Response : "+response.body.toString());
+
+    if (response.statusCode == 200) {
+      List<dynamic> body = json.decode(response.body);
+      List<Student> students = body.map((dynamic item) => Student.fromJson(item)).toList();
+      return students;
+    } else if (response.statusCode == 204) {
+      return []; // No content
+    } else {
+      throw Exception('Failed to load students');
+    }
+  }
+
 
 
 

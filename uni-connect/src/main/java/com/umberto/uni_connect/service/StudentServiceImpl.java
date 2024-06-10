@@ -6,9 +6,11 @@ import com.umberto.uni_connect.exception.StudentNotFoundException;
 import com.umberto.uni_connect.model.StudentModel;
 import com.umberto.uni_connect.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -118,5 +120,21 @@ public class StudentServiceImpl implements StudentService {
         } catch (NotFoundException e) {
             return null;
         }
+    }
+
+    /**
+     *
+     * @param query contiene le lettere che il nome dello studente o il full Name dovrebbe contenere
+     * @param IDStudent ID dello studente che sta ricercando
+     * @return
+     */
+    @Override
+    public List<StudentModel> searchStudentByFullName(String query, UUID IDStudent) {
+        // Search Student about query in FullName
+        List<StudentEntity>studentEntityList = studentRepository.searchStudents(query,IDStudent);
+
+        List<StudentModel> studentModelList = mapper.map(studentEntityList,new TypeToken<List<StudentModel>>(){}.getType());
+
+        return studentModelList;
     }
 }

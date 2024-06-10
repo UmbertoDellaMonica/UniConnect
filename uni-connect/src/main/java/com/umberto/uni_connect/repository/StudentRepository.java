@@ -5,6 +5,7 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,5 +27,10 @@ public interface StudentRepository extends Neo4jRepository<StudentEntity, UUID> 
      */
     @Query("MATCH (s:Student) WHERE s.email = $email RETURN s")
     Optional<StudentEntity> retrieveByEmail(String email);
+
+
+    @Query("MATCH (s:Student) WHERE toLower(s.fullName) CONTAINS toLower($query) AND s.ID <> $studentId RETURN s")
+    List<StudentEntity> searchStudents(String query, UUID studentId);
+
 
 }

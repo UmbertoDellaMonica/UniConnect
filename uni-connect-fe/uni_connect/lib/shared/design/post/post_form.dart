@@ -101,7 +101,6 @@ class _PostFormState extends State<PostForm> {
     }else{
       CustomPopUpDialog.show(context, AlertDialogType.PostCreate, CustomType.error);
     }
-
   }
 
 }

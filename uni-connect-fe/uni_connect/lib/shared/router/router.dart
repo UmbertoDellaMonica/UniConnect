@@ -4,6 +4,7 @@ import 'package:uni_connect/Screens/signin/signin_screen.dart';
 import 'package:uni_connect/Screens/signup/signup_screen.dart';
 import 'package:uni_connect/Screens/student/student_profile/student_profile_screen.dart';
 
+import '../../Screens/student/search_student/student_search_screen.dart';
 import '../../Screens/student/student_home_screen/components/user_profile_home.dart';
 import '../../Screens/student/student_home_screen/student_home_screen.dart';
 
@@ -39,6 +40,13 @@ static  GoRouter routerConfig = GoRouter(
       builder: (context, state)  {
         final IDStudent = state.pathParameters['id_user']!;
         return StudentProfilePage(IDStudent: IDStudent,);
+      },
+    ),
+    GoRoute(
+      path: '/student/:id_user/search',
+      builder: (context, state)  {
+        final IDStudent = state.pathParameters['id_user']!;
+        return StudentSearchPage(IDStudent: IDStudent,);
       },
     ),
 

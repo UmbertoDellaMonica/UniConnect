@@ -6,11 +6,16 @@ import com.umberto.uni_connect.model.StudentModel;
 import com.umberto.uni_connect.service.StudentService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/v1/student")
@@ -89,6 +94,23 @@ public class StudentController {
         }else{
             StudentResponse studentResponse = mapper.map(studentModel,StudentResponse.class);
             return new ResponseEntity<>(studentResponse,HttpStatusCode.valueOf(200));
+        }
+    }
+
+    @GetMapping(path="/search",produces = "application/json; charset=UTF-8")
+    public ResponseEntity<List<StudentResponse>> searchStudents(
+            @RequestParam("query") String query,
+            @RequestHeader("IDStudent") UUID IDStudent) {
+
+        System.out.println("Sono qui !");
+        // Retrieve Student
+        List<StudentModel> students = studentService.searchStudentByFullName(query, IDStudent);
+        // Mapping
+        List<StudentResponse> studentResponseList = mapper.map(students,new TypeToken<List<StudentResponse>>(){}.getType());
+        if(!studentResponseList.isEmpty()) {
+            return new ResponseEntity<>(studentResponseList, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(studentResponseList, HttpStatus.NO_CONTENT);
         }
     }
 
