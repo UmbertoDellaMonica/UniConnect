@@ -1,6 +1,4 @@
-Sure, here is the detailed `README.md` in English:
 
-```markdown
 # Mock Data Generation and Import into Neo4j
 
 This document outlines the steps required to mock student data, generate it, copy it into the `/var/lib/neo4j/import` folder of the Neo4j Docker container, and import the data into the Neo4j database.
