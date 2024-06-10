@@ -99,7 +99,7 @@ class _DesktopStudentHomePageState extends State<DesktopStudentHomePage> {
                     const SizedBox(width: 20),
                     Expanded(
                       flex: 2,
-                      child: ConnectedPeopleHome(),
+                      child: ConnectedPeopleHome(IDStudent: this.student_logged!.id,),
                     ),
                   ],
                 );

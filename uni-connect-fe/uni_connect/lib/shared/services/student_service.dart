@@ -36,6 +36,9 @@ class StudentService {
   static const String _queryGetFollowersStudent = 'student/followers';
   static const String _queryGetFollowingsStudent = 'student/followings';
 
+  // Mutual - Connections
+  static const String _queryGetMutualConnectionStudent = 'student/mutual-connections';
+
 
 
   /// Registrazione dello Studente
@@ -312,6 +315,27 @@ class StudentService {
     }
   }
 
+  Future<List<Student>> fetchMutualConnections(String IDStudent) async {
+
+    late String Url = apiBuilderService.buildUrl(
+        _api, _Url, _version, _queryGetMutualConnectionStudent);
+    final response = await http.get(
+      Uri.parse(Url),
+      headers: {
+        'IDStudent': IDStudent,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((json) => Student.fromJson(json)).toList();
+    } else if(response.statusCode == 204){
+      // Handle error or no content
+      return [];
+    }else{
+      throw Exception('Failed to load mutual connections');
+  }
+}
 }
 
 

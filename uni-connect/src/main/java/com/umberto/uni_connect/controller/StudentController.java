@@ -233,4 +233,22 @@ public class StudentController {
     }
 
 
+    /**
+     * Retrieve Student with Mutual-connection
+     * @param IDStudent
+     */
+    @GetMapping(path = "/mutual-connections", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<List<StudentResponse>> getMutualConnections(
+            @RequestHeader(name = "IDStudent") UUID IDStudent) {
+
+        List<StudentModel> mutualConnections = studentService.getMutualConnections(IDStudent);
+        if (mutualConnections.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        } else {
+            List<StudentResponse> mutualConnectionsResponse = mapper.map(mutualConnections, new TypeToken<List<StudentResponse>>() {}.getType());
+            return new ResponseEntity<>(mutualConnectionsResponse, HttpStatus.OK);
+        }
+    }
+
+
 }

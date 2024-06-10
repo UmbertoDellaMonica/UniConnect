@@ -78,5 +78,12 @@ public interface StudentRepository extends Neo4jRepository<StudentEntity, UUID> 
     @Query("MATCH (s:Student {ID: $IDStudent})<-[:FOLLOWS]-(follower:Student) RETURN follower")
     List<StudentEntity> findFollowersByStudentId(UUID IDStudent);
 
+    /**
+     * FindMutual Connection - recupera tutti gli studenti che hanno una mutua connessione con me
+     * @param IDStudent
+     * @return
+     */
+    @Query("MATCH (s:Student {ID: $IDStudent})-[:FOLLOWS]-(mutual:Student) RETURN DISTINCT mutual")
+    List<StudentEntity> findMutualConnections(UUID IDStudent);
 
 }

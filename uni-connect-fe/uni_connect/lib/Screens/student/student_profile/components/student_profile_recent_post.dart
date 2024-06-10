@@ -64,7 +64,7 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
                   student_logged: widget.studentLogged,
                   postResponse: widget.listPostResponse![index],
 
-                  onDelete: () async {
+                  onDelete: () async {/*
                     String IDPost = widget.listPostResponse![index]!.ID;
                     String IDStudent = widget.studentLogged!.id;
                     if (await widget.postService.deletePost(
@@ -79,9 +79,9 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
                       CustomPopUpDialog.show(
                           context, AlertDialogType.PostDelete,
                           CustomType.error);
-                    }
+                    }*/
                   },
-                  onEdit: () async {
+                  onEdit: () async {/*
                     String IDPost = widget.listPostResponse![index]!.ID;
                     String IDStudent = widget.studentLogged!.id;
                     String newContent = await _showEditDialog(
@@ -106,7 +106,7 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
                       }
                     } else {
                       return;
-                    }
+                    }*/
                   },
                 );
               },

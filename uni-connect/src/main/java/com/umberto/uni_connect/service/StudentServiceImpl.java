@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -205,5 +206,13 @@ public class StudentServiceImpl implements StudentService {
         }
         List<StudentModel> studentModelList = mapper.map(studentEntityList,new TypeToken<List<StudentModel>>(){}.getType());
         return studentModelList;
+    }
+
+    @Override
+    public List<StudentModel> getMutualConnections(UUID IDStudent) {
+        List<StudentEntity> studentEntities = studentRepository.findMutualConnections(IDStudent);
+        return studentEntities.stream()
+                .map(student -> mapper.map(student, StudentModel.class))
+                .collect(Collectors.toList());
     }
 }

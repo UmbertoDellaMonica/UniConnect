@@ -78,6 +78,7 @@ static  GoRouter routerConfig = GoRouter(
       },
     ),
 
+    /// TODO : Chat - route
 
   ]
 );

@@ -63,4 +63,11 @@ public interface StudentService {
      * @param IDStudent
      */
     List<StudentModel> getFollowers(UUID IDStudent);
+
+    /**
+     * Retrieve all Student that have a mutual connections
+     * @param IDStudent
+     * @return
+     */
+    List<StudentModel> getMutualConnections(UUID IDStudent);
 }
