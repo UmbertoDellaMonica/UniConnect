@@ -84,18 +84,7 @@ class _OtherStudentProfileInfoState extends State<OtherStudentProfileInfo> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Icon(Icons.lock, size: 30, color: Colors.blue),
-                      SizedBox(width: 10),
-                      Text(
-                        'Password: ••••••••', // Non mostrare la password reale per motivi di sicurezza
-                        style: TextStyle(
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ],
-                  ),
+
                 ],
               ),
             ),

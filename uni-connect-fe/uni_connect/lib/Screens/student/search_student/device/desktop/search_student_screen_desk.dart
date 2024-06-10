@@ -66,6 +66,8 @@ class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
   }
 
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +77,7 @@ class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
           if (_isLoading) const CustomLoadingIndicator(progress: 4.5),
           if (_errorMessage.isNotEmpty) Text(_errorMessage),
           Expanded(
+            flex: 5,
             child: ListView.builder(
               itemCount: _students.length,
               itemBuilder: (context, index) {
@@ -95,6 +98,7 @@ class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
                       border: Border(bottom: BorderSide(color: Colors.grey)),
                     ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
                           backgroundImage: AssetImage('../assets/logo.png'), // Aggiungi l'immagine dello studente
@@ -119,21 +123,6 @@ class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
                                 ),
                               ),
                             ],
-                          ),
-                        ),
-                        SizedBox(width: 16.0),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Implementa la logica per seguire o smettere di seguire lo studente
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                          ),
-                          child: Text(
-                            'Segui',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
                           ),
                         ),
                       ],

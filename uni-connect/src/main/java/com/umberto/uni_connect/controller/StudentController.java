@@ -196,7 +196,41 @@ public class StudentController {
     }
 
 
+    /**
+     * Check if the student follows the other student
+     * @param IDStudent ID Student that i want check if follows
+     */
+    @GetMapping(path = "/followers")
+    public ResponseEntity<List<StudentResponse>> getFollowers(
+            @RequestHeader(name = "IDStudent") UUID IDStudent
+    ){
+        List<StudentModel> studentModelFollowers = studentService.getFollowers(IDStudent);
+        if (studentModelFollowers==null) {
+            return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+        } else {
+            List<StudentResponse>studentResponseList = mapper.map(studentModelFollowers,new TypeToken<List<StudentResponse>>(){}.getType());
+            return new ResponseEntity<>(studentResponseList,HttpStatus.OK);
+        }
+    }
 
+
+
+    /**
+     * Check if the student follows the other student
+     * @param IDStudent ID Student that i want check if follows
+     */
+    @GetMapping(path = "/followings")
+    public ResponseEntity<List<StudentResponse>> getFollowings(
+            @RequestHeader(name = "IDStudent") UUID IDStudent
+    ){
+        StudentModel studentModel = studentService.getStudentData(IDStudent);
+        if (studentModel.getFollowing().isEmpty()) {
+            return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+        } else {
+            List<StudentResponse>studentResponseList = mapper.map(studentModel.getFollowing(),new TypeToken<List<StudentResponse>>(){}.getType());
+            return new ResponseEntity<>(studentResponseList,HttpStatus.OK);
+        }
+    }
 
 
 }

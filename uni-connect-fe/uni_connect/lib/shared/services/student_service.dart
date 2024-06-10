@@ -33,6 +33,8 @@ class StudentService {
   static const String _queryFollowStudent = 'student/follow';
   static const String _queryUnfollowStudent = 'student/unfollow';
   static const String _queryCheckFollowStudent = 'student/isFollowing';
+  static const String _queryGetFollowersStudent = 'student/followers';
+  static const String _queryGetFollowingsStudent = 'student/followings';
 
 
 
@@ -69,7 +71,6 @@ class StudentService {
     }
   }
 
-
   /// Login dello Studente
   /// Permette di eseguire il Login
   Future<bool> signInStudent (String email, String password, String selectedDepartement) async {
@@ -97,8 +98,6 @@ class StudentService {
       return false;
     }
   }
-
-
 
   /// GetStudent mi permette di recuperare tutti i dati dello Studente
   /// GetStudent permette di inserire all'interno dell'header tutti i dati di cui necessito
@@ -171,7 +170,6 @@ class StudentService {
 
   }
 
-
   Future<List<Student>> searchStudents(String query, String studentId) async {
     late String Url = apiBuilderService.buildUrl(_api,_Url, _version,'$_querySearchStudent?query=$query');
     final headers = {
@@ -195,7 +193,7 @@ class StudentService {
 
 
 
-
+  /// TODO : Following - Method
   Future<bool> followStudent(String IDStudent, String otherIDStudent) async {
     late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_queryFollowStudent);
 
@@ -250,6 +248,69 @@ class StudentService {
     }
   }
 
+  Future<List<Student>> getFollowers(String IDStudent) async {
+    late String Url = apiBuilderService.buildUrl(
+        _api, _Url, _version, _queryGetFollowersStudent);
+    try {
+      final response = await http.get(
+        Uri.parse(Url),
+        headers: {'IDStudent': IDStudent},
+      );
+
+      if (response.statusCode == 200) {
+        // Decodifica la risposta JSON
+        final List<dynamic> responseData = json.decode(response.body);
+        // Mappa i dati in una lista di oggetti Student
+        List<Student> followers = responseData.map((data) =>
+            Student.fromJson(data)).toList();
+        return followers;
+      } else if (response.statusCode == 204) {
+        // Se non ci sono follower, ritorna una lista vuota
+        return [];
+      } else {
+        // Se c'è un errore, stampa il messaggio di errore e ritorna una lista vuota
+        print(
+            'Errore durante la richiesta dei follower: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      // Se c'è un'eccezione, stampa l'errore e ritorna una lista vuota
+      print('Eccezione durante la richiesta dei follower: $e');
+      return [];
+    }
+  }
+
+  Future<List<Student>> getFollowings(String IDStudent) async {
+    late String Url = apiBuilderService.buildUrl(
+        _api, _Url, _version, _queryGetFollowingsStudent);
+    try {
+      final response = await http.get(
+        Uri.parse(Url),
+        headers: {'IDStudent': IDStudent},
+      );
+
+      if (response.statusCode == 200) {
+        // Decodifica la risposta JSON
+        final List<dynamic> responseData = json.decode(response.body);
+        // Mappa i dati in una lista di oggetti Student
+        List<Student> followers = responseData.map((data) =>
+            Student.fromJson(data)).toList();
+        return followers;
+      } else if (response.statusCode == 204) {
+        // Se non ci sono follower, ritorna una lista vuota
+        return [];
+      } else {
+        // Se c'è un errore, stampa il messaggio di errore e ritorna una lista vuota
+        print(
+            'Errore durante la richiesta dei follower: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      // Se c'è un'eccezione, stampa l'errore e ritorna una lista vuota
+      print('Eccezione durante la richiesta dei follower: $e');
+      return [];
+    }
+  }
 
 }
 

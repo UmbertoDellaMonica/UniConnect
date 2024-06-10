@@ -23,7 +23,7 @@ class UserProfileHome extends StatelessWidget {
               backgroundColor: Colors.blue,
               child: Text('U'), // Placeholder per l'immagine del profilo
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 50),
             Text(this.student_logged!.fullName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
             UserProfileSection(
@@ -46,18 +46,31 @@ class UserProfileHome extends StatelessWidget {
               textColor: Colors.black,
             ),
             UserProfileSection(
-              icon: Icons.people,
-              title: 'Amici',
+              icon: Icons.account_circle,
+              title: 'Followers',
               onPressed: () {
-                // Azione per visualizzare la lista degli amici dell'utente
+                // Azione per visualizzare la lista dei follower dell'utente
+                /// TODO: Action to retrieve all Followers
+                context.go('/student/'+student_logged!.id+'/follower');
               },
               iconColor: Colors.red,
+              textColor: Colors.black,
+            ),
+            UserProfileSection(
+              icon: Icons.people,
+              title: 'Seguiti',
+              onPressed: () {
+                // Azione per visualizzare la lista degli utenti seguiti dall'utente
+                context.go('/student/'+student_logged!.id+'/following');
+              },
+              iconColor: Colors.blueAccent,
               textColor: Colors.black,
             ),
           ],
         ),
       ),
     );
+
   }
 }
 

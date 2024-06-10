@@ -42,7 +42,7 @@ public interface StudentRepository extends Neo4jRepository<StudentEntity, UUID> 
      * @param followeeId ID of user that will be followed
      * @return true if the relationship was created successfully, false otherwise
      */
-    @Query("MATCH (follower:Student {id: $followerId}), (followee:Student {id: $followeeId}) " +
+    @Query("MATCH (follower:Student {ID: $followerId}), (followee:Student {ID: $followeeId}) " +
             "MERGE (follower)-[r:FOLLOWS]->(followee) " +
             "RETURN CASE WHEN r IS NOT NULL THEN true ELSE false END AS result")
     Boolean followUser(UUID followerId, UUID followeeId);
@@ -53,10 +53,30 @@ public interface StudentRepository extends Neo4jRepository<StudentEntity, UUID> 
      * @param followeeId ID of user that will be followed
      * @return true if the relationship was deleted successfully, false otherwise
      */
-    @Query("MATCH (follower:Student {id: $followerId})-[r:FOLLOWS]->(followee:Student {id: $followeeId}) " +
+    @Query("MATCH (follower:Student {ID: $followerId})-[r:FOLLOWS]->(followee:Student {ID: $followeeId}) " +
             "DELETE r " +
             "RETURN COUNT(r) > 0")
-    boolean unfollowUser(UUID followerId, UUID followeeId);
+    Boolean unfollowUser(UUID followerId, UUID followeeId);
+
+    /**
+     * isFollowing - Function that check if an user follows another user
+     * @param followerId ID of Follower
+     * @param followeeId ID of followee
+     * @return
+     */
+    @Query("MATCH (follower:Student {ID: $followerId})-[r:FOLLOWS]->(followee:Student {ID: $followeeId}) " +
+            "RETURN COUNT(r) > 0")
+    Boolean isFollowing(UUID followerId, UUID followeeId);
+
+
+
+    /**
+     * findFollowersByStudentID - recupera tutti gli studenti che seguono quello studente
+     * @param IDStudent
+     * @return
+     */
+    @Query("MATCH (s:Student {ID: $IDStudent})<-[:FOLLOWS]-(follower:Student) RETURN follower")
+    List<StudentEntity> findFollowersByStudentId(UUID IDStudent);
 
 
 }

@@ -82,7 +82,6 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
   }
 
   Future<void> toggleFollowStatus() async {
-    
 
     try {
       if (isFollowing) {
@@ -107,11 +106,6 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
       }
     }
   }
-
-
-
-
-
 
   Future<void> _fetchData() async {
 
@@ -164,16 +158,43 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
                     child: OtherStudentProfileInfo(student: other_student),
                   ),
                   SizedBox(width: 20.0),
+                  /// Logic Button - Follow - Unfollow
                   ElevatedButton(
                     onPressed: toggleFollowStatus,
-                    child: Text(isFollowing ? 'Smetti di seguire' : 'Segui'),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled)) {
+                            return Colors.grey; // Colore quando il pulsante è disabilitato
+                          }
+                          return isFollowing ? Colors.red : Colors.blue; // Cambia colore a seconda se l'utente sta seguendo o meno
+                        },
+                      ),
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        EdgeInsets.all(24.0), // Imposta il padding del pulsante
+                      ),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0), // Imposta il bordo arrotondato
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      isFollowing ? 'Smetti di seguire' : 'Segui',
+                      style: TextStyle(
+                        fontSize: 18.0, // Imposta la dimensione del testo
+                        fontWeight: FontWeight.bold, // Imposta il grassetto
+                        color: Colors.white, // Colore del testo
+                      ),
+                    ),
                   ),
+
                 ],
               ),
             ),

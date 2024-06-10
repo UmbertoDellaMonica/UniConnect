@@ -57,4 +57,10 @@ public interface StudentService {
      * @param otherIDStudent
      */
     Boolean isFollowing(UUID IDStudent, UUID otherIDStudent);
+
+    /**
+     * Retrieve all Follower from my IDStudent
+     * @param IDStudent
+     */
+    List<StudentModel> getFollowers(UUID IDStudent);
 }
