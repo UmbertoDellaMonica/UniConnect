@@ -126,10 +126,10 @@ public class StudentController {
      * @param otherIDStudent
      * @return
      */
-    @PostMapping("/{studentId}/follow/{targetId}")
+    @PostMapping(path = "/follow")
     public ResponseEntity<Boolean> followStudent(
-            @PathVariable UUID IDStudent,
-            @PathVariable UUID otherIDStudent
+            @RequestHeader(name = "IDStudent") UUID IDStudent,
+            @RequestHeader(name = "OtherIDStudent") UUID otherIDStudent
     ) {
         Boolean success = studentService.followStudent(IDStudent, otherIDStudent);
         if (success) {
@@ -145,18 +145,40 @@ public class StudentController {
      * @param otherIDStudent
      * @return
      */
-    @DeleteMapping("/{studentId}/unfollow/{targetId}")
+    @DeleteMapping(path = "/unfollow")
     public ResponseEntity<Boolean> unfollowStudent(
-            @PathVariable UUID IDStudent,
-            @PathVariable UUID otherIDStudent
+            @RequestHeader(name = "IDStudent") UUID IDStudent,
+            @RequestHeader(name = "OtherIDStudent") UUID otherIDStudent
     ) {
         Boolean success = studentService.unfollowStudent(IDStudent, otherIDStudent);
+        // Utente rimosso con successo
         if (success) {
             return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
         } else {
             return new ResponseEntity<>(Boolean.FALSE,HttpStatus.NOT_FOUND);
         }
     }
+
+    /**
+     * Check if the student follows the other student
+     * @param IDStudent ID Student that i want check if follows
+     * @param otherIDStudent ID of Student target
+     */
+    @GetMapping(path = "/isFollowing")
+    public ResponseEntity<Boolean> isFollowing(
+            @RequestHeader(name = "IDStudent") UUID IDStudent,
+            @RequestHeader(name = "OtherIDStudent") UUID otherIDStudent
+    ){
+        Boolean success = studentService.isFollowing(IDStudent, otherIDStudent);
+        if (success) {
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
 
 
 }

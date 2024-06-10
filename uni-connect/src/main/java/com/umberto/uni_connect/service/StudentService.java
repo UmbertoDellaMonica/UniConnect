@@ -50,4 +50,11 @@ public interface StudentService {
      * @param otherIDStudent
      */
     Boolean unfollowStudent(UUID IDStudent, UUID otherIDStudent);
+
+    /**
+     * Check if the user follow the other student
+     * @param IDStudent
+     * @param otherIDStudent
+     */
+    Boolean isFollowing(UUID IDStudent, UUID otherIDStudent);
 }

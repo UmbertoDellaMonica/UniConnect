@@ -28,6 +28,11 @@ class StudentService {
 
   static const String _querySearchStudent = 'student/search';
 
+  /// Following Path
+  static const String _queryFollowStudent = 'student/follow';
+  static const String _queryUnfollowStudent = 'student/unfollow';
+  static const String _queryCheckFollowStudent = 'student/isFollowing';
+
 
 
   /// Registrazione dello Studente
@@ -152,6 +157,61 @@ class StudentService {
   }
 
 
+
+
+  Future<bool> followStudent(String IDStudent, String otherIDStudent) async {
+    late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_queryFollowStudent);
+
+    final response = await http.post(
+      Uri.parse(Url),
+      headers: {
+        'Content-Type': 'application/json',
+        'IDStudent': IDStudent,
+        'OtherIDStudent': otherIDStudent,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> unfollowStudent(String IDStudent, String otherIDStudent) async {
+    late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_queryUnfollowStudent);
+
+    final response = await http.delete(
+      Uri.parse(Url),
+      headers: {
+        'Content-Type': 'application/json',
+        'IDStudent': IDStudent,
+        'OtherIDStudent': otherIDStudent,
+      },
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> checkFollow(String IDStudent, String otherIDStudent) async {
+    late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_queryCheckFollowStudent);
+
+    final response = await http.get(
+      Uri.parse(Url),
+      headers: {
+        'Content-Type': 'application/json',
+        'IDStudent': IDStudent,
+        'OtherIDStudent': otherIDStudent,
+      },
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as bool;
+    } else {
+      return false;
+    }
+  }
 
 
 }

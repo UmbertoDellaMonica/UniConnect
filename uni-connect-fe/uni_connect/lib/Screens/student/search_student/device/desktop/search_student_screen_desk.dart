@@ -82,7 +82,12 @@ class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
                 return GestureDetector(
                   onTap: () {
                     // Implementa la navigazione al profilo dello studente
-                    context.go('/other-student/'+_students[index].id+'/profile', extra: _students[index]);
+                    if (student != null) {
+                      print('Navigating with student:'+_students[index].toString());
+                      context.go('/other-student/'+_students[index].id+'/profile', extra: _students[index]);
+                    } else {
+                      print('Student is null');
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),

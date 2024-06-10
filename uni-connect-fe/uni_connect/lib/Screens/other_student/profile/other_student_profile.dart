@@ -8,7 +8,7 @@ class OtherStudentProfilePage extends StatelessWidget {
 
   /// IDStudent : ID Studente - when he logged
   final String IDStudent;
-  final Student other_student;
+  final Object? other_student;
 
   const OtherStudentProfilePage({
     required this.IDStudent,
@@ -20,12 +20,13 @@ class OtherStudentProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     print("Other student : "+this.other_student.toString());
+    Student other_student = this.other_student as Student;
     return Scaffold(
       body: LayoutBuilder(
 
         builder: (context, constraints) {
           if (constraints.maxWidth > 750) {
-            return DesktopOtherStudentProfilePage(other_student: this.other_student);
+            return DesktopOtherStudentProfilePage(other_student: other_student);
           } else {
             return MobileOtherStudentProfilePage();
           }

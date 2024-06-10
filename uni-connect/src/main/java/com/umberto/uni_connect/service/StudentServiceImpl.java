@@ -140,38 +140,69 @@ public class StudentServiceImpl implements StudentService {
 
     /**
      * Follow Student - Permette allo studente di Followare una persona
-     * @param studentId
-     * @param targetId
+     * @param IDStudent
+     * @param OtherIDStudent
      * @return
      */
     @Override
-    public Boolean followStudent(UUID studentId, UUID targetId) {
-        Optional<StudentEntity> student = studentRepository.findById(studentId);
-        Optional<StudentEntity> targetStudent = studentRepository.findById(targetId);
+    public Boolean followStudent(UUID IDStudent, UUID OtherIDStudent) {
+        Optional<StudentEntity> student = studentRepository.findById(IDStudent);
+        Optional<StudentEntity> targetStudent = studentRepository.findById(OtherIDStudent);
         if (student.isPresent()  && targetStudent.isPresent()) {
             // Aggiungi targetId alla lista dei follower di student
             student.get().getFollowing().add(targetStudent.get());
-            studentRepository.save(student.get());
+            StudentEntity studentEntity = studentRepository.save(student.get());
             return Boolean.TRUE;
+            //return studentRepository.unfollowUser(IDStudent, OtherIDStudent);
         }
         return Boolean.FALSE;
     }
 
     /**
      * Unfollow Student - Permette all'utente di unfolloware una persona
-     * @param studentId
-     * @param targetId
+     * @param IDStudent
+     * @param OtherIDStudent
      * @return
      */
     @Override
-    public Boolean unfollowStudent(UUID studentId, UUID targetId) {
-        Optional<StudentEntity> student = studentRepository.findById(studentId);
-        Optional<StudentEntity> targetStudent = studentRepository.findById(targetId);
-        if (student.isPresent()) {
+    public Boolean unfollowStudent(UUID IDStudent, UUID OtherIDStudent) {
+        Optional<StudentEntity> student = studentRepository.findById(IDStudent);
+        Optional<StudentEntity> targetStudent = studentRepository.findById(OtherIDStudent);
+        if (student.isPresent() && targetStudent.isPresent()) {
             // Rimuovi targetId dalla lista dei follower di student
-            student.get().getFollowing().remove(targetStudent.get());
-            studentRepository.save(student.get());
-            return Boolean.TRUE;
+            for(StudentEntity x: student.get().getFollowing()){
+                if(x.getID().compareTo(OtherIDStudent)==0){
+                    student.get().getFollowing().remove(x);
+                    studentRepository.save(student.get());
+                    return Boolean.TRUE;
+                }
+            }
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * Check if the Student follows the other student
+     * @param IDStudent
+     * @param otherIDStudent
+     * @return
+     */
+    @Override
+    public Boolean isFollowing(UUID IDStudent, UUID otherIDStudent) {
+        Optional<StudentEntity> student = studentRepository.findById(IDStudent);
+        Optional<StudentEntity> targetStudent = studentRepository.findById(otherIDStudent);
+        if(student.isPresent() && targetStudent.isPresent()){
+            return checkID(student.get().getFollowing(),otherIDStudent);
+        }else{
+            return Boolean.FALSE;
+        }
+    }
+
+    private Boolean checkID(List<StudentEntity> following, UUID otherIDStudent) {
+        for(StudentEntity x: following){
+            if(x.getID().compareTo(otherIDStudent)==0){
+                return Boolean.TRUE;
+            }
         }
         return Boolean.FALSE;
     }
