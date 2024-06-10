@@ -25,6 +25,7 @@ class StudentService {
   static const String _querySignInStudent = 'student/signin';
 
   static const String _queryGetStudent = 'student';
+  static const String _queryGetOtherStudent = 'student/other';
 
   static const String _querySearchStudent = 'student/search';
 
@@ -109,6 +110,42 @@ class StudentService {
     /// Modifica degli Headers
     var headers = apiBuilderService.getHeaders();
     headers.addAll({'email':email});
+
+    try{
+
+      final response = await http.get(
+          Uri.parse(Url),
+          headers: headers
+      );
+
+      if (response.statusCode == 200) {
+        Student retrieveStudent = Student.fromJson(jsonDecode(response.body));
+        print("Student Data : "+retrieveStudent.toString());
+        return retrieveStudent;
+
+      } else {
+        print("Error :" + response.toString());
+        print("Error debug : "+response.body.toString());
+        return null;
+      }
+    }catch(error){
+      print("Errore di debug :" + error.toString());
+      return null;
+    }
+
+  }
+
+
+  /// GetStudent mi permette di recuperare tutti i dati dello Studente
+  /// GetStudent permette di inserire all'interno dell'header tutti i dati di cui necessito
+  /// Headers : 'email' -> value ( Inserisco nell'headers per motivi di sicurezza )
+  Future<Student?> getStudentByID(String IDStudent) async {
+
+    late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_queryGetOtherStudent);
+
+    /// Modifica degli Headers
+    var headers = apiBuilderService.getHeaders();
+    headers.addAll({'IDStudent':IDStudent});
 
     try{
 

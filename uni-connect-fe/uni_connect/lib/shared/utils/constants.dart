@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 enum CustomType { neutral, neutralShade, error, warning, success }
 
-enum AlertDialogType { Signup, Signin, Logout, PostCreate, PostDelete, PostUpdate}
+enum AlertDialogType { Signup, Signin, Logout, PostCreate, PostDelete, PostUpdate, Follow, UnFollow}
 
 
 enum DepartmentUnisa {

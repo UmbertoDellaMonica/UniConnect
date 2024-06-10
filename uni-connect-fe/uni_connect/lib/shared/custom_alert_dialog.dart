@@ -21,12 +21,21 @@ class CustomPopUpDialog  {
         return (isSuccess) ? "Logout riuscito" :" Errore Logout";
 
       case AlertDialogType.PostCreate:
-        return (isSuccess) ? "Post pubblicato" :" Errore creazioen del Post! ";
+        return (isSuccess) ? "Post pubblicato" :" Errore creazione del Post! ";
 
       case AlertDialogType.PostDelete:
         return (isSuccess) ? "Post Cancellato" :" Errore cancellazione del Post! ";
+
       case AlertDialogType.PostUpdate:
         return (isSuccess) ? "Post Aggiornato" :" Errore aggiornamento del Post! ";
+
+      case AlertDialogType.Follow:
+        return (isSuccess) ? "Following !" :" Errore follow! ";
+
+      case AlertDialogType.UnFollow:
+        return (isSuccess) ? "Unfollow!" :" Errore Unfollow! ";
+
+
     }
 
   }
@@ -57,9 +66,18 @@ class CustomPopUpDialog  {
       case AlertDialogType.PostDelete:
         return(isSuccess)
             ? "Premere OK per ritornare a visualizzare il profilo!" : "Eliminazione Post Non riuscita !";
+
+
       case AlertDialogType.PostUpdate:
         return(isSuccess)
             ? "Premere OK per ritornare a visualizzare il profilo!" : "Aggiornamento Post Non riuscita !";
+      case AlertDialogType.Follow:
+        return(isSuccess)
+            ? "Premere OK per ritornare a visualizzare il profilo!" : "Follow dell'utente riuscito !";
+      case AlertDialogType.UnFollow:
+        return(isSuccess)
+            ? "Premere OK per ritornare a visualizzare il profilo!" : "Unfollow Non riuscita!";
+
     }
 
   }

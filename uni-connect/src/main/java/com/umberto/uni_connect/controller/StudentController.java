@@ -97,6 +97,24 @@ public class StudentController {
         }
     }
 
+
+    /**
+     * getStudent - Controller per inviare i dati dello Studente alla mia web app
+     * @param IDStudent
+     */
+    @GetMapping("/other")
+    public ResponseEntity<StudentResponse>getStudent(
+            @RequestHeader(name = "IDStudent")UUID IDStudent
+    ){
+        StudentModel studentModel = studentService.getStudentData(IDStudent);
+        if(studentModel.equals(null)){
+            return new ResponseEntity<>(null,HttpStatusCode.valueOf(500));
+        }else{
+            StudentResponse studentResponse = mapper.map(studentModel,StudentResponse.class);
+            return new ResponseEntity<>(studentResponse,HttpStatusCode.valueOf(200));
+        }
+    }
+
     /**
      * Search - Controller per poter followare utenti che hanno la query
      * @param query

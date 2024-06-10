@@ -4,7 +4,9 @@ import 'package:uni_connect/Screens/other_student/profile/components/cover_image
 import 'package:uni_connect/Screens/other_student/profile/components/profile_info_without_editing.dart';
 import 'package:uni_connect/Screens/student/student_profile/components/student_profile_recent_post.dart';
 import 'package:uni_connect/models/payload/post_dto.dart';
+import 'package:uni_connect/shared/custom_alert_dialog.dart';
 import 'package:uni_connect/shared/services/post_service.dart';
+import 'package:uni_connect/shared/utils/constants.dart';
 
 import '../../../../../models/student.dart';
 import '../../../../../shared/custom_loading_bar.dart';
@@ -16,8 +18,10 @@ import '../../components/biography_without_edit.dart';
 
 class DesktopOtherStudentProfilePage extends StatefulWidget {
 
-  final Student? other_student;
-  DesktopOtherStudentProfilePage({required this.other_student});
+  final String OtherIDStudent;
+  DesktopOtherStudentProfilePage({
+    required this.OtherIDStudent,
+  });
 
 
 
@@ -37,6 +41,7 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
 
 
   late Student? student_logged = null;
+  late Student? other_student = null;
 
   late List<PostResponse?>? listPostResponse;
 
@@ -67,8 +72,8 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
       isLoading = true;
     });
     print("ID Student Logged : "+student_logged!.id);
-    print("ID Student Logged : "+widget.other_student!.id);
-    bool following = await studentService.checkFollow(student_logged!.id, widget.other_student!.id);
+    print("ID Student Logged : "+other_student!.id);
+    bool following = await studentService.checkFollow(student_logged!.id, other_student!.id);
 
     setState(() {
       isFollowing = following;
@@ -77,25 +82,29 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
   }
 
   Future<void> toggleFollowStatus() async {
-    setState(() {
-      isLoading = true;
-    });
+    
 
     try {
       if (isFollowing) {
-        await studentService.unfollowStudent(student_logged!.id, widget.other_student!.id);
+        await studentService.unfollowStudent(student_logged!.id, other_student!.id);
       } else {
-        await studentService.followStudent(student_logged!.id, widget.other_student!.id);
+        await studentService.followStudent(student_logged!.id, other_student!.id);
       }
       setState(() {
         isFollowing = !isFollowing;
+        if(isFollowing == true){
+          CustomPopUpDialog.show(context, AlertDialogType.Follow,CustomType.success);
+        }else{
+          CustomPopUpDialog.show(context, AlertDialogType.UnFollow,CustomType.success);
+        }
       });
     } catch (error) {
       print("Errore: $error");
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if(isFollowing==true){
+        CustomPopUpDialog.show(context, AlertDialogType.Follow,CustomType.error);
+      }else{
+        CustomPopUpDialog.show(context, AlertDialogType.UnFollow,CustomType.error);
+      }
     }
   }
 
@@ -105,13 +114,17 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
 
 
   Future<void> _fetchData() async {
+
+    /// Retrieve Data from Server of Other Student
+    other_student = await studentService.getStudentByID(widget.OtherIDStudent);
+    /// Retrieve Data from Secure Storage Flutter
     var retrieveUser = await secureStorageService.get();
     if (retrieveUser != null) {
       setState(() {
         student_logged = retrieveUser;
       });
     }
-    var listPost = await postService.getPosts(widget.other_student!.id);
+    var listPost = await postService.getPosts(other_student!.id);
     if(listPost != null){
       setState(() {
         this.listPostResponse = listPost;
@@ -146,7 +159,7 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             OtherStudentCoverImageWidget(
-                userEmail: widget.other_student!.email,
+                userEmail: other_student!.email,
                 imageUploadService: _imageUploadService),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -154,7 +167,7 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: OtherStudentProfileInfo(student: widget.other_student),
+                    child: OtherStudentProfileInfo(student: other_student),
                   ),
                   SizedBox(width: 20.0),
                   ElevatedButton(
@@ -172,7 +185,7 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
             Divider(),
             StudentProfileRecentPost(
                 listPostResponse: this.listPostResponse,
-                studentLogged: widget.other_student,
+                studentLogged: other_student,
                 postService: this.postService
             ),
             Divider(),
