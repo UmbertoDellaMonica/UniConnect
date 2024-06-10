@@ -137,4 +137,42 @@ public class StudentServiceImpl implements StudentService {
 
         return studentModelList;
     }
+
+    /**
+     * Follow Student - Permette allo studente di Followare una persona
+     * @param studentId
+     * @param targetId
+     * @return
+     */
+    @Override
+    public Boolean followStudent(UUID studentId, UUID targetId) {
+        Optional<StudentEntity> student = studentRepository.findById(studentId);
+        Optional<StudentEntity> targetStudent = studentRepository.findById(targetId);
+        if (student.isPresent()  && targetStudent.isPresent()) {
+            // Aggiungi targetId alla lista dei follower di student
+            student.get().getFollowing().add(targetStudent.get());
+            studentRepository.save(student.get());
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * Unfollow Student - Permette all'utente di unfolloware una persona
+     * @param studentId
+     * @param targetId
+     * @return
+     */
+    @Override
+    public Boolean unfollowStudent(UUID studentId, UUID targetId) {
+        Optional<StudentEntity> student = studentRepository.findById(studentId);
+        Optional<StudentEntity> targetStudent = studentRepository.findById(targetId);
+        if (student.isPresent()) {
+            // Rimuovi targetId dalla lista dei follower di student
+            student.get().getFollowing().remove(targetStudent.get());
+            studentRepository.save(student.get());
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
 }

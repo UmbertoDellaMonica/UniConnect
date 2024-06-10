@@ -97,12 +97,17 @@ public class StudentController {
         }
     }
 
+    /**
+     * Search - Controller per poter followare utenti che hanno la query
+     * @param query
+     * @param IDStudent
+     * @return
+     */
     @GetMapping(path="/search",produces = "application/json; charset=UTF-8")
     public ResponseEntity<List<StudentResponse>> searchStudents(
             @RequestParam("query") String query,
             @RequestHeader("IDStudent") UUID IDStudent) {
 
-        System.out.println("Sono qui !");
         // Retrieve Student
         List<StudentModel> students = studentService.searchStudentByFullName(query, IDStudent);
         // Mapping
@@ -111,6 +116,45 @@ public class StudentController {
             return new ResponseEntity<>(studentResponseList, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(studentResponseList, HttpStatus.NO_CONTENT);
+        }
+    }
+
+
+    /**
+     * Follow Student - Controller per poter unfolloware uno studente
+     * @param IDStudent
+     * @param otherIDStudent
+     * @return
+     */
+    @PostMapping("/{studentId}/follow/{targetId}")
+    public ResponseEntity<Boolean> followStudent(
+            @PathVariable UUID IDStudent,
+            @PathVariable UUID otherIDStudent
+    ) {
+        Boolean success = studentService.followStudent(IDStudent, otherIDStudent);
+        if (success) {
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * unfollow Student - Controller per poter unfolloware uno studente
+     * @param IDStudent
+     * @param otherIDStudent
+     * @return
+     */
+    @DeleteMapping("/{studentId}/unfollow/{targetId}")
+    public ResponseEntity<Boolean> unfollowStudent(
+            @PathVariable UUID IDStudent,
+            @PathVariable UUID otherIDStudent
+    ) {
+        Boolean success = studentService.unfollowStudent(IDStudent, otherIDStudent);
+        if (success) {
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(Boolean.FALSE,HttpStatus.NOT_FOUND);
         }
     }
 

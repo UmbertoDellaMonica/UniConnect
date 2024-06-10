@@ -37,4 +37,17 @@ public interface StudentService {
      * @param IDStudent ID dello studente che sta ricercando
      */
     List<StudentModel> searchStudentByFullName(String query, UUID IDStudent);
+
+    /**
+     * Follow permette di seguire uno studente
+     * @param IDStudent
+     * @param otherIDStudent
+     */
+    Boolean followStudent(UUID IDStudent, UUID otherIDStudent);
+    /**
+     * UnFollow permette di seguire uno studente
+     * @param IDStudent
+     * @param otherIDStudent
+     */
+    Boolean unfollowStudent(UUID IDStudent, UUID otherIDStudent);
 }

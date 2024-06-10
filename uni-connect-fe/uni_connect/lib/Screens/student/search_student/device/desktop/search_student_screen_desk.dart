@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/shared/custom_loading_bar.dart';
 import 'package:uni_connect/shared/services/student_service.dart';
@@ -78,13 +79,65 @@ class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
               itemCount: _students.length,
               itemBuilder: (context, index) {
                 final student = _students[index];
-                return ListTile(
-                  title: Text(student.fullName),
-                  subtitle: Text(student.email),
+                return GestureDetector(
+                  onTap: () {
+                    // Implementa la navigazione al profilo dello studente
+                    context.go('/other-student/'+_students[index].id+'/profile', extra: _students[index]);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: Colors.grey)),
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage('../assets/logo.png'), // Aggiungi l'immagine dello studente
+                          radius: 20.0,
+                        ),
+                        SizedBox(width: 16.0),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                student.fullName,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              Text(
+                                student.email,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 16.0),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Implementa la logica per seguire o smettere di seguire lo studente
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                          ),
+                          child: Text(
+                            'Segui',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );

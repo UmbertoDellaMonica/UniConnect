@@ -34,4 +34,7 @@ public class StudentEntity {
     @Relationship(type = "CREATED_BY", direction = Relationship.Direction.OUTGOING)
     private List<PostEntity> posts;
 
+    @Relationship(type = "FOLLOWS", direction = Relationship.Direction.OUTGOING)
+    private List<StudentEntity> following;
+
 }

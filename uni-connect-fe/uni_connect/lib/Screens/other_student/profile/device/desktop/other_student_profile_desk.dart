@@ -1,26 +1,32 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:uni_connect/Screens/student/student_profile/components/student_profile_bio.dart';
-import 'package:uni_connect/Screens/student/student_profile/components/student_profile_images.dart';
-import 'package:uni_connect/Screens/student/student_profile/components/student_profile_info.dart';
-import 'package:uni_connect/Screens/student/student_profile/components/student_profile_recent_photo.dart';
+import 'package:uni_connect/Screens/other_student/profile/components/cover_image_without_add.dart';
+import 'package:uni_connect/Screens/other_student/profile/components/profile_info_without_editing.dart';
 import 'package:uni_connect/Screens/student/student_profile/components/student_profile_recent_post.dart';
 import 'package:uni_connect/models/payload/post_dto.dart';
 import 'package:uni_connect/shared/services/post_service.dart';
 
-import '../../../../models/student.dart';
-import '../../../../shared/custom_loading_bar.dart';
-import '../../../../shared/services/image_services.dart';
-import '../../../../shared/services/storage_service.dart';
-import '../../../home/components/nav_bar.dart';
+import '../../../../../models/student.dart';
+import '../../../../../shared/custom_loading_bar.dart';
+import '../../../../../shared/services/image_services.dart';
+import '../../../../../shared/services/storage_service.dart';
+import '../../../../home/components/nav_bar.dart';
+import '../../components/biography_without_edit.dart';
 
-class DesktopStudentProfilePage extends StatefulWidget {
+class DesktopOtherStudentProfilePage extends StatefulWidget {
+
+  final Student other_student;
+  DesktopOtherStudentProfilePage({required this.other_student});
+
+
+
+
+
   @override
-  _DesktopStudentProfilePageState createState() => _DesktopStudentProfilePageState();
+  _DesktopOtherStudentProfilePageState createState() => _DesktopOtherStudentProfilePageState();
 }
 
-class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
+class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProfilePage> {
   // Aggiungi qui eventuali variabili di stato necessarie
   // Aggiungi qui eventuali variabili di stato necessarie
 
@@ -50,25 +56,24 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
   }
 
   Future<void> _fetchData() async {
-      var retrieveUser = await secureStorageService.get();
-      if (retrieveUser != null) {
-        print("OK!");
-        setState(() {
-          student_logged = retrieveUser;
-        });
-      }
-      var listPost = await postService.getPosts(student_logged!.id)!;
-      if(listPost != null){
-        setState(() {
-          this.listPostResponse = listPost;
-          isLoading=false;
-        });
-      }else{
-        setState(() {
-          isLoading=false;
-          this.listPostResponse = null;
-        });
-      }
+    var retrieveUser = await secureStorageService.get();
+    if (retrieveUser != null) {
+      setState(() {
+        student_logged = retrieveUser;
+      });
+    }
+    var listPost = await postService.getPosts(widget.other_student.id);
+    if(listPost != null){
+      setState(() {
+        this.listPostResponse = listPost;
+        isLoading=false;
+      });
+    }else{
+      setState(() {
+        isLoading=false;
+        this.listPostResponse = null;
+      });
+    }
 
   }
 
@@ -79,18 +84,6 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
   }
 
 
-  static List<String> studentImagePaths = [
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    // Aggiungi più URL di immagini come desiderato
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -105,31 +98,31 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             /// Cover -Image Profile
-            CoverImageWidget(
-                userEmail: this.student_logged!.email,
+            OtherStudentCoverImageWidget(
+                userEmail: widget.other_student.email,
                 imageUploadService: _imageUploadService),
             /// Information and BioGraphy- Profile
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: StudentProfileInfo(student: this.student_logged),
+                  child: OtherStudentProfileInfo(student: widget.other_student),
                 ),
                 SizedBox(width: 20.0), // Spazio tra le due sezioni
                 Expanded(
-                  child: BiographyWidget(),
+                  child: OtherStudentBiographyWidget(),
                 ),
               ],
             ),
             Divider(),
             StudentProfileRecentPost(
                 listPostResponse: this.listPostResponse,
-                studentLogged: this.student_logged,
+                studentLogged: widget.other_student,
                 postService: this.postService
             ),
             Divider(),
             //StudentProfileRecentPhoto(imagePaths: studentImagePaths)
-            ],
+          ],
         ),
       ),
     );
