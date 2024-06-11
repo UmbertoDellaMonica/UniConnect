@@ -267,10 +267,10 @@ Sure, here's the table in English for your UniConnect app, including roles for S
 | Home               | The Home page serves as the initial landing point for users who haven't logged in yet. It provides an overview of the platform's features and encourages users to sign up or log in. | ![Home](./docs/pages/home.png)                                                |
 | Signup             | The Signup page is where new users can register to create an account on the platform. It typically collects basic information such as name, email, and password to set up a new user profile. | ![Signup](./docs/pages/signup.png)                                            |
 | Signin             | The Signin page is the entry point for registered users to access their accounts. It prompts users to enter their credentials (username/email and password) to log in securely. | ![Signin](./docs/pages/signin.png)                                            |
-| HomePageStudent    | The HomePageStudent is the central hub for logged-in students, offering a variety of functionalities tailored to their needs. It may include features like recent activity updates, recommended connections, and quick access to essential tools. | ![HomePageStudent](./docs/pages/homepage_student.png)                        |
-| ProfileStudent     | The ProfileStudent page enables students to view and manage their profile information. Users can edit personal details, upload a profile picture, update their bio, and adjust privacy settings as needed. | ![ProfileStudent](./docs/pages/profile_student.png)                          |
-| SearchPageStudent  | The SearchPageStudent allows students to explore and discover other users or content within the app. It typically includes search filters and sorting options to help users find relevant profiles, posts, or resources. | ![SearchPageStudent](./docs/pages/search_page_student.png)                   |
-| OtherStudentPage   | The OtherStudentPage displays detailed profiles and activities of other users within the platform, facilitating interaction and networking among students. Users can view interests, connections, recent posts, and more on this page. | ![OtherStudentPage](./docs/pages/other_student_page.png)                     |
+| HomePageStudent    | The HomePageStudent is the central hub for logged-in students, offering a variety of functionalities tailored to their needs. It may include features like recent activity updates, recommended connections, and quick access to essential tools. | ![HomePageStudent](./docs/pages/home-page-student.png)                        |
+| ProfileStudent     | The ProfileStudent page enables students to view and manage their profile information. Users can edit personal details, upload a profile picture, update their bio, and adjust privacy settings as needed. | ![ProfileStudent](./docs/pages/profile-student.png)                          |
+| SearchPageStudent  | The SearchPageStudent allows students to explore and discover other users or content within the app. It typically includes search filters and sorting options to help users find relevant profiles, posts, or resources. | ![SearchPageStudent](./docs/pages/search-student.png)                   |
+| OtherStudentPage   | The OtherStudentPage displays detailed profiles and activities of other users within the platform, facilitating interaction and networking among students. Users can view interests, connections, recent posts, and more on this page. | ![OtherStudentPage](./docs/pages/other-student-profile.png)                     |
 
 Let me know if there's anything else you'd like to add or modify!
 
@@ -325,7 +325,6 @@ Absolutely! Let's include multiple images for each feature in the table:
 | Post Deletion | Post Deletion feature grants students the ability to manage their content on the platform. Students can delete their own posts, maintaining control over their published content. | ![Post Deletion 1](./docs/post_deletion.png) ![Post Deletion 2](./docs/post_deletion_2.png)                               |
 
 
----
 
 ## Conclusion
 
