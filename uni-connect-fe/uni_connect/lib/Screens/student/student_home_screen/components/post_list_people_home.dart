@@ -26,7 +26,7 @@ class _PostListPeopleHomeState extends State<PostListPeopleHome> {
     super.initState();
     _fetchRecentPosts();
     // Create a periodic timer that fetches recent posts every 5 minutes
-    _timer = Timer.periodic(const Duration(minutes: 5), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
       setState(() {
         isLoading = true;
       });
