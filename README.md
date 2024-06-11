@@ -14,22 +14,22 @@ UniConnect is a comprehensive application for connecting university students. Th
 
 ## Table of Contents
 
-1. [Install and Run Neo4j Docker Container](#install-and-run-neo4j-docker-container)
-2. [Generate Mock Data](#generate-mock-data)
-3. [Copy CSV File to Docker Container](#copy-csv-file-to-docker-container)
-4. [Import Data into Neo4j](#import-data-into-neo4j)
-5. [Set Up the Application](#set-up-the-application)
+1. [Install and Run Neo4j Docker Container](#1-install-and-run-neo4j-docker-container)
+2. [Generate Mock Data](#2-generate-mock-data)
+3. [Copy CSV File to Docker Container](#3-copy-csv-file-to-docker-container)
+4. [Import Data into Neo4j](#4-import-data-into-neo4j)
+5. [Set Up the Application](#5-set-up-the-application)
     - [Install Java JDK 17](#install-java-jdk-17)
     - [Install Flutter SDK](#install-flutter-sdk)
     - [Backend Setup (Maven)](#backend-setup-maven)
     - [Frontend Setup (Flutter)](#frontend-setup-flutter)
     - [Install Android Studio Community](#install-android-studio-community)
     - [Install IntelliJ IDEA Community](#install-intellij-idea-community)
-6. [Run the Application](#run-the-application)
+6. [Run the Application](#6-run-the-application)
 7. [Systems](#systems)
-    - [Actors](#actors)
-    - [Pages](#pages)
-    - [Features](#features)
+    - [Actors](#actors-)
+    - [Pages](#pages-)
+    - [Features](#features-)
 
 ## 1. Install and Run Neo4j Docker Container
 
