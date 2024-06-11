@@ -286,37 +286,37 @@ Absolutely! Let's include multiple images for each feature in the table:
 
 | Feature      | Description                                                                                                                                                             | Images                                                                   |
 |--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| Registration | Registration allows students to create an account on UniConnect. Users provide necessary information such as name, email, and password to gain access to the platform.   | ![Registration 1](./docs/features/registration.png) ![Registration 2](./docs/registration_2.png)                                   |
+| Registration | Registration allows students to create an account on UniConnect. Users provide necessary information such as name, email, and password to gain access to the platform.   | ![Registration 1](./docs/pages/singup.png) ![Registration 2](./docs/features/signup_success.png)                                   |
 
 ### 2. Login
 
 | Feature | Description                                                                                                                      | Images                                                        |
 |---------|----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
-| Login   | Login enables registered students to securely access their accounts by providing their credentials, such as username/email and password. | ![Login 1](./docs/login_feature.png) ![Login 2](./docs/login_feature_2.png)                            |
+| Login   | Login enables registered students to securely access their accounts by providing their credentials, such as username/email and password. | ![Login 1](./docs/pages/signin.png) ![Login 2](./docs/features/login_success.png)                            |
 
 ### 3. Profile Update/Deletion
 
 | Feature               | Description                                                                                                                                             | Images                                                                               |
 |-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| Profile Update/Deletion | Students have the ability to update or delete their profile information. Users can edit personal details, upload profile pictures, update bios, and adjust privacy settings. | ![Profile Update/Deletion 1](./docs/profile_update_deletion.png) ![Profile Update/Deletion 2](./docs/profile_update_deletion_2.png)                     |
+| Profile Update/Deletion | Students have the ability to update or delete their profile information. Users can edit personal details, upload profile pictures, update bios, and adjust privacy settings. | ![Profile Update/Deletion 1](./docs/features/modifica_biography.png) ![Profile Update/Deletion 2](./docs/features/modifica_post.png)                     |
 
 ### 4. Student Search
 
 | Feature    | Description                                                                                                                                                                          | Images                                                              |
 |------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
-| User Search | User Search functionality allows students to discover and connect with other users. Students can search for profiles or content within the platform to find and engage with relevant users. | ![User Search 1](./docs/user_search.png) ![User Search 2](./docs/user_search_2.png)                              |
+| User Search | User Search functionality allows students to discover and connect with other users. Students can search for profiles or content within the platform to find and engage with relevant users. | ![User Search 1](./docs/pages/search-student.png)                        |
 
 ### 5. Follow
 
 | Feature | Description                                                                                                                                     | Images                                                    |
 |---------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| Follow  | The Follow feature enables students to establish connections with other users. By following their profiles, students can receive updates and engage with their content. | ![Follow 1](./docs/follow.png) ![Follow 2](./docs/follow_2.png)                              |
+| Follow  | The Follow feature enables students to establish connections with other users. By following their profiles, students can receive updates and engage with their content. | ![Follow 1](./docs/features/follow_success.png) ![Follow 2](./docs/features/follow_success2.png)                              |
 
 ### 6. Post Publishing
 
 | Feature          | Description                                                                                                                                                                                  | Images                                                                 |
 |------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| Post Publishing | Post Publishing allows students to share their thoughts, ideas, and experiences with others. Students can create and publish posts containing text and images to express themselves on the platform. | ![Post Publishing 1](./docs/post_publishing.png) ![Post Publishing 2](./docs/post_publishing_2.png)                        |
+| Post Publishing | Post Publishing allows students to share their thoughts, ideas, and experiences with others. Students can create and publish posts containing text and images to express themselves on the platform. | ![Post Publishing 1](./docs/features/publish_post_success.png)                         |
 
 ### 7. Post Deletion
 
