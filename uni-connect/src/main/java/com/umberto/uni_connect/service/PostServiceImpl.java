@@ -6,6 +6,7 @@ import com.umberto.uni_connect.model.PostModel;
 import com.umberto.uni_connect.model.StudentModel;
 import com.umberto.uni_connect.repository.PostRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,5 +101,22 @@ public class PostServiceImpl implements PostService{
         return Boolean.FALSE; // Post not found or does not belong to the student
     }
 
+    /**
+     * Get all post of followee created in the last 24h
+     * @param IDStudent
+     */
+    @Override
+    public List<PostModel> getRecentPostsByFollowedUsers(UUID IDStudent) {
+        // Check if exists
+        StudentModel studentModel = studentService.getStudentData(IDStudent);
+        // Retrieve all the PostList created in the last 24h
+        List<PostEntity>postEntityList = postRepository.findRecentPostsByFollowedUsers(IDStudent);
+        if(postEntityList.isEmpty()){
+            return null;
+        }else{
+            List<PostModel>postModels = mapper.map(postEntityList,new TypeToken<List<PostModel>>(){}.getType());
+            return postModels;
+        }
+    }
 
 }

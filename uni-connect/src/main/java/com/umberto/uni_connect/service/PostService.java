@@ -50,4 +50,9 @@ public interface PostService {
      */
     Boolean deletePost(UUID studentId, UUID postId);
 
+    /**
+     * Get recents Post that are created in the last 24h
+     * @param IDStudent
+     */
+    List<PostModel> getRecentPostsByFollowedUsers(UUID IDStudent);
 }

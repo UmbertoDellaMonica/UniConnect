@@ -19,10 +19,7 @@ class PostService {
   
   static const String _queryStudentAllPost = 'student/post/all';
 
-  /// TODO : Get Post - ({post_id}) as Path Variable
-  /// TODO : Delete Post - ({post_id}) as Path Variable
-  /// TODO : GetList  Post - /all
-  
+
   Future<PostResponse?> createPost(String studentId, String content) async {
     late String Url = apiBuilderService.buildUrl(
         _api, _Url, _version, _queryStudentPost);
@@ -131,5 +128,23 @@ class PostService {
     }
   }
 
+  Future<List<PostResponse>> fetchRecentPosts(String IDStudent) async {
+    late String Url = apiBuilderService.buildUrl(
+        _api, _Url, _version, '$_queryStudentPost/recent-followed');
+    final response = await http.get(
+        Uri.parse(Url),
+        headers: {'IDStudent':IDStudent}
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> body = json.decode(response.body);
+      List<PostResponse> posts = body.map((dynamic item) => PostResponse.fromJson(item)).toList();
+      return posts;
+    } else if(response.statusCode == 204){
+      return [];
+    }else{
+      throw Exception('Failed to load posts');
+    }
+  }
 
 }

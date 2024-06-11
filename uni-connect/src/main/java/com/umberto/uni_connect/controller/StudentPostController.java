@@ -5,6 +5,7 @@ import com.umberto.uni_connect.controller.payload.response.PostResponse;
 import com.umberto.uni_connect.model.PostModel;
 import com.umberto.uni_connect.service.PostService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,6 +107,12 @@ public class StudentPostController {
         }
     }
 
+    /**
+     *
+     * @param IDStudent
+     * @param IDPost
+     * @return
+     */
     @DeleteMapping(path = "/{IDPost}", produces = "application/json; charset=UTF-8")
     public ResponseEntity<Boolean> deletePost(
             @RequestHeader("IDStudent") UUID IDStudent,
@@ -116,6 +123,23 @@ public class StudentPostController {
             return new ResponseEntity<>(true,HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(false,HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Retrieve Recent Post from my Followee created in the last 24h
+     * @param IDStudent
+     */
+    @GetMapping(path = "/recent-followed", produces ="application/json; charset=UTF-8" )
+    public ResponseEntity<List<PostResponse>> getRecentPostsByFollowedUsers(
+            @RequestHeader(name = "IDStudent") UUID IDStudent
+    ) {
+        List<PostModel> posts = postService.getRecentPostsByFollowedUsers(IDStudent);
+        if(posts == null){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }else{
+            List<PostResponse>postResponseList = mapper.map(posts,new TypeToken<List<PostResponse>>(){}.getType());
+            return new ResponseEntity<>(postResponseList,HttpStatus.OK);
         }
     }
 }

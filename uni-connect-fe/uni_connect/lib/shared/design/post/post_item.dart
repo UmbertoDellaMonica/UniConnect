@@ -1,11 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PostItem extends StatelessWidget {
-  final int index;
+import 'package:flutter/material.dart';
+import 'package:uni_connect/models/payload/post_dto.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
-  PostItem({required this.index});
 
+class PostItem extends StatefulWidget {
+
+  final PostResponse post;
+  PostItem({ required this.post});
+
+  @override
+  _PostItemState createState() => _PostItemState();
+}
+
+class _PostItemState extends State<PostItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,27 +43,41 @@ class PostItem extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: Text('Utente ${index + 1}'),
+                        child: Text('Utente'),
                       ),
-                      PopupMenuButton<String>(
-                        onSelected: (value) {
-                          if (value == 'Segnala') {
-                            // Logica per segnalare il post
-                          }
-                        },
-                        itemBuilder: (BuildContext context) {
-                          return {'Segnala'}.map((String choice) {
-                            return PopupMenuItem<String>(
-                              value: choice,
-                              child: Text(choice),
-                            );
-                          }).toList();
-                        },
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          PopupMenuButton<String>(
+                            onSelected: (value) {
+                              if (value == 'Segnala') {
+                                // Logica per segnalare il post
+                              }
+                            },
+                            itemBuilder: (BuildContext context) {
+                              return {'Segnala'}.map((String choice) {
+                                return PopupMenuItem<String>(
+                                  value: choice,
+                                  child: Text(choice),
+                                );
+                              }).toList();
+                            },
+                          ),
+                          Text(
+                            timeago.format(DateTime.parse(widget.post.created_at)),
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
+
+
                     ],
                   ),
                   SizedBox(height: 10),
-                  Text('Testo del post'),
+                  Text(widget.post.content),
                   Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -87,3 +111,4 @@ class PostItem extends StatelessWidget {
     );
   }
 }
+
