@@ -123,7 +123,7 @@ Run the following command in the Cypher Shell to import the data from the CSV fi
 
 ```cypher
 LOAD CSV WITH HEADERS FROM 'file:///mock_students.csv' AS row
-CREATE (:Student {ID: row.ID, fullName: row.fullName, email: row.email, passwordHash: row.passwordHash, departementUnisa: row.departementUnisa});
+CREATE (:Student {ID: row.ID, fullName: row.fullName, email: row.email, passwordHash: row.passwordHash, departementUnisa: row.departementUnisa, row.biography});
 ```
 
 ## 5. Set Up the Application
@@ -235,6 +235,75 @@ Alternatively, you can run the front-end directly from Android Studio:
 
 > **Note:** If you encounter issues with device selection or running the application, refer to the [official Flutter guide](https://flutter.dev/docs/get-started/install) for setting up devices in Android Studio.
 
+
+# Systems
+
+### Actors :
+
+Sure, here's the table in English for your UniConnect app, including roles for Student and Guest:
+
+| Role | Description | Image |
+| ---- | ----------- | ----- |
+| Student | The Student, once logged in and registered, can access all features of the UniConnect app. They can manage their profile, browse and enroll in courses, interact with other students, and more. | <img src="./docs/student.jpg" alt="Student" width="200"/> |
+| Guest | A Guest can only access the registration and login pages. They need to register or log in to use the full features of the UniConnect app. | <img src="./docs/guest.jpg" alt="Guest" width="200"/> |
+
+Here's the table in English for the technologies used in your UniConnect project:
+
+### Technologies:
+
+| Technology | Description | Image |
+| ---------- | ----------- | ----- |
+| Spring | Spring is a comprehensive framework for enterprise Java development. It provides a robust infrastructure for building scalable and secure web applications, offering features like dependency injection, aspect-oriented programming, and a wide range of modules for various enterprise needs. | <img src="./docs/spring.png" alt="Spring" width="100"/> |
+| Flutter | Flutter is an open-source framework developed by Google for building cross-platform mobile applications. It uses the Dart programming language and offers a wide range of customizable widgets and a fast rendering engine, allowing developers to create high-performance and visually appealing apps. | <img src="./docs/fluttericon.png" alt="Flutter" width="100"/> |
+| Neo4J | Neo4J is a powerful graph database management system that allows for efficient storage, retrieval, and management of graph data. It is particularly well-suited for applications that need to model complex relationships and perform advanced queries, such as social networks, recommendation engines, and network management systems. | <img src="./docs/neo4j.png" alt="Neo4J" width="100"/> |
+
+### Pages
+
+| Page Name          | Description                                                                   | Image                                                                   |
+|--------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Home               | The Home page serves as the initial landing point for users who haven't logged in yet. It provides an overview of the platform's features and encourages users to sign up or log in. | ![Home](./docs/home.png)                                                |
+| Signup             | The Signup page is where new users can register to create an account on the platform. It typically collects basic information such as name, email, and password to set up a new user profile. | ![Signup](./docs/signup.png)                                            |
+| Signin             | The Signin page is the entry point for registered users to access their accounts. It prompts users to enter their credentials (username/email and password) to log in securely. | ![Signin](./docs/signin.png)                                            |
+| HomePageStudent    | The HomePageStudent is the central hub for logged-in students, offering a variety of functionalities tailored to their needs. It may include features like recent activity updates, recommended connections, and quick access to essential tools. | ![HomePageStudent](./docs/homepage_student.png)                        |
+| ProfileStudent     | The ProfileStudent page enables students to view and manage their profile information. Users can edit personal details, upload a profile picture, update their bio, and adjust privacy settings as needed. | ![ProfileStudent](./docs/profile_student.png)                          |
+| SearchPageStudent  | The SearchPageStudent allows students to explore and discover other users or content within the app. It typically includes search filters and sorting options to help users find relevant profiles, posts, or resources. | ![SearchPageStudent](./docs/search_page_student.png)                   |
+| OtherStudentPage   | The OtherStudentPage displays detailed profiles and activities of other users within the platform, facilitating interaction and networking among students. Users can view interests, connections, recent posts, and more on this page. | ![OtherStudentPage](./docs/other_student_page.png)                     |
+
+Let me know if there's anything else you'd like to add or modify!
+
+
+## 7. Features
+
+### Primary Features
+
+UniConnect offers the following primary features:
+
+1. **Registration**: Each student can register on the platform and access the site.
+2. **Login**: Registered students can log in.
+3. **Profile Update/Deletion**: Students can update or delete their profile.
+4. **User Search**: Students can search for other users on the platform and view their content.
+5. **Follow**: Students can follow other users to connect with them.
+6. **Post Publishing**: Students can publish posts containing text and images.
+7. **Post Deletion**: Students can delete their own posts.
+
+### Technologies Used
+
+UniConnect is developed using innovative technologies:
+
+1. **Back-End**: Spring Framework, used to create microservices in Java.
+2. **Front-End**: Flutter, which uses Dart for cross-platform development (Mobile, Web, Desktop).
+3. **Database**: Neo4J, an innovative technology that stores information using a graph structure with Cypher Query language.
+
+### Future Developments
+
+In the future, UniConnect will be further improved with additional features:
+
+1. **Chat**: Students will be able to initiate chats with other students to exchange information about courses.
+
+---
+
+Feel free to ask if you need more adjustments or additional sections.
+
 ## Conclusion
 
 By following these steps, you will be able to set up and run the UniConnect application
@@ -242,3 +311,45 @@ By following these steps, you will be able to set up and run the UniConnect appl
 , generate mock data, copy it into the Neo4j Docker container, and import it into the database using Cypher Shell. This `README.md` file contains all the necessary instructions to mock student data, copy it into the Neo4j Docker container, and import it into the database. Be sure to adjust any paths or specific details to fit your development environment.
 
 This `README.md` now includes detailed instructions for running the application directly from the main entry points in Android Studio and IntelliJ IDEA, ensuring users can set up and execute the project efficiently.
+
+
+
+
+
+## 7. Features
+
+### Primary Features
+
+UniConnect offre le seguenti funzionalità principali:
+
+1. **Registrazione**: Ogni studente può registrarsi alla piattaforma e accedere al sito.
+2. **Login**: Gli studenti registrati possono effettuare il login.
+3. **Aggiornamento/Cancellazione del Profilo**: Gli studenti possono aggiornare o cancellare il proprio profilo.
+4. **Ricerca Utenti**: Gli studenti possono cercare altri utenti all'interno della piattaforma e visualizzare i loro contenuti.
+5. **Follow**: Gli studenti possono seguire altri utenti per connettersi con loro.
+6. **Pubblicazione Post**: Gli studenti possono pubblicare post contenenti testo e immagini.
+7. **Eliminazione Post**: Gli studenti possono eliminare i propri post.
+
+### Tecnologie Utilizzate
+
+UniConnect è sviluppato utilizzando tecnologie innovative:
+
+1. **Back-End**: Spring Framework, utilizzato per creare microservizi in Java.
+2. **Front-End**: Flutter, che utilizza Dart per lo sviluppo multipiattaforma (Mobile, Web, Desktop).
+3. **Database**: Neo4J, una tecnologia innovativa che memorizza informazioni tramite una struttura a grafi con linguaggio Query Cypher.
+
+### Sviluppi Futuri
+
+In futuro, UniConnect sarà ulteriormente migliorato con funzionalità aggiuntive:
+
+1. **Chat**: Gli studenti potranno avviare chat con altri studenti per scambiarsi informazioni sui corsi.
+
+---
+
+## Autore
+
+Umberto Della Monica - Matricola: 0522501617
+
+---
+
+Questa struttura di README dovrebbe coprire tutte le informazioni necessarie per comprendere, configurare e avviare il progetto UniConnect.
