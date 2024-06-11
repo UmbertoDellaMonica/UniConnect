@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/Screens/signin/services/signin_service.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 
 import '../../../../models/student.dart';
 import '../../../../shared/custom_alert_dialog.dart';
@@ -13,7 +13,7 @@ import '../../../../shared/utils/constants.dart';
 import '../../../../shared/custom_loading_bar.dart';
 
 class MobileSigninPage extends StatefulWidget {
-  const MobileSigninPage({Key? key}) : super(key: key);
+  const MobileSigninPage({super.key});
 
   @override
   State<MobileSigninPage> createState() => _MobileSigninPageState();
@@ -21,7 +21,7 @@ class MobileSigninPage extends StatefulWidget {
 
 class _MobileSigninPageState extends State<MobileSigninPage> {
 
-
+  final RouterService routerService = RouterService();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -30,8 +30,9 @@ class _MobileSigninPageState extends State<MobileSigninPage> {
   bool _isObscure = true;
   bool isLoading = true;
 
-  SigninService signinService = SigninService();
+  final SigninService signinService = SigninService();
   late SecureStorageService secureStorageService;
+
 
 
   final _formKey = GlobalKey<FormState>();
@@ -143,7 +144,8 @@ class _MobileSigninPageState extends State<MobileSigninPage> {
             /// Navigate To Signup Screen
             GestureDetector(
               onTap: () {
-                context.go('/signup');
+
+                routerService.goSignup(context);
                 nameController.clear();
                 emailController.clear();
                 passwordController.clear();
@@ -189,6 +191,7 @@ class _MobileSigninPageState extends State<MobileSigninPage> {
           // Validate returns true if the form is valid, or false otherwise.
           if (_formKey.currentState!.validate()) {
             // ... Navigate To your Home Page
+            _SignInButtonPressed(context);
           }
         },
         child: const Text('Login', style: TextStyle(color: Colors.white),),
@@ -287,7 +290,7 @@ class _MobileSigninPageState extends State<MobileSigninPage> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          context.go("/");  // Naviga verso la home page
+          routerService.goHome(context);
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Color(0xA91E88D0)),
@@ -314,7 +317,7 @@ class _MobileSigninPageState extends State<MobileSigninPage> {
   }
 
   /// Login Button - Action
-  Future<void> _SignInButtonPressed() async {
+  Future<void> _SignInButtonPressed(context) async {
     String emailInput = emailController.text;
     String passwordInput = passwordController.text;
 
@@ -333,8 +336,8 @@ class _MobileSigninPageState extends State<MobileSigninPage> {
       /// Mostra un alert di Successo in riferimento alla Login()
       /// Mi ridireziona alla pagina di Home-Page-User
       CustomPopUpDialog.show(
-          context, AlertDialogType.Signin, CustomType.success,
-          path: '/home-page/' + userLogged.id);
+          context, AlertDialogType.Signin, CustomType.success);
+      routerService.goStudentHome(context, userLogged.id);
     } else {
 
       /// Error Login

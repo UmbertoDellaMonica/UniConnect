@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:uni_connect/shared/design/post/post_item.dart';
 import 'package:uni_connect/shared/services/post_service.dart';
-import '../../../../models/Post.dart';
 import '../../../../models/payload/post_dto.dart';
 import '../../../../shared/design/post/post_form.dart';
 

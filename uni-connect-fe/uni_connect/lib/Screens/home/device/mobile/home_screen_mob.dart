@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/content_row.dart';
 import 'package:uni_connect/Screens/home/components/footer_bar.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/Screens/home/components/welcome_image.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 
 import '../../utils/constants_home.dart';
 
@@ -17,6 +17,7 @@ class _MobileWelcomePageState extends State<MobileWelcomePage> {
 
   final ScrollController _scrollController = ScrollController();
   bool _showFooter = false;
+  final RouterService routerService = RouterService();
 
   @override
   void initState() {
@@ -86,7 +87,7 @@ class _MobileWelcomePageState extends State<MobileWelcomePage> {
                   ElevatedButton(
                     onPressed: () {
                       // Azione per il pulsante di accesso
-                      context.go('/signup');
+                      routerService.goSignup(context);
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black, backgroundColor: Colors.greenAccent, padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Colore del testo del pulsante

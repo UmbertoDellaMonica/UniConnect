@@ -27,6 +27,9 @@ public class StudentRequest implements Serializable {
     @JsonProperty("fullName")
     private String fullName;
 
+    @JsonProperty(value = "biography")
+    private String biography;
+
     @JsonProperty("department")
     @Enumerated(EnumType.STRING)
     @NotNull

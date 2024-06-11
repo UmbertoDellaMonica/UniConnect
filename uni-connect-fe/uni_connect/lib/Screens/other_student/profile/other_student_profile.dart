@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:uni_connect/models/student.dart';
 
 import 'device/desktop/other_student_profile_desk.dart';
 

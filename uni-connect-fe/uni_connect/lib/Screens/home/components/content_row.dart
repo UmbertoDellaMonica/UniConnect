@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/welcome_image.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 
 class ContentRow extends StatelessWidget {
 
@@ -16,8 +16,10 @@ class ContentRow extends StatelessWidget {
   /// Showing the opposite Order 
   final bool reverseOrder;
 
+  RouterService routerService = RouterService();
 
-  ContentRow({
+
+   ContentRow({super.key,
     required this.imagePath,
     required this.titleContent,
     required this.description,
@@ -29,7 +31,7 @@ class ContentRow extends StatelessWidget {
 
     List<Widget> children = [
       _buildImage(),
-      SizedBox(width: 50),
+      const SizedBox(width: 50),
       _buildSectionDescription(context)
       
     ];
@@ -42,7 +44,7 @@ class ContentRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
       child: Card(
         elevation: 4.0,
-        color: Color(0xA9D0ECFF),
+        color: const Color(0xA9D0ECFF),
 
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
@@ -89,37 +91,37 @@ class ContentRow extends StatelessWidget {
             Text(
               textAlign: textAlign,
               titleContent,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               description,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Azione per il pulsante
                 // Check Action
                 if (titleContent.contains("Login")) {
-                  context.go('/signin');
+                  routerService.goSignin(context);
                 } else if (titleContent.contains("SignUp")) {
-                  context.go('/signup');
+                  routerService.goSignup(context);
                 } else if (titleContent.contains("Follow")) {
                   /// TODO: Inserisci la route per il contesto giusto
                 }
               },
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Colors.blueAccent, padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Colore del testo del pulsante
+                foregroundColor: Colors.white, backgroundColor: Colors.blueAccent, padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Colore del testo del pulsante
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30), // Bordi arrotondati
-                  side: BorderSide(color: Colors.blueAccent), // Bordo del pulsante
+                  side: const BorderSide(color: Colors.blueAccent), // Bordo del pulsante
                 ),
                 elevation: 3, // Aggiungi un'ombra leggera
               ),
               child: Text(
                 titleContent,
-                style: TextStyle(fontSize: 18), // Aggiorna le dimensioni del testo
+                style: const TextStyle(fontSize: 18), // Aggiorna le dimensioni del testo
               ),
             ),
 

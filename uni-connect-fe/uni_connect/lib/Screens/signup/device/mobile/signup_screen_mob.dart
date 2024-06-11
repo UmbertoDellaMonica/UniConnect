@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 
 import '../../../../shared/utils/constants.dart';
 import '../../../../shared/custom_loading_bar.dart';
@@ -13,6 +13,7 @@ class MobileSignupPage extends StatefulWidget {
 
 class _MobileSignupPageState extends State<MobileSignupPage> {
 
+  final RouterService _routerService = RouterService();
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -165,7 +166,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
   GestureDetector _buildAlreadyRegisteres(Size size) {
     return GestureDetector(
       onTap: () {
-        context.go("/signin");
+        _routerService.goSignin(context);
         nameController.clear();
         emailController.clear();
         passwordController.clear();
@@ -285,7 +286,8 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          context.go("/");  // Naviga verso la home page
+          /// Router Service - > go Home
+          _routerService.goHome(context);
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Color(0xA91E88D0)),

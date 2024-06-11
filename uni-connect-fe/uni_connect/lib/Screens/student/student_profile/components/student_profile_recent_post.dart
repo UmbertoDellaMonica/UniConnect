@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/payload/post_dto.dart';
 import '../../../../models/student.dart';
-import '../../../../shared/custom_alert_dialog.dart';
 import '../../../../shared/design/post/post_item_profile.dart';
 import '../../../../shared/services/post_service.dart';
-import '../../../../shared/utils/constants.dart';
 
 class StudentProfileRecentPost extends StatefulWidget {
   final List<PostResponse?>? listPostResponse;

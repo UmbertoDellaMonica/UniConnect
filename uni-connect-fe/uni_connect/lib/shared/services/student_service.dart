@@ -27,6 +27,8 @@ class StudentService {
   static const String _queryGetStudent = 'student';
   static const String _queryGetOtherStudent = 'student/other';
 
+  static const String _queryUpdateStudent = 'student/update';
+
   static const String _querySearchStudent = 'student/search';
 
   /// Following Path
@@ -43,10 +45,10 @@ class StudentService {
 
   /// Registrazione dello Studente
   /// Permette di eseguire la registrazione
-  Future<bool> signUpStudent (String email, String fullName, String password,String selectedDepartement) async {
+  Future<bool> signUpStudent (String email, String fullName, String password,String selectedDepartement,String biography) async {
 
     late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_querySignUpStudent);
-    StudentSignupRequest studentRequest = apiBuilderService.getBodySignUpMethod(email, password, fullName, selectedDepartement);
+    StudentSignupRequest studentRequest = apiBuilderService.getBodySignUpMethod(email, password, fullName, selectedDepartement,biography);
     String body = jsonEncode(studentRequest);
 
     try{
@@ -173,6 +175,27 @@ class StudentService {
 
   }
 
+  Future<Student?> updateStudent(String IDStudent, StudentUpdateRequest studentRequest) async {
+    late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_queryUpdateStudent);
+
+    final response = await http.put(
+      Uri.parse(Url),
+      headers: {
+        'Content-Type': 'application/json',
+        'IDStudent': IDStudent,
+      },
+      body: jsonEncode(studentRequest.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      return Student.fromJson(jsonDecode(response.body));
+    } else {
+      // Gestione degli errori
+      print('Failed to update student: ${response.statusCode}');
+      return null;
+    }
+  }
+
   Future<List<Student>> searchStudents(String query, String studentId) async {
     late String Url = apiBuilderService.buildUrl(_api,_Url, _version,'$_querySearchStudent?query=$query');
     final headers = {
@@ -194,9 +217,6 @@ class StudentService {
     }
   }
 
-
-
-  /// TODO : Following - Method
   Future<bool> followStudent(String IDStudent, String otherIDStudent) async {
     late String Url = apiBuilderService.buildUrl(_api,_Url, _version,_queryFollowStudent);
 

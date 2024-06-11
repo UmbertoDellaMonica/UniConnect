@@ -39,7 +39,7 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
   @override
   void initState() {
     super.initState();
-    this.listPostResponse = null;
+    listPostResponse = null;
     // Secure Storage Service - retrieve
     final storage = GetIt.I.get<SecureStorageService>();
     secureStorageService = storage;
@@ -51,20 +51,22 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
       var retrieveUser = await secureStorageService.get();
       if (retrieveUser != null) {
         print("OK!");
+        print(retrieveUser.toString());
         setState(() {
           student_logged = retrieveUser;
+          print("Student : Bio :"+student_logged!.biography.toString());
         });
       }
-      var listPost = await postService.getPosts(student_logged!.id)!;
+      var listPost = await postService.getPosts(student_logged!.id);
       if(listPost != null){
         setState(() {
-          this.listPostResponse = listPost;
+          listPostResponse = listPost;
           isLoading=false;
         });
       }else{
         setState(() {
           isLoading=false;
-          this.listPostResponse = null;
+          listPostResponse = null;
         });
       }
 
@@ -77,19 +79,6 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
   }
 
 
-  static List<String> studentImagePaths = [
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    '../assets/images/follow.jpg',
-    // Aggiungi più URL di immagini come desiderato
-  ];
-
   @override
   Widget build(BuildContext context) {
 
@@ -97,7 +86,7 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
       return const CustomLoadingIndicator(progress: 4.5);
     }
     return Scaffold(
-      appBar: CustomAppBarLogged(student_logged:this.student_logged,enableSearch: true,),
+      appBar: CustomAppBarLogged(student_logged:student_logged,enableSearch: true,IDStudent: student_logged!.id,),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -111,19 +100,24 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: StudentProfileInfo(student: this.student_logged),
+                  child: StudentProfileInfo(student: student_logged),
                 ),
                 const SizedBox(width: 20.0), // Spazio tra le due sezioni
                 Expanded(
-                  child: BiographyWidget(),
+
+                  child: BiographyWidget(
+                    IDStudent: student_logged!.id,
+                    student_logged: student_logged,
+                    currentBio: student_logged!.biography,
+                  ),
                 ),
               ],
             ),
             const Divider(),
             StudentProfileRecentPost(
-                listPostResponse: this.listPostResponse,
-                studentLogged: this.student_logged,
-                postService: this.postService
+                listPostResponse: listPostResponse,
+                studentLogged: student_logged,
+                postService: postService
             ),
             const Divider(),
             //StudentProfileRecentPhoto(imagePaths: studentImagePaths)

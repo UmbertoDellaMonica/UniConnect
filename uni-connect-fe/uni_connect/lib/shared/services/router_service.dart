@@ -5,6 +5,21 @@ import 'package:go_router/go_router.dart';
 /// Service - Help to Improve context.go or other action with that
 class RouterService{
 
+  /// ---------------- Home Path --------///
+  void goHome(BuildContext context) {
+    context.go('/');
+  }
+  /// --------------- Signup Path --------///
+  void goSignup(BuildContext context){
+    context.go('/signup');
+  }
+
+  /// --------------- Signin path ----------///
+  void goSignin(BuildContext context){
+    context.go('/signin');
+  }
+
+
   /// ---------------- Student ----------------------///
 
   void goStudentHome(BuildContext context, id) {
@@ -36,6 +51,7 @@ class RouterService{
   void goOtherStudentProfile(BuildContext context, String id) {
     context.go('/other-student/$id/profile');
   }
+
 
 
 

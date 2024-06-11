@@ -29,6 +29,7 @@ class SecureStorageService{
       await storage.write(key: 'user_id', value: student.id);
       await storage.write(key: 'full_name', value: student.fullName);
       await storage.write(key: 'email', value: student.email);
+      await storage.write(key: 'biography', value: student.biography);
       await storage.write(key: 'password', value: student.password);
       await storage.write(key: 'type', value: student.departmentUnisa.toString());
     } catch (e) {
@@ -46,11 +47,12 @@ class SecureStorageService{
       final id = await storage.read(key: 'user_id');
       final fullName = await storage.read(key: 'full_name');
       final email = await storage.read(key: 'email');
+      final biography = await storage.read(key: 'biography');
       final password = await storage.read(key: 'password');
       final studentDepartement = await storage.read(key: 'type');
       /// Check Params - verifica se sono nulli
       if ( this._checkParams(id!, email!, fullName!, password!, studentDepartement!) ) {
-        return Student.buildStudent(id, email, fullName, password, studentDepartement as String);
+        return Student.buildStudent(id, email, fullName, password, studentDepartement as String,biography!);
       }else{
         return null;
       }
@@ -68,6 +70,7 @@ class SecureStorageService{
       await storage.delete(key: 'user_id');
       await storage.delete(key: 'full_name');
       await storage.delete(key: 'email');
+      await storage.delete(key: 'biography');
       await storage.delete(key: 'password');
       await storage.delete(key: 'type');
       return true;

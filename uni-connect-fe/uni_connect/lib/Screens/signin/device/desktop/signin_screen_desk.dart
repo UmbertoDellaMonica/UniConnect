@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import 'package:uni_connect/Screens/home/components/welcome_image.dart';
 import 'package:uni_connect/Screens/signin/services/signin_service.dart';
 import 'package:uni_connect/shared/services/storage_service.dart';
 
 import '../../../../models/student.dart';
 import '../../../../shared/custom_alert_dialog.dart';
 import '../../../../shared/custom_dropdown_menu.dart';
+import '../../../../shared/services/router_service.dart';
 import '../../../../shared/utils/constants.dart';
 import '../../../../shared/custom_loading_bar.dart';
 import '../../../home/components/nav_bar.dart';
 
 class DesktopSigninPage extends StatefulWidget {
-  const DesktopSigninPage({Key? key}) : super(key: key);
+  const DesktopSigninPage({super.key});
 
   @override
   State<DesktopSigninPage> createState() => _DesktopSigninPageState();
@@ -33,9 +32,11 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
 
   final _formKey = GlobalKey<FormState>();
   /// Signin Service
-  SigninService signinService = SigninService();
+  final SigninService signinService = SigninService();
   /// Secure Storage Service
   late SecureStorageService secureStorageService;
+  final RouterService _routerService = RouterService();
+
 
   Student? student_logged ;
 
@@ -55,7 +56,7 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
         student_logged = retrieveUser;
         _selectedItem = "Dipartimento di Informatica";
         isLoading = false;
-        context.go('/home-page/'+student_logged!.id);
+        _routerService.goStudentHome(context, student_logged!.id);
       });
     }else{
       setState(() {
@@ -75,24 +76,37 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    if (this.isLoading) {
-      return CustomLoadingIndicator(progress: 4.5);
+    if (isLoading) {
+      return const CustomLoadingIndicator(progress: 4.5);
     } else {
-      if(this.student_logged !=null){
-        context.go('/home-page/'+student_logged!.id);
+      if(student_logged !=null){
+        _routerService.goStudentHome(context, student_logged!.id);
       }
 
       return Scaffold(
         appBar: CustomAppBar(),
         body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              flex: 3,
-              child: RoundedImage('images/login.jpg'),
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Transform.scale(
+                  scale: 0.9,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.asset(
+                      '/images/login.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
             ),
             SizedBox(width: size.width * 0.06),
             Expanded(
-              flex: 5,
+              flex: 2,
               child: _buildMainBody(
                 size,
               ),
@@ -108,29 +122,32 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
   /// Main Body
   Widget _buildMainBody(Size size) {
     var animation = Lottie.asset('wave.json', height: size.height * 0.2, width: size.width, fit: BoxFit.fill,);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment:
-      size.width > 600 ? MainAxisAlignment.center : MainAxisAlignment.start,
-      children: [
-        size.width > 600 ? Container() : animation,
-        SizedBox(
-          height: size.height * 0.03,
-        ),
-        /// Build Title
-        _buildTitle(size),
-        const SizedBox(
-          height: 10,
-        ),
-        /// Build Sub-Title
-        _buildSubTitle(size),
-        SizedBox(
-          height: size.height * 0.03,
-        ),
-        _buildForm(size),
-        SizedBox(height: size.height * 0.05),
-        _buildHomeButton(context)
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment:
+        size.width > 600 ? MainAxisAlignment.center : MainAxisAlignment.start,
+        children: [
+          size.width > 600 ? Container() : animation,
+          SizedBox(
+            height: size.height * 0.03,
+          ),
+          /// Build Title
+          _buildTitle(size),
+          const SizedBox(
+            height: 10,
+          ),
+          /// Build Sub-Title
+          _buildSubTitle(size),
+          SizedBox(
+            height: size.height * 0.03,
+          ),
+          _buildForm(size),
+          SizedBox(height: size.height * 0.05),
+          _buildHomeButton(context)
+        ],
+      ),
     );
   }
 
@@ -195,7 +212,7 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
             /// Navigate To Login Screen
             GestureDetector(
               onTap: () {
-                context.go('/signup');
+                _routerService.goSignup(context);
                 emailController.clear();
                 passwordController.clear();
                 _formKey.currentState?.reset();
@@ -288,8 +305,8 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
       height: 55,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color(0xA91E88D0)),
-          shape: MaterialStateProperty.all(
+          backgroundColor: WidgetStateProperty.all(const Color(0xA91E88D0)),
+          shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
@@ -299,10 +316,10 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
           // Validate returns true if the form is valid, or false otherwise.
           if (_formKey.currentState!.validate()) {
             // ... Navigate To your Home Page
-            _SignInButtonPressed();
+            await _SignInButtonPressed();
           }
         },
-        child: Text('Login', style: TextStyle(color: Colors.white, fontSize: 16)),
+        child: const Text('Login', style: TextStyle(color: Colors.white, fontSize: 16)),
       ),
     );
   }
@@ -313,16 +330,16 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
         width: double.infinity,
         child: ElevatedButton(
           onPressed: () {
-            context.go("/");  // Naviga verso la home page
+            _routerService.goHome(context);
           },
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Color(0xA91E88D0)),
-            padding: MaterialStateProperty.all(EdgeInsets.all(20)),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            backgroundColor: WidgetStateProperty.all(const Color(0xA91E88D0)),
+            padding: WidgetStateProperty.all(const EdgeInsets.all(20)),
+            shape: WidgetStateProperty.all(RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             )),
           ),
-          child: Text('Torna alla Home', style: TextStyle(color: Colors.white, fontSize: 16)),
+          child: const Text('Torna alla Home', style: TextStyle(color: Colors.white, fontSize: 16)),
         ),
       );
     }
@@ -340,7 +357,7 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
   }
 
   /// Login Button - Action
-  void _SignInButtonPressed() async {
+  Future<void> _SignInButtonPressed() async {
     String email = emailController.text;
     String password = passwordController.text;
 
@@ -357,9 +374,9 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
 
       /// Mostra un alert di Successo in riferimento alla Login()
       /// Mi ridireziona alla pagina di Home-Page-User
+      String id = userLogged!.id;
       CustomPopUpDialog.show(
-          context, AlertDialogType.Signin, CustomType.success,
-          path: '/home-page/' + userLogged.id);
+          context, AlertDialogType.Signin, CustomType.success,path: '/home-page/$id');
     } else {
 
       /// Error Login

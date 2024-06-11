@@ -29,6 +29,9 @@ public class StudentResponse implements Serializable {
     @JsonProperty("passwordHash")
     private String passwordHash;
 
+    @JsonProperty("biography")
+    private String biography;
+
     @JsonProperty("department")
     @Enumerated(EnumType.STRING)
     private DepartementUnisa departementUnisa;

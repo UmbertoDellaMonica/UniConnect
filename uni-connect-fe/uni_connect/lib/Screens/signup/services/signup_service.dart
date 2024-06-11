@@ -24,6 +24,8 @@ class SignUpService {
       String studentDepartement
       ) async {
 
+    String biography = "";
+
     /// Hashing Password
     String passwordHashed = _passwordService.hashPassword(password);
 
@@ -32,7 +34,7 @@ class SignUpService {
 
     print("Dipeartimento Selezionato : "+studentDepartementSelected);
 
-    return await _studentService.signUpStudent(email,fullName,passwordHashed,studentDepartementSelected);
+    return await _studentService.signUpStudent(email,fullName,passwordHashed,studentDepartementSelected,biography);
   }
 
 }

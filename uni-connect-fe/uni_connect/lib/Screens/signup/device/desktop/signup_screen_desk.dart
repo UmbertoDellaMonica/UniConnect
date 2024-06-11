@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/Screens/signup/services/signup_service.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 import 'package:uni_connect/shared/utils/constants.dart';
 import 'package:uni_connect/shared/custom_loading_bar.dart';
 
@@ -27,13 +27,18 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
   bool isLoading = true; // Variabile per tracciare lo stato del caricamento
   SignUpService signUpService = SignUpService();
 
+  final RouterService routerService = RouterService();
+
   @override
   void initState() {
     super.initState();
     // Simula un caricamento asincrono dei dati per 2 secondi
+    Future.delayed(const Duration(milliseconds: 400), (){
       setState(() {
-        isLoading = false; // Imposta isLoading su false quando il caricamento è completo
-        this._selectedItem= "Dipartimento di Informatica";
+        isLoading =
+        false; // Imposta isLoading su false quando il caricamento è completo
+        this._selectedItem = "Dipartimento di Informatica";
+      });
     });
   }
 
@@ -49,34 +54,34 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
   @override
   Widget build(BuildContext context) {
     if(isLoading){
-      return CustomLoadingIndicator(progress: 4.5);
+      return const CustomLoadingIndicator(progress: 4.5);
     }
     var size = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: CustomAppBar(),
+
+        appBar:  CustomAppBar(),
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        body: Center(
-
-          child: _buildMainBody(size, theme)
-        ),
-      ),
+        body: Padding(
+      padding: const EdgeInsets.all(50.0),
+      child: _buildMainBody(size, theme),
+    ),)
     );
   }
 
   /// Build Main Body - Section
   Widget _buildMainBody(Size size, ThemeData theme) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Image
         Expanded(
           flex: 1,
           child: Transform.scale(
-            scale: 0.8,
+            scale: 0.9,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Image.asset(
@@ -87,7 +92,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
           ),
         ),
 
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         // Form
         _buildForm(size)
       ],
@@ -95,91 +100,74 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
   }
 
   /// Build Form
-  Expanded _buildForm(Size size){
+
+  Expanded _buildForm(Size size) {
     return Expanded(
-      flex: 1, child:
-      Form(
+      flex: 1,
+      child: Form(
         key: _formKey,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'Registrati',
               style: Constants.kLoginTitleStyle(size),
             ),
-            /// Username Form
             _buildUsernameForm(),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            /// Email Form
+            SizedBox(height: size.height * 0.01),
             _buildEmailForm(),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            /// Password Controller
+            SizedBox(height: size.height * 0.01),
             _buildPasswordForm(),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
+            SizedBox(height: size.height * 0.01),
+            SizedBox(height: size.height * 0.01),
             _buildDropDownMenu(context),
             Text(
               'Creando un account, accetti i nostri Termini di Servizio e la nostra Politica sulla Privacy',
               style: Constants.kLoginTermsAndPrivacyStyle(size),
               textAlign: TextAlign.center,
             ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
+            SizedBox(height: size.height * 0.01),
             signUpButton(),
-            SizedBox(
-              height: size.height * 0.03,
-            ),
-            /// Build  Section - AlreadyRegister
-            _buildAlreadyRegisteres(size),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            _buildHomeButton(context)
+            SizedBox(height: size.height * 0.03),
+            _buildAlreadyRegistered(size),
+            SizedBox(height: size.height * 0.02),
+            _buildHomeButton(context),
           ],
         ),
       ),
     );
   }
 
-  /// Form Component --- Section
-
-  /// Sign Button
   Widget signUpButton() {
     return SizedBox(
       width: double.infinity,
       height: 55,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color(0xA91E88D0)),
+          backgroundColor: MaterialStateProperty.all(const Color(0xA91E88D0)),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
           ),
         ),
-        onPressed: () => {
+        onPressed: () {
           if (_formKey.currentState!.validate()) {
-            // ... Navigate To your Home Page
-             _SignUpButtonPressed()
+            _signUpButtonPressed(context);
           }
         },
-        child: const Text('Registrati', style: TextStyle(color: Colors.white, fontSize: 16)),
+        child: const Text(
+          'Registrati',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
       ),
     );
   }
-  /// Build - AlreadyRegistered - Section
-  GestureDetector _buildAlreadyRegisteres(Size size) {
+
+  GestureDetector _buildAlreadyRegistered(Size size) {
     return GestureDetector(
       onTap: () {
-        context.go("/signin");
+        routerService.goSignin(context);
         nameController.clear();
         emailController.clear();
         passwordController.clear();
@@ -198,7 +186,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
       ),
     );
   }
-  /// Password Field - Section
+
   TextFormField _buildPasswordForm() {
     return TextFormField(
       style: Constants.kTextFormFieldStyle(),
@@ -231,9 +219,9 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
       },
     );
   }
-  /// Email Field - Section
+
   TextFormField _buildEmailForm() {
-    return                 TextFormField(
+    return TextFormField(
       style: Constants.kTextFormFieldStyle(),
       controller: emailController,
       decoration: const InputDecoration(
@@ -253,7 +241,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
       },
     );
   }
-  /// Username Field - section
+
   TextFormField _buildUsernameForm() {
     return TextFormField(
       style: Constants.kTextFormFieldStyle(),
@@ -273,58 +261,55 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
       },
     );
   }
-  /// DropDown Menu - section
+
   Widget _buildDropDownMenu(BuildContext context) {
-      return CustomDropdown<String>(
-        items: Enums.dropdownItems,
-        value: "Dipartimento di Informatica",
-        onChanged: (value) {
-          setState(() {
-            _selectedItem = value!;
-          });
-        },
-      );
-    }
-    
-  ///Build Home Button 
+    return CustomDropdown<String>(
+      items: Enums.dropdownItems,
+      value: "Dipartimento di Informatica",
+      onChanged: (value) {
+        setState(() {
+          _selectedItem = value!;
+        });
+      },
+    );
+  }
+
   Widget _buildHomeButton(BuildContext context) {
-    // Aggiungiamo il bottone per tornare alla home
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-          context.go("/");  // Naviga verso la home page
+          routerService.goHome(context);
         },
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Color(0xA91E88D0)),
-          padding: MaterialStateProperty.all(EdgeInsets.all(20)),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          )),
+          backgroundColor: MaterialStateProperty.all(const Color(0xA91E88D0)),
+          padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+          shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              )),
         ),
-        child: Text('Torna alla Home', style: TextStyle(color: Colors.white, fontSize: 16)),
+        child: const Text(
+          'Torna alla Home',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
       ),
     );
   }
 
+  void _signUpButtonPressed(context) async {
+    String fullName = nameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    String departmentStudent = _selectedItem;
 
+    bool registrationStatus = await signUpService.signUpStudent(
+        email, fullName, password, departmentStudent);
 
-  /// Metodo per eseguire tutta la logica della registrazione
-  /// Recupera i valori dal Form
-  /// Verifica se le password coincidono
-  void _SignUpButtonPressed() async {
-    // Recupera i valori dai controller
-    String fullName = this.nameController.text;
-    String email = this.emailController.text;
-    String password = this.passwordController.text;
-    String departmentStudent = this._selectedItem;
-    /// SignUp Action
-    bool registrationStatus = await signUpService.signUpStudent(email,fullName,password,departmentStudent);
-    if(registrationStatus){
-      /// TRUE Registration
-      CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.success, path: "/signin");
-    }else{
-      /// FALSE Registration
+    if (registrationStatus) {
+      CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.success,
+          path: "/signin");
+    } else {
       CustomPopUpDialog.show(context, AlertDialogType.Signup, CustomType.error);
     }
   }

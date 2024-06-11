@@ -123,6 +123,26 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
+
+    /**
+     * Update value of Student
+     * @param IDStudent IDStudent
+     * @param newStudent new data of Student
+     */
+    @Override
+    public StudentModel updateStudent(UUID IDStudent, StudentModel newStudent) {
+
+        StudentModel oldStudentModel = getStudentData(IDStudent);
+
+        oldStudentModel.setBiography(newStudent.getBiography());
+        oldStudentModel.setPasswordHash(newStudent.getPasswordHash());
+
+        StudentEntity newStudentEntity = mapper.map(oldStudentModel,StudentEntity.class);
+        newStudentEntity = studentRepository.save(newStudentEntity);
+
+        return oldStudentModel;
+    }
+
     /**
      *
      * @param query contiene le lettere che il nome dello studente o il full Name dovrebbe contenere

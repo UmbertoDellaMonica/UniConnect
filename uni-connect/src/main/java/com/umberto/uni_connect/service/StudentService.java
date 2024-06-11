@@ -32,6 +32,13 @@ public interface StudentService {
     StudentModel getStudentData(UUID IDStudent);
 
     /**
+     * Update student - set new value of Student
+     * @param IDStudent IDStudent
+     * @param newStudent new data of Student
+     */
+    StudentModel updateStudent(UUID IDStudent,StudentModel newStudent);
+
+    /**
      * Ricerca gli studenti mediante la query che viene passata
      * @param query contiene le lettere che il nome dello studente o il full Name dovrebbe contenere
      * @param IDStudent ID dello studente che sta ricercando

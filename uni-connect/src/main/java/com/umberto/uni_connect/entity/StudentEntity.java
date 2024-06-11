@@ -28,6 +28,8 @@ public class StudentEntity {
 
     private String passwordHash;
 
+    private String biography;
+
     @Enumerated(EnumType.STRING)
     private DepartementUnisa departementUnisa;
 

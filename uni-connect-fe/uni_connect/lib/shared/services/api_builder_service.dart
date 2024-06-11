@@ -52,9 +52,15 @@ class ApiBuilderService {
 
 
     /// Body - SignUp - method - Student SignUp Request
-    StudentSignupRequest getBodySignUpMethod(String email, String password,String fullName,String studentDepartement){
+    StudentSignupRequest getBodySignUpMethod(String email, String password,String fullName,String studentDepartement,String biography){
 
-      StudentSignupRequest studentRequest = StudentSignupRequest(email: email, passwordHash: password, fullName: fullName, departement: studentDepartement);
+      StudentSignupRequest studentRequest = StudentSignupRequest(
+          email: email,
+          passwordHash: password,
+          fullName: fullName,
+          departement: studentDepartement,
+          biography: biography
+      );
       return studentRequest;
     }
 

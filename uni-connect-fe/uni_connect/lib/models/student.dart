@@ -2,13 +2,15 @@ class Student{
   final String departmentUnisa;
   final String id;
   final String fullName;
+  String biography;
   final String password; // Si presume che sia già crittografata dal front-end
   final String email;
 
-  const Student( {
+  Student(  {
     required this.id,
     required this.fullName,
     required this.password,
+    this.biography="",
     required this.email,
     required this.departmentUnisa
   });
@@ -23,10 +25,12 @@ class Student{
 
   String get getEmail => email;
 
+  String get getBiography => biography;
+
   String get getDepartmentUnisa => departmentUnisa;
 
-  static Student buildStudent(String id, String email, String fullName,String password,String departmentUnisa){
-    return Student(id: id, fullName: fullName, password: password, email: email, departmentUnisa: departmentUnisa);
+  static Student buildStudent(String id, String email, String fullName,String password,String departmentUnisa,String biography){
+    return Student(id: id, fullName: fullName, password: password, email: email, departmentUnisa: departmentUnisa,biography: biography);
   }
 
   /// Metodo per deserializzare un oggetto JSON in un'istanza di Student
@@ -36,6 +40,7 @@ class Student{
       email: json['email'],
       password: json['passwordHash'],
       fullName: json['fullName'],
+      biography: json['biography'],
       departmentUnisa:  json['department'],
       id: json['ID'],
     );

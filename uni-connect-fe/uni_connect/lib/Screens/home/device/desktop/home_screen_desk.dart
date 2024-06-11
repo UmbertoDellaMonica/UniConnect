@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/content_row.dart';
 import 'package:uni_connect/Screens/home/components/footer_bar.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/Screens/home/components/welcome_image.dart';
 import 'package:uni_connect/shared/custom_loading_bar.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 
 import '../../utils/constants_home.dart';
 
@@ -17,6 +17,7 @@ class DesktopWelcomePage extends StatefulWidget {
 class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
 
   final ScrollController _scrollController = ScrollController();
+  final RouterService routerService = RouterService();
   bool _showFooter = false;
 
   bool isLoading = true; // Variabile per tracciare lo stato del caricamento
@@ -26,7 +27,7 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
     super.initState();
     _scrollController.addListener(_scrollListener);
     // Simula un caricamento asincrono dei dati per 2 secondi
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 400), () {
       setState(() {
         isLoading = false; // Imposta isLoading su false quando il caricamento è completo
       });
@@ -106,7 +107,7 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
                           ElevatedButton(
                             onPressed: () {
                               // Azione per il pulsante di accesso
-                              context.go('/signup');
+                              routerService.goSignup(context);
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white, backgroundColor: Colors.blueAccent, padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Colore del testo del pulsante

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
 import 'package:uni_connect/models/payload/post_dto.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

@@ -13,7 +13,7 @@ class SigninPage extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         body: LayoutBuilder(
           builder: (context, constraints) {
-            if (constraints.maxWidth > 600) {
+            if (constraints.maxWidth > 700) {
               return DesktopSigninPage();
             } else {
               return MobileSigninPage();

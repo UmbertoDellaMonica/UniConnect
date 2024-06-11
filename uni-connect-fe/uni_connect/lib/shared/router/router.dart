@@ -8,9 +8,7 @@ import 'package:uni_connect/Screens/student/student_profile/student_profile_scre
 
 import '../../Screens/student/search_student/student_search_screen.dart';
 import '../../Screens/student/student_following/student_following_screen.dart';
-import '../../Screens/student/student_home_screen/components/user_profile_home.dart';
 import '../../Screens/student/student_home_screen/student_home_screen.dart';
-import '../../models/student.dart';
 
 class UniConnectRouter{
 /// The route configuration.

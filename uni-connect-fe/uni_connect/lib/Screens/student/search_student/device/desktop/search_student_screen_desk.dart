@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/shared/custom_loading_bar.dart';
 import 'package:uni_connect/shared/services/router_service.dart';
@@ -99,7 +98,7 @@ class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const CircleAvatar(
-                          backgroundImage: AssetImage('../assets/logo.png'), // Aggiungi l'immagine dello studente
+                          backgroundImage: AssetImage('../assets/images/logo.png'), // Aggiungi l'immagine dello studente
                           radius: 20.0,
                         ),
                         const SizedBox(width: 16.0),

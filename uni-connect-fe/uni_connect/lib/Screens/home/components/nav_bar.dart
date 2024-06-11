@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/welcome_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_connect/shared/custom_alert_dialog.dart';
@@ -15,18 +14,19 @@ import '../utils/constants_home.dart'; // Importa il pacchetto Google Fonts
 /// Custom App Bar
 /// Used in Every Page with Not Logged User
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+   CustomAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
+  final RouterService routerService = RouterService();
   @override
   Widget build(BuildContext context) {
     return AppBar(
       shadowColor: const Color(0xA9D0ECFF),
       foregroundColor: Colors.lightBlueAccent,
       backgroundColor: const Color(0x244BCCA9),
-      leading: _buildImageAppBar(context),
+      leading: _buildImageAppBar(context,routerService),
       title: _buildTextNavBar(Constants.titleApp),
     );
   }
@@ -76,7 +76,7 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
       shadowColor: const Color(0xA9D0ECFF),
       foregroundColor: Colors.lightBlueAccent,
       backgroundColor: const Color(0x244BCCA9),
-      leading: _buildImageAppBar(context),
+      leading: _buildImageAppBar(context,_routerService),
       title: Row(
         children: [
           _buildTextNavBar(Constants.titleApp),
@@ -164,6 +164,8 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
 }
 
 
+
+
 /// Build Text Nav Bar
 Widget _buildTextNavBar(String title){
   return Text(
@@ -179,10 +181,10 @@ Widget _buildTextNavBar(String title){
 }
 
 /// Build Image to App Bar
-GestureDetector _buildImageAppBar(BuildContext context) {
+GestureDetector _buildImageAppBar(BuildContext context, RouterService routerService) {
   return GestureDetector(
     onTap: () {
-      context.go("/");  // Navigate to the home page
+      routerService.goHome(context);
     },
     child: RoundedImage(logoImage),
   );
@@ -268,7 +270,6 @@ Future<void> _showLogoutConfirmationDialog(BuildContext context,LogoutService lo
     },
   );
 }
-
 
 
 Future<void> _LogoutChoicePressed(context,logoutService,secureStorageService) async{

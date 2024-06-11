@@ -232,6 +232,23 @@ public class StudentController {
         }
     }
 
+    /**
+     * Update Student - Update the password and biography
+     * @param IDStudent ID Student that i want check if follows
+     */
+    @PutMapping(path = "/update")
+    public ResponseEntity<StudentResponse> updateStudent(
+            @RequestHeader(name = "IDStudent") UUID IDStudent,
+            @RequestBody StudentRequest studentRequest
+    ){
+        StudentModel newStudentModel = mapper.map(studentRequest,StudentModel.class);
+
+        newStudentModel = studentService.updateStudent(IDStudent,newStudentModel);
+
+        StudentResponse studentResponse = mapper.map(newStudentModel,StudentResponse.class);
+
+        return new ResponseEntity<>(studentResponse,HttpStatus.OK);
+    }
 
     /**
      * Retrieve Student with Mutual-connection
