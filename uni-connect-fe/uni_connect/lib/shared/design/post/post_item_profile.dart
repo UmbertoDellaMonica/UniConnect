@@ -40,11 +40,11 @@ class PostItemProfile extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundColor: Colors.blue,
                         child: Text('U'), // Placeholder per l'immagine
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Text(this.student_logged!.fullName),
                       ),
@@ -67,28 +67,28 @@ class PostItemProfile extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(this.postResponse!.content),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // Aggiungi qui il widget per le immagini del post se necessario
-                  Divider(),
+                  const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween, // Allinea i bottoni alla fine
                     children: [
                       IconButton(
-                        icon: Icon(Icons.thumb_up_alt_outlined),
+                        icon: const Icon(Icons.thumb_up_alt_outlined),
                         onPressed: () {
                           // Azione per mettere "mi piace" al post
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.comment_outlined),
+                        icon: const Icon(Icons.comment_outlined),
                         onPressed: () {
                           // Azione per commentare il post
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.share_outlined),
+                        icon: const Icon(Icons.share_outlined),
                         onPressed: () {
                           // Azione per condividere il post
                         },

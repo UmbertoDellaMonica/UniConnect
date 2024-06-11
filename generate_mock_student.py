@@ -30,14 +30,15 @@ data = []
 for _ in range(num_students):
     student_id = str(uuid.uuid4())
     full_name = fake.name()
+    biography =" " 
     name_parts = full_name.split()
     first_name = name_parts[0].lower()
     last_name = name_parts[-1].lower()
     email = f"{first_name}.{last_name}@gmail.com"
     password_hash = hash_password("Ciao1002!")
     departement_unisa = fake.random_element(departments)
-    data.append([student_id, full_name, email, password_hash, departement_unisa])
+    data.append([student_id, full_name, email, password_hash, departement_unisa,biography])
 
 # Crea un DataFrame e salva in un CSV
-df = pd.DataFrame(data, columns=["ID", "fullName", "email", "passwordHash", "departementUnisa"])
+df = pd.DataFrame(data, columns=["ID", "fullName", "email", "passwordHash", "departementUnisa","biography"])
 df.to_csv("mock_students.csv", index=False)

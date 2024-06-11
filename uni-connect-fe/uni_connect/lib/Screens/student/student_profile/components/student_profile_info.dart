@@ -3,8 +3,9 @@ import '../../../../models/student.dart';
 
 class StudentProfileInfo extends StatefulWidget {
   final Student? student;
+  final bool enableEditing;
 
-  const StudentProfileInfo({Key? key, required this.student})
+  const StudentProfileInfo({Key? key, required this.student, required this.enableEditing})
       : super(key: key);
 
   @override
@@ -95,6 +96,7 @@ class _PersonalInformationWidgetState extends State<StudentProfileInfo> {
                           fontSize: 18.0,
                         ),
                       ),
+                      if(widget.enableEditing)
                       IconButton(
                         icon: const Icon(Icons.edit, color: Colors.blue),
                         onPressed: () {

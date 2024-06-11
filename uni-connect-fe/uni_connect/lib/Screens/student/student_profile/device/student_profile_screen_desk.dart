@@ -94,13 +94,15 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
             /// Cover -Image Profile
             CoverImageWidget(
                 userEmail: student_logged!.email,
-                imageUploadService: _imageUploadService),
+                imageUploadService: _imageUploadService,
+              enableEditing: true,
+            ),
             /// Information and BioGraphy- Profile
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: StudentProfileInfo(student: student_logged),
+                  child: StudentProfileInfo(student: student_logged, enableEditing: true,),
                 ),
                 const SizedBox(width: 20.0), // Spazio tra le due sezioni
                 Expanded(
@@ -109,6 +111,7 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
                     IDStudent: student_logged!.id,
                     student_logged: student_logged,
                     currentBio: student_logged!.biography,
+                    enableEditing: true,
                   ),
                 ),
               ],
@@ -117,7 +120,8 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
             StudentProfileRecentPost(
                 listPostResponse: listPostResponse,
                 studentLogged: student_logged,
-                postService: postService
+                postService: postService,
+              enableEditing: true,
             ),
             const Divider(),
             //StudentProfileRecentPhoto(imagePaths: studentImagePaths)

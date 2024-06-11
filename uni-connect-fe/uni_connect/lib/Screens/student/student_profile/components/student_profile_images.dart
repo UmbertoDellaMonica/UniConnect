@@ -4,10 +4,12 @@ import '../../../../shared/services/image_services.dart';
 class CoverImageWidget extends StatefulWidget {
   final String userEmail;
   final ImageUploadService imageUploadService;
+  final bool enableEditing;
 
   const CoverImageWidget({
     required this.userEmail,
     required this.imageUploadService,
+    required this.enableEditing,
   });
 
   @override
@@ -21,7 +23,7 @@ class _CoverImageWidgetState extends State<CoverImageWidget> {
       children: [
         Container(
           height: 200.0,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: NetworkImage(
                   '../assets/images/follow.jpg'), // URL dell'immagine di copertina
@@ -29,13 +31,16 @@ class _CoverImageWidgetState extends State<CoverImageWidget> {
             ),
           ),
         ),
+        if(widget.enableEditing)
         Positioned(
           top: 10,
           right: 10,
           child: IconButton(
-            icon: Icon(Icons.edit, color: Colors.white, size: 30),
+            icon: const Icon(Icons.edit, color: Colors.white, size: 30),
             onPressed: () async {
-              await widget.imageUploadService.uploadCoverImage(widget.userEmail);
+                if(widget.enableEditing){
+                await widget.imageUploadService.uploadCoverImage(widget.userEmail);
+                }
               // Aggiungi qui il codice per aggiornare lo stato della tua app in modo che mostri la nuova immagine
             },
           ),
@@ -45,20 +50,23 @@ class _CoverImageWidgetState extends State<CoverImageWidget> {
           left: 16.0,
           child: Stack(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 50.0,
                 backgroundImage: NetworkImage(
                     '../assets/images/follow.jpg'), // URL dell'immagine del profilo
               ),
+              if(widget.enableEditing)
               Positioned(
                 bottom: 0,
                 right: 0,
                 child: InkWell(
                   onTap: () async {
-                    await widget.imageUploadService.uploadProfileImage(widget.userEmail);
+                    if(widget.enableEditing){
+                      await widget.imageUploadService.uploadProfileImage(widget.userEmail);
+                    }
                     // Aggiungi qui il codice per aggiornare lo stato della tua app in modo che mostri la nuova immagine
                   },
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     radius: 15,
                     backgroundColor: Colors.blue,
                     child: Icon(Icons.add, color: Colors.white, size: 20),

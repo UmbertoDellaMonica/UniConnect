@@ -3,19 +3,26 @@ import 'package:flutter/material.dart';
 
 import '../../../../models/payload/post_dto.dart';
 import '../../../../models/student.dart';
+import '../../../../shared/custom_alert_dialog.dart';
 import '../../../../shared/design/post/post_item_profile.dart';
 import '../../../../shared/services/post_service.dart';
+import '../../../../shared/utils/constants.dart';
 
 class StudentProfileRecentPost extends StatefulWidget {
+
   final List<PostResponse?>? listPostResponse;
   final Student? studentLogged;
   final PostService postService;
+  /// TRUE -  enable active editing
+  /// FALSE - Mot Enable Active editing
+  final bool enableEditing;
 
   const StudentProfileRecentPost({
     Key? key,
     required this.listPostResponse,
     required this.studentLogged,
     required this.postService,
+    required this.enableEditing,
   }) : super(key: key);
 
   @override
@@ -29,24 +36,24 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
         .length : 0;
 
     return Container(
-      margin: EdgeInsets.all(30),
-      padding: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(30),
+      padding: const EdgeInsets.all(20),
       child: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Post Recenti:',
               style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10.0),
+            const SizedBox(height: 10.0),
             GridView.builder(
-              padding: EdgeInsets.all(20),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              padding: const EdgeInsets.all(20),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 15,
@@ -54,7 +61,7 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
                 mainAxisExtent: 200,
               ),
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: numberPosts,
               itemBuilder: (BuildContext context, int index) {
                 return PostItemProfile(
@@ -62,49 +69,53 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
                   student_logged: widget.studentLogged,
                   postResponse: widget.listPostResponse![index],
 
-                  onDelete: () async {/*
-                    String IDPost = widget.listPostResponse![index]!.ID;
-                    String IDStudent = widget.studentLogged!.id;
-                    if (await widget.postService.deletePost(
-                        IDPost, IDStudent)) {
-                      setState(() {
-                        widget.listPostResponse!.removeAt(index);
-                      });
-                      CustomPopUpDialog.show(
-                          context, AlertDialogType.PostDelete,
-                          CustomType.success);
-                    } else {
-                      CustomPopUpDialog.show(
-                          context, AlertDialogType.PostDelete,
-                          CustomType.error);
-                    }*/
-                  },
-                  onEdit: () async {/*
-                    String IDPost = widget.listPostResponse![index]!.ID;
-                    String IDStudent = widget.studentLogged!.id;
-                    String newContent = await _showEditDialog(
-                        context, widget.listPostResponse![index]!.content);
-
-                    /// Equals or Not
-                    if (newContent.compareTo(
-                        widget.listPostResponse![index]!.content) != 0) {
-                      PostResponse? response = await widget.postService
-                          .editPost(IDPost, IDStudent, newContent);
-                      if (response != null) {
+                  onDelete: () async {
+                    if (widget.enableEditing) {
+                      String IDPost = widget.listPostResponse![index]!.ID;
+                      String IDStudent = widget.studentLogged!.id;
+                      if (await widget.postService.deletePost(
+                          IDPost, IDStudent)) {
                         setState(() {
-                          widget.listPostResponse![index] = response;
+                          widget.listPostResponse!.removeAt(index);
                         });
                         CustomPopUpDialog.show(
-                            context, AlertDialogType.PostUpdate,
+                            context, AlertDialogType.PostDelete,
                             CustomType.success);
                       } else {
                         CustomPopUpDialog.show(
-                            context, AlertDialogType.PostUpdate,
+                            context, AlertDialogType.PostDelete,
                             CustomType.error);
                       }
-                    } else {
-                      return;
-                    }*/
+                    }
+                  },
+                  onEdit: () async {
+                    if (widget.enableEditing) {
+                      String IDPost = widget.listPostResponse![index]!.ID;
+                      String IDStudent = widget.studentLogged!.id;
+                      String newContent = await _showEditDialog(
+                          context, widget.listPostResponse![index]!.content);
+
+                      /// Equals or Not
+                      if (newContent.compareTo(
+                          widget.listPostResponse![index]!.content) != 0) {
+                        PostResponse? response = await widget.postService
+                            .editPost(IDPost, IDStudent, newContent);
+                        if (response != null) {
+                          setState(() {
+                            widget.listPostResponse![index] = response;
+                          });
+                          CustomPopUpDialog.show(
+                              context, AlertDialogType.PostUpdate,
+                              CustomType.success);
+                        } else {
+                          CustomPopUpDialog.show(
+                              context, AlertDialogType.PostUpdate,
+                              CustomType.error);
+                        }
+                      } else {
+                        return;
+                      }
+                    }
                   },
                 );
               },
@@ -126,12 +137,12 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          title: Text(
+          title: const Text(
             'Modifica Post',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           content: Container(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(10),
@@ -139,7 +150,7 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
             child: TextField(
               controller: _controller,
               maxLines: null,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Modifica il contenuto del post",
                 border: InputBorder.none,
               ),
@@ -147,8 +158,8 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
           ),
           actions: [
             TextButton.icon(
-              icon: Icon(Icons.cancel, color: Colors.red),
-              label: Text(
+              icon: const Icon(Icons.cancel, color: Colors.red),
+              label: const Text(
                 'Annulla',
                 style: TextStyle(color: Colors.red),
               ),
@@ -157,8 +168,8 @@ class _RecentPostWidgetState extends State<StudentProfileRecentPost> {
               },
             ),
             TextButton.icon(
-              icon: Icon(Icons.save, color: Colors.green),
-              label: Text(
+              icon: const Icon(Icons.save, color: Colors.green),
+              label: const Text(
                 'Salva',
                 style: TextStyle(color: Colors.green),
               ),

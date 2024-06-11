@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:uni_connect/Screens/other_student/profile/components/cover_image_without_add.dart';
-import 'package:uni_connect/Screens/other_student/profile/components/profile_info_without_editing.dart';
+import 'package:uni_connect/Screens/student/student_profile/components/student_profile_bio.dart';
+import 'package:uni_connect/Screens/student/student_profile/components/student_profile_images.dart';
+import 'package:uni_connect/Screens/student/student_profile/components/student_profile_info.dart';
 import 'package:uni_connect/Screens/student/student_profile/components/student_profile_recent_post.dart';
 import 'package:uni_connect/models/payload/post_dto.dart';
 import 'package:uni_connect/shared/custom_alert_dialog.dart';
@@ -14,12 +15,14 @@ import '../../../../../shared/services/image_services.dart';
 import '../../../../../shared/services/storage_service.dart';
 import '../../../../../shared/services/student_service.dart';
 import '../../../../home/components/nav_bar.dart';
-import '../../components/biography_without_edit.dart';
 
 class DesktopOtherStudentProfilePage extends StatefulWidget {
 
   final String OtherIDStudent;
-  DesktopOtherStudentProfilePage({
+
+
+  const DesktopOtherStudentProfilePage({
+    super.key,
     required this.OtherIDStudent,
   });
 
@@ -40,8 +43,8 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
   bool isFollowing = false;
 
 
-  late Student? student_logged = null;
-  late Student? other_student = null;
+  late Student? student_logged;
+  late Student? other_student;
 
   late List<PostResponse?>? listPostResponse;
 
@@ -58,7 +61,7 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
   @override
   void initState() {
     super.initState();
-    this.listPostResponse = null;
+    listPostResponse = null;
     // Secure Storage Service - retrieve
     final storage = GetIt.I.get<SecureStorageService>();
     secureStorageService = storage;
@@ -121,13 +124,13 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
     var listPost = await postService.getPosts(other_student!.id);
     if(listPost != null){
       setState(() {
-        this.listPostResponse = listPost;
+        listPostResponse = listPost;
         isLoading=false;
       });
     }else{
       setState(() {
         isLoading=false;
-        this.listPostResponse = null;
+        listPostResponse = null;
       });
     }
     await _checkFollowingStatus();
@@ -147,21 +150,23 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
       return const CustomLoadingIndicator(progress: 4.5);
     }
     return Scaffold(
-      appBar: CustomAppBarLogged(student_logged:this.student_logged,enableSearch: true,IDStudent: student_logged!.id,),
+      appBar: CustomAppBarLogged(student_logged:student_logged,enableSearch: true,IDStudent: student_logged!.id,),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            OtherStudentCoverImageWidget(
+            CoverImageWidget(
                 userEmail: other_student!.email,
-                imageUploadService: _imageUploadService),
+                imageUploadService: _imageUploadService,
+            enableEditing: false
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: OtherStudentProfileInfo(student: other_student),
+                    child: StudentProfileInfo(student: other_student,enableEditing: false,),
                   ),
                   const SizedBox(width: 20.0),
                   /// Logic Button - Follow - Unfollow
@@ -201,13 +206,14 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
             const Divider(),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: OtherStudentBiographyWidget(),
+              child: BiographyWidget(IDStudent: student_logged!.id, currentBio: other_student!.biography, enableEditing: false,),
             ),
             const Divider(),
             StudentProfileRecentPost(
-                listPostResponse: this.listPostResponse,
+                listPostResponse: listPostResponse,
                 studentLogged: other_student,
-                postService: this.postService
+                postService: postService,
+              enableEditing: false,
             ),
             const Divider(),
           ],

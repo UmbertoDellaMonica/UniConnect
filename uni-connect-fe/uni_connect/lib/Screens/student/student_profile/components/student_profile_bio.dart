@@ -10,7 +10,13 @@ class BiographyWidget extends StatefulWidget {
   final String IDStudent;
   final Student? student_logged;
   final String currentBio;
-  const BiographyWidget({super.key, required this.IDStudent,this.student_logged, required this.currentBio});
+  final bool enableEditing;
+  const BiographyWidget({super.key,
+    required this.IDStudent,
+    this.student_logged,
+    required this.currentBio,
+    required this.enableEditing
+  });
 
   @override
   _BiographyWidgetState createState() => _BiographyWidgetState();
@@ -73,11 +79,14 @@ class _BiographyWidgetState extends State<BiographyWidget> {
                         ),
                       ),
                       const Spacer(),
+                      if(widget.enableEditing)
                       IconButton(
                         icon: const Icon(Icons.edit, color: Colors.blue),
                         onPressed: () {
                           // Logica per modificare la biografia
-                          _showEditBioDialog(context, bio);
+                          if(widget.enableEditing) {
+                            _showEditBioDialog(context, bio);
+                          }
                         },
                       ),
                     ],
