@@ -11,9 +11,9 @@ import org.springframework.data.neo4j.core.schema.*;
 import java.util.List;
 import java.util.UUID;
 
-@Node("Student")
 @Getter
 @Setter
+@Node("Student")
 public class StudentEntity {
 
     // ID dello studente
@@ -31,7 +31,10 @@ public class StudentEntity {
     @Enumerated(EnumType.STRING)
     private DepartementUnisa departementUnisa;
 
-    @Relationship(type = "CREATED_POST", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "CREATED_BY", direction = Relationship.Direction.OUTGOING)
     private List<PostEntity> posts;
+
+    @Relationship(type = "FOLLOWS", direction = Relationship.Direction.OUTGOING)
+    private List<StudentEntity> following;
 
 }

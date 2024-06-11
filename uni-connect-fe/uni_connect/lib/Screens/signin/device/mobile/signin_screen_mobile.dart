@@ -327,7 +327,6 @@ class _MobileSigninPageState extends State<MobileSigninPage> {
       /// Show Success Login
       Student? userLogged = await signinService.onLoginSuccess(emailInput);
 
-      /// TODO : SecureStorageService
       /// SecureStorageService.save() salva i miei dati nel SecureStorage di Flutter
       await secureStorageService.save(userLogged!);
 

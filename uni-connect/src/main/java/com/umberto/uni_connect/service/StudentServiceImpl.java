@@ -6,11 +6,14 @@ import com.umberto.uni_connect.exception.StudentNotFoundException;
 import com.umberto.uni_connect.model.StudentModel;
 import com.umberto.uni_connect.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -31,6 +34,7 @@ public class StudentServiceImpl implements StudentService {
     public StudentModel signUp(StudentModel studentModel) {
 
         StudentModel newStudentModel = null;
+        System.out.println("La mail è : "+studentModel.getEmail());
         // Verifica se lo Studente esiste
         Boolean studentExists = studentRepository.existsByEmail(studentModel.getEmail());
 
@@ -117,5 +121,98 @@ public class StudentServiceImpl implements StudentService {
         } catch (NotFoundException e) {
             return null;
         }
+    }
+
+    /**
+     *
+     * @param query contiene le lettere che il nome dello studente o il full Name dovrebbe contenere
+     * @param IDStudent ID dello studente che sta ricercando
+     * @return
+     */
+    @Override
+    public List<StudentModel> searchStudentByFullName(String query, UUID IDStudent) {
+        // Search Student about query in FullName
+        List<StudentEntity>studentEntityList = studentRepository.searchStudents(query,IDStudent);
+
+        List<StudentModel> studentModelList = mapper.map(studentEntityList,new TypeToken<List<StudentModel>>(){}.getType());
+
+        return studentModelList;
+    }
+
+    /**
+     * Follow Student - Permette allo studente di Followare una persona
+     * @param IDStudent
+     * @param OtherIDStudent
+     * @return
+     */
+    @Override
+    public Boolean followStudent(UUID IDStudent, UUID OtherIDStudent) {
+        Optional<StudentEntity> student = studentRepository.findById(IDStudent);
+        Optional<StudentEntity> targetStudent = studentRepository.findById(OtherIDStudent);
+        if (student.isPresent()  && targetStudent.isPresent()) {
+            // Aggiungi targetId alla lista dei follower di student
+            /*student.get().getFollowing().add(targetStudent.get());
+            StudentEntity studentEntity = studentRepository.save(student.get());
+            return Boolean.TRUE;*/
+            return studentRepository.followUser(IDStudent, OtherIDStudent);
+            //return studentRepository.unfollowUser(IDStudent, OtherIDStudent);
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * Unfollow Student - Permette all'utente di unfolloware una persona
+     * @param IDStudent
+     * @param OtherIDStudent
+     * @return
+     */
+    @Override
+    public Boolean unfollowStudent(UUID IDStudent, UUID OtherIDStudent) {
+        Optional<StudentEntity> student = studentRepository.findById(IDStudent);
+        Optional<StudentEntity> targetStudent = studentRepository.findById(OtherIDStudent);
+        if (student.isPresent() && targetStudent.isPresent()) {
+            return studentRepository.unfollowUser(IDStudent, OtherIDStudent);
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * Check if the Student follows the other student
+     * @param IDStudent
+     * @param otherIDStudent
+     * @return
+     */
+    @Override
+    public Boolean isFollowing(UUID IDStudent, UUID otherIDStudent) {
+        Optional<StudentEntity> student = studentRepository.findById(IDStudent);
+        Optional<StudentEntity> targetStudent = studentRepository.findById(otherIDStudent);
+
+        if(student.isPresent() && targetStudent.isPresent()){
+
+            return studentRepository.isFollowing(IDStudent, otherIDStudent);
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
+     * Retrieve all Follower
+     * @param IDStudent ID of the student that i want find followers
+     */
+    @Override
+    public List<StudentModel> getFollowers(UUID IDStudent) {
+        List<StudentEntity>studentEntityList = studentRepository.findFollowersByStudentId(IDStudent);
+        if(studentEntityList.isEmpty()){
+            return null;
+        }
+        List<StudentModel> studentModelList = mapper.map(studentEntityList,new TypeToken<List<StudentModel>>(){}.getType());
+        return studentModelList;
+    }
+
+    @Override
+    public List<StudentModel> getMutualConnections(UUID IDStudent) {
+        List<StudentEntity> studentEntities = studentRepository.findMutualConnections(IDStudent);
+        return studentEntities.stream()
+                .map(student -> mapper.map(student, StudentModel.class))
+                .collect(Collectors.toList());
     }
 }

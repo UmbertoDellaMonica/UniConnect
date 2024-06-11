@@ -29,5 +29,7 @@ public class StudentModel {
 
     private List<PostModel> posts;
 
+    private List<StudentModel> following;
+
 
 }

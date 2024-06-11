@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uni_connect/models/student.dart';
 
 class UserProfileHome extends StatelessWidget {
 
-  final String IDStudent;
-  UserProfileHome({super.key, required this.IDStudent});
+  final Student? student_logged;
+  UserProfileHome({super.key, required this.student_logged});
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +23,15 @@ class UserProfileHome extends StatelessWidget {
               backgroundColor: Colors.blue,
               child: Text('U'), // Placeholder per l'immagine del profilo
             ),
-            SizedBox(height: 10),
-            Text('Nome Utente', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            SizedBox(height: 50),
+            Text(this.student_logged!.fullName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
             UserProfileSection(
               icon: Icons.account_circle,
               title: 'Profile',
               onPressed: () {
                 // Azione per andare alle impostazioni del profilo
-                context.go('/student/'+this.IDStudent+'/profile');
+                context.go('/student/'+this.student_logged!.id+'/profile');
               },
               iconColor: Colors.blue,
               textColor: Colors.black,
@@ -45,18 +46,31 @@ class UserProfileHome extends StatelessWidget {
               textColor: Colors.black,
             ),
             UserProfileSection(
-              icon: Icons.people,
-              title: 'Amici',
+              icon: Icons.account_circle,
+              title: 'Followers',
               onPressed: () {
-                // Azione per visualizzare la lista degli amici dell'utente
+                // Azione per visualizzare la lista dei follower dell'utente
+                /// TODO: Action to retrieve all Followers
+                context.go('/student/'+student_logged!.id+'/follower');
               },
               iconColor: Colors.red,
+              textColor: Colors.black,
+            ),
+            UserProfileSection(
+              icon: Icons.people,
+              title: 'Seguiti',
+              onPressed: () {
+                // Azione per visualizzare la lista degli utenti seguiti dall'utente
+                context.go('/student/'+student_logged!.id+'/following');
+              },
+              iconColor: Colors.blueAccent,
               textColor: Colors.black,
             ),
           ],
         ),
       ),
     );
+
   }
 }
 

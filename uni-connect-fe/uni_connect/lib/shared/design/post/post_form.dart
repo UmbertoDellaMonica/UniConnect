@@ -1,9 +1,20 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:uni_connect/shared/custom_alert_dialog.dart';
+import 'package:uni_connect/shared/services/post_service.dart';
+import 'package:uni_connect/shared/utils/constants.dart';
 
-class PostForm extends StatelessWidget {
+class PostForm extends StatefulWidget {
+  final String IDStudent;
+  const PostForm({required this.IDStudent});
+
+  @override
+  _PostFormState createState() => _PostFormState();
+}
+
+class _PostFormState extends State<PostForm> {
+  final TextEditingController _contentController = TextEditingController();
+  final PostService postService = PostService();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,6 +29,7 @@ class PostForm extends StatelessWidget {
           child: Column(
             children: [
               TextFormField(
+                controller: _contentController,
                 decoration: const InputDecoration(
                   hintText: 'A cosa stai pensando?',
                   border: InputBorder.none,
@@ -50,7 +62,7 @@ class PostForm extends StatelessWidget {
               ),
               SizedBox(height: 16),
               SizedBox(
-                width: double.infinity, // Imposta la larghezza del pulsante a 100%
+                width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightBlue,
@@ -65,9 +77,7 @@ class PostForm extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onPressed: () {
-                    // Azione per pubblicare il post
-                  },
+                  onPressed: () =>  PublishPost(context),
                   child: const Text(
                     'Pubblica',
                     style: TextStyle(
@@ -82,4 +92,15 @@ class PostForm extends StatelessWidget {
       ),
     );
   }
+  Future<void> PublishPost(BuildContext context) async {
+    // Azione per pubblicare il post
+    if (await postService.createPost(widget.IDStudent, _contentController.text) != null) {
+      CustomPopUpDialog.show(context, AlertDialogType.PostCreate, CustomType.success);
+      //Pulisci il campo di testo dopo la pubblicazione del post
+      _contentController.clear();
+    }else{
+      CustomPopUpDialog.show(context, AlertDialogType.PostCreate, CustomType.error);
+    }
+  }
+
 }

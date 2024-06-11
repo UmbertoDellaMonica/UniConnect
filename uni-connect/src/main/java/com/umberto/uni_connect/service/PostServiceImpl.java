@@ -61,6 +61,9 @@ public class PostServiceImpl implements PostService{
     @Override
     public List<PostModel> getListPost(UUID studentId) {
         StudentModel studentModel =  studentService.getStudentData(studentId);
+        if(studentModel.getPosts().isEmpty()){
+            return studentModel.getPosts();
+        }
         return studentModel.getPosts();
     }
 
