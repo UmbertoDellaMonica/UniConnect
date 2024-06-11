@@ -286,7 +286,7 @@ Absolutely! Let's include multiple images for each feature in the table:
 
 | Feature      | Description                                                                                                                                                             | Images                                                                   |
 |--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| Registration | Registration allows students to create an account on UniConnect. Users provide necessary information such as name, email, and password to gain access to the platform.   | ![Registration 1](./docs/pages/singup.png) ![Registration 2](./docs/features/signup_success.png)                                   |
+| Registration | Registration allows students to create an account on UniConnect. Users provide necessary information such as name, email, and password to gain access to the platform.   | ![Registration 1](./docs/pages/signup.png) ![Registration 2](./docs/features/signup_success.png)                                   |
 
 ### 2. Login
 
@@ -322,7 +322,7 @@ Absolutely! Let's include multiple images for each feature in the table:
 
 | Feature        | Description                                                                                                                                                          | Images                                                                   |
 |----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| Post Deletion | Post Deletion feature grants students the ability to manage their content on the platform. Students can delete their own posts, maintaining control over their published content. | ![Post Deletion 1](./docs/post_deletion.png) ![Post Deletion 2](./docs/post_deletion_2.png)                               |
+| Post Deletion | Post Deletion feature grants students the ability to manage their content on the platform. Students can delete their own posts, maintaining control over their published content. | ![Post Deletion 1](./docs/features/delete_process.png) ![Post Deletion 2](./docs/features/delete_success.png)                               |
 
 
 
