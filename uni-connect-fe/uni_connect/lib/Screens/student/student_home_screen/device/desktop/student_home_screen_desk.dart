@@ -66,7 +66,7 @@ class _DesktopStudentHomePageState extends State<DesktopStudentHomePage> {
   @override
   Widget build(BuildContext context) {
     if(isLoading){
-      return CustomLoadingIndicator(progress: 4.5);
+      return const CustomLoadingIndicator(progress: 4.5);
     }
     var size = MediaQuery.of(context).size;
     var theme = Theme.of(context);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uni_connect/models/student.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 import '../../../models/payload/post_dto.dart';
 
 class PostItemProfile extends StatelessWidget {
@@ -24,7 +24,7 @@ class PostItemProfile extends StatelessWidget {
       builder: (context, constraints) {
         // Check if the screen is narrow or wide
         bool isWideScreen = constraints.maxWidth > 600;
-        print("Contenuto della risposta : "+this.postResponse!.content);
+        print("Contenuto della risposta : "+postResponse!.content);
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -46,14 +46,14 @@ class PostItemProfile extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Text(this.student_logged!.fullName),
+                        child: Text(student_logged!.fullName),
                       ),
                       PopupMenuButton<String>(
                         onSelected: (value) {
                           if (value == 'Elimina Post') {
-                            this.onDelete();
+                            onDelete();
                           } else if (value == 'Modifica Post') {
-                            this.onEdit();
+                            onEdit();
                           }
                         },
                         itemBuilder: (BuildContext context) {
@@ -65,10 +65,17 @@ class PostItemProfile extends StatelessWidget {
                           }).toList();
                         },
                       ),
+                      Text(
+                        timeago.format(DateTime.parse(postResponse!.created_at)),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Text(this.postResponse!.content),
+                  Text(postResponse!.content),
                   const SizedBox(height: 10),
                   // Aggiungi qui il widget per le immagini del post se necessario
                   const Divider(),

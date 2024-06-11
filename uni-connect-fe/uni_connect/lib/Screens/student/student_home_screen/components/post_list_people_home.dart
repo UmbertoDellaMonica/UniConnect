@@ -15,6 +15,7 @@ class PostListPeopleHome extends StatefulWidget {
 }
 
 class _PostListPeopleHomeState extends State<PostListPeopleHome> {
+
   List<PostResponse> posts = [];
   bool isLoading = true;
   Timer? _timer; // Add a Timer variable
@@ -25,7 +26,7 @@ class _PostListPeopleHomeState extends State<PostListPeopleHome> {
     super.initState();
     _fetchRecentPosts();
     // Create a periodic timer that fetches recent posts every 5 minutes
-    _timer = Timer.periodic(Duration(minutes: 5), (timer) {
+    _timer = Timer.periodic(const Duration(minutes: 5), (timer) {
       setState(() {
         isLoading = true;
       });

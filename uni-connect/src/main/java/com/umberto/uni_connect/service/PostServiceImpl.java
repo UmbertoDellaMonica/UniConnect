@@ -35,6 +35,7 @@ public class PostServiceImpl implements PostService{
     public PostModel createPost(UUID studentId, PostModel postModel) {
         StudentModel student = studentService.getStudentData(studentId);
         PostEntity postEntity = mapper.map(postModel, PostEntity.class);
+        postEntity.setAuthor(student.getFullName());
         postEntity.setStudent(mapper.map(student,StudentEntity.class));
         return mapper.map(postRepository.save(postEntity), PostModel.class);
     }

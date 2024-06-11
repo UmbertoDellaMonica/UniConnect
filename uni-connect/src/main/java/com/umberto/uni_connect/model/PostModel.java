@@ -11,7 +11,10 @@ public class PostModel {
 
     private UUID ID;
 
+    private String author;
+
     private String content;
+
     private String createdAt;
 
     private int likes;

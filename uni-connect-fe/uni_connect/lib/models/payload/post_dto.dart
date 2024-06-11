@@ -25,12 +25,14 @@ class PostRequest {
 class PostResponse {
   final String ID;
   final String content;
+  final String author;
   final String created_at;
   final int likes;
 
   PostResponse({
     required this.ID,
     required this.content,
+    required this.author,
     required this.created_at,
     required this.likes,
   });
@@ -41,6 +43,7 @@ class PostResponse {
       content: json['content'],
       created_at: json['created_at'],
       likes: json['likes'],
+      author: json['author'],
     );
   }
 }

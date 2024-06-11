@@ -16,6 +16,9 @@ public class PostEntity {
     @GeneratedValue(GeneratedValue.UUIDGenerator.class)
     private UUID ID;
 
+    @Property("author")
+    private String author;
+
     @Property("content")
     private String content;
     @Property("created_at")

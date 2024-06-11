@@ -108,7 +108,7 @@ public class StudentPostController {
     }
 
     /**
-     *
+     *Delete Post
      * @param IDStudent
      * @param IDPost
      * @return

@@ -13,10 +13,16 @@ import java.util.UUID;
 public class PostResponse implements Serializable {
     @JsonProperty("ID")
     private UUID ID;
+
+    @JsonProperty("author")
+    private String author;
+
     @JsonProperty("content")
     private String content;
+
     @JsonProperty("created_at")
     private String createdAt;
+
     @JsonProperty("likes")
     private int likes;
 }

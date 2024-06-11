@@ -10,10 +10,16 @@ import java.io.Serializable;
 @Getter @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PostRequest implements Serializable {
+
     @JsonProperty("content")
     private String content;
+
+    @JsonProperty("author")
+    private String author;
+
     @JsonProperty("created_at")
     private String createdAt;
+
     @JsonProperty("likes")
     private int likes;
 }

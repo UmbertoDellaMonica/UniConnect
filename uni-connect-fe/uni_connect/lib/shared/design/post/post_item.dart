@@ -8,7 +8,7 @@ import 'package:timeago/timeago.dart' as timeago;
 class PostItem extends StatefulWidget {
 
   final PostResponse post;
-  PostItem({ required this.post});
+  const PostItem({super.key,  required this.post});
 
   @override
   _PostItemState createState() => _PostItemState();
@@ -36,13 +36,13 @@ class _PostItemState extends State<PostItem> {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundColor: Colors.blue,
                         child: Text('U'), // Placeholder per l'immagine
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
-                        child: Text('Utente'),
+                        child: Text(widget.post.author),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +64,7 @@ class _PostItemState extends State<PostItem> {
                           ),
                           Text(
                             timeago.format(DateTime.parse(widget.post.created_at)),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
                             ),
@@ -75,26 +75,26 @@ class _PostItemState extends State<PostItem> {
 
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(widget.post.content),
-                  Divider(),
+                  const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.thumb_up_alt_outlined),
+                        icon: const Icon(Icons.thumb_up_alt_outlined),
                         onPressed: () {
                           // Azione per mettere "mi piace" al post
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.comment_outlined),
+                        icon: const Icon(Icons.comment_outlined),
                         onPressed: () {
                           // Azione per commentare il post
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.share_outlined),
+                        icon: const Icon(Icons.share_outlined),
                         onPressed: () {
                           // Azione per condividere il post
                         },

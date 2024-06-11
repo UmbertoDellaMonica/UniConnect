@@ -20,7 +20,7 @@ class PostService {
   static const String _queryStudentAllPost = 'student/post/all';
 
 
-  Future<PostResponse?> createPost(String studentId, String content) async {
+  Future<PostResponse?> createPost(String IDStudent, String content) async {
     late String Url = apiBuilderService.buildUrl(
         _api, _Url, _version, _queryStudentPost);
 
@@ -28,12 +28,12 @@ class PostService {
       content: content,
       created_at: DateTime.now().toIso8601String(),
       likes: 0,
-      studentId: studentId,
+      studentId: IDStudent,
     );
 
     final headers = {
       'Content-Type': 'application/json',
-      'IDStudent': studentId,
+      'IDStudent': IDStudent,
     };
 
     final response = await http.post(
@@ -129,8 +129,8 @@ class PostService {
   }
 
   Future<List<PostResponse>> fetchRecentPosts(String IDStudent) async {
-    late String Url = apiBuilderService.buildUrl(
-        _api, _Url, _version, '$_queryStudentPost/recent-followed');
+    late String Url = apiBuilderService.buildUrl(_api, _Url, _version, '$_queryStudentPost/recent-followed');
+
     final response = await http.get(
         Uri.parse(Url),
         headers: {'IDStudent':IDStudent}
