@@ -91,11 +91,12 @@ for _ in range(num_students):
     last_name = name_parts[-1].lower()
     email = f"{first_name}.{last_name}@gmail.com"
     password_hash = hash_password("Ciao1002!")
+    biography = " "
     departement_unisa = fake.random_element(departments)
-    data.append([student_id, full_name, email, password_hash, departement_unisa])
+    data.append([student_id, full_name, email, password_hash, departement_unisa,biography])
 
 # Create a DataFrame and save to a CSV
-df = pd.DataFrame(data, columns=["ID", "fullName", "email", "passwordHash", "departementUnisa"])
+df = pd.DataFrame(data, columns=["ID", "fullName", "email", "passwordHash", "departementUnisa"."biography"])
 df.to_csv("mock_students.csv", index=False)
 ```
 
@@ -244,7 +245,6 @@ Alternatively, you can run the front-end directly from Android Studio:
 
 ## Actors :
 
-Sure, here's the table in English for your UniConnect app, including roles for Student and Guest:
 
 | Role | Description | Image |
 | ---- | ----------- | ----- |
@@ -272,8 +272,13 @@ Sure, here's the table in English for your UniConnect app, including roles for S
 | SearchPageStudent  | The SearchPageStudent allows students to explore and discover other users or content within the app. It typically includes search filters and sorting options to help users find relevant profiles, posts, or resources. | ![SearchPageStudent](./docs/pages/search-student.png)                   |
 | OtherStudentPage   | The OtherStudentPage displays detailed profiles and activities of other users within the platform, facilitating interaction and networking among students. Users can view interests, connections, recent posts, and more on this page. | ![OtherStudentPage](./docs/pages/other-student-profile.png)                     |
 
-Let me know if there's anything else you'd like to add or modify!
+Got it! Here's a table with three images enclosed in one row, each in a separate column:
 
+| Students                                                                                          | Follows-Relationship                                                                                          | Created-by-Relationship                                                                                           |
+|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| ![Students](./docs/features/Student-nodes.png)                                                      | ![Follows as Relationship](./docs/features/Follow-relationship.png)                                                    | ![Created-by Relationship](./docs/features/Follow-relationship2.png)                                                    |
+
+This format places each image in its own column within a single row. Let me know if you need further assistance!
 
 ## Features : 
 
