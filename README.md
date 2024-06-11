@@ -248,17 +248,17 @@ Sure, here's the table in English for your UniConnect app, including roles for S
 
 | Role | Description | Image |
 | ---- | ----------- | ----- |
-| Student | The Student, once logged in and registered, can access all features of the UniConnect app. They can manage their profile, browse and enroll in courses, interact with other students, and more. | <img src="./docs/student.jpg" alt="Student" width="200"/> |
-| Guest | A Guest can only access the registration and login pages. They need to register or log in to use the full features of the UniConnect app. | <img src="./docs/guest.png" alt="Guest" width="200"/> |
+| Student | The Student, once logged in and registered, can access all features of the UniConnect app. They can manage their profile, browse and enroll in courses, interact with other students, and more. | <img src="./docs/actor/student.jpg" alt="Student" width="200"/> |
+| Guest | A Guest can only access the registration and login pages. They need to register or log in to use the full features of the UniConnect app. | <img src="./docs/actor/guest.png" alt="Guest" width="200"/> |
 
 
 ## Technologies :
 
 | Technology | Description | Image |
 | ---------- | ----------- | ----- |
-| Spring | Spring is a comprehensive framework for enterprise Java development. It provides a robust infrastructure for building scalable and secure web applications, offering features like dependency injection, aspect-oriented programming, and a wide range of modules for various enterprise needs. | <img src="./docs/spring.png" alt="Spring" width="100"/> |
-| Flutter | Flutter is an open-source framework developed by Google for building cross-platform mobile applications. It uses the Dart programming language and offers a wide range of customizable widgets and a fast rendering engine, allowing developers to create high-performance and visually appealing apps. | <img src="./docs/fluttericon.png" alt="Flutter" width="100"/> |
-| Neo4J | Neo4J is a powerful graph database management system that allows for efficient storage, retrieval, and management of graph data. It is particularly well-suited for applications that need to model complex relationships and perform advanced queries, such as social networks, recommendation engines, and network management systems. | <img src="./docs/neo4j.png" alt="Neo4J" width="100"/> |
+| Spring | Spring is a comprehensive framework for enterprise Java development. It provides a robust infrastructure for building scalable and secure web applications, offering features like dependency injection, aspect-oriented programming, and a wide range of modules for various enterprise needs. | <img src="./docs/logo/spring.png" alt="Spring" width="100"/> |
+| Flutter | Flutter is an open-source framework developed by Google for building cross-platform mobile applications. It uses the Dart programming language and offers a wide range of customizable widgets and a fast rendering engine, allowing developers to create high-performance and visually appealing apps. | <img src="./docs/logo/Flutter.jpg" alt="Flutter" width="100"/> |
+| Neo4J | Neo4J is a powerful graph database management system that allows for efficient storage, retrieval, and management of graph data. It is particularly well-suited for applications that need to model complex relationships and perform advanced queries, such as social networks, recommendation engines, and network management systems. | <img src="./docs/logo/Neo4J.png" alt="Neo4J" width="100"/> |
 
 ## Pages :
 
