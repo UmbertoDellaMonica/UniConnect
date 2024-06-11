@@ -7,10 +7,10 @@ import 'device/desktop/other_student_profile_desk.dart';
 class OtherStudentProfilePage extends StatelessWidget {
 
   /// IDStudent : ID Studente - that i want see
-  final String IDStudent;
+  final String otherIDStudent;
 
   const OtherStudentProfilePage({
-    required this.IDStudent,
+    required this.otherIDStudent,
   });
 
 
@@ -22,7 +22,7 @@ class OtherStudentProfilePage extends StatelessWidget {
 
         builder: (context, constraints) {
           if (constraints.maxWidth > 750) {
-            return DesktopOtherStudentProfilePage(OtherIDStudent: this.IDStudent,);
+            return DesktopOtherStudentProfilePage(OtherIDStudent: otherIDStudent,);
           } else {
             return MobileOtherStudentProfilePage();
           }

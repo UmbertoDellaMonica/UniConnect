@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/shared/custom_loading_bar.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 import 'package:uni_connect/shared/services/student_service.dart';
 
 import '../../../../../models/student.dart';
@@ -18,7 +19,10 @@ class DesktopStudentFollowingPage extends StatefulWidget {
 
 class _DesktopStudentFollowingPageState extends State<DesktopStudentFollowingPage> {
   List<Student> following = []; // Lista dei follower
-  StudentService _studentService = StudentService();
+
+  final StudentService _studentService = StudentService();
+  final RouterService _routerService = RouterService();
+
   bool isLoading = true;
 
   List<Student> _students = [];
@@ -86,15 +90,14 @@ class _DesktopStudentFollowingPageState extends State<DesktopStudentFollowingPag
   @override
   Widget build(BuildContext context) {
     if(isLoading){
-      return CustomLoadingIndicator(progress: 4.5);
+      return const CustomLoadingIndicator(progress: 4.5);
     }
     return Scaffold(
-      appBar: CustomAppBarLoggedSearch(
+      appBar: CustomAppBarLogged(
         IDStudent: widget.IDStudent,
-        onSearch: search,
-      ),
+        onSearch: search,enableSearch: true,),
       body: isLoading
-          ? CustomLoadingIndicator(progress: 4.5)
+          ? const CustomLoadingIndicator(progress: 4.5)
           : following.isEmpty
           ? Center(
         child: ElevatedButton(
@@ -104,28 +107,28 @@ class _DesktopStudentFollowingPageState extends State<DesktopStudentFollowingPag
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Nessun Follower'),
-                  content: Text('Al momento non hai nessun follower.'),
+                  title: const Text('Nessun Follower'),
+                  content: const Text('Al momento non hai nessun follower.'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
                         // Torna alla home page
-                        context.go('/home-page/'+widget.IDStudent);
+                        _routerService.goStudentHome(context, widget.IDStudent);
                       },
-                      child: Text('OK'),
+                      child: const Text('OK'),
                     ),
                   ],
                 );
               },
             );
           },
-          child: Text('Torna alla Home Page'),
+          child: const Text('Torna alla Home Page'),
         ),
       )
           : Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(20), // Aggiunge spazio attorno al titolo
             child: Text(
               'Persone che seguo : ', // Testo del titolo
@@ -142,38 +145,23 @@ class _DesktopStudentFollowingPageState extends State<DesktopStudentFollowingPag
                 final followee = following[index];
                 return Card(
                   elevation: 3, // Aggiunge un'ombra al card per farlo risaltare
-                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Margine attorno al card
+                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Margine attorno al card
                   child: ListTile(
-                    contentPadding: EdgeInsets.all(20), // Padding interno al ListTile
-                    leading: CircleAvatar(
+                    contentPadding: const EdgeInsets.all(20), // Padding interno al ListTile
+                    leading: const CircleAvatar(
                       radius: 30, // Dimensione del CircleAvatar
                       backgroundImage: NetworkImage('../assets/images/welcome.jpg'), // Immagine di profilo del follower
                     ),
                     title: Text(
                       followee.fullName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20, // Dimensione del testo del nome del follower
                         fontWeight: FontWeight.bold, // Stile del testo del nome del follower
                       ),
                     ),
                     onTap: () {
-                      // Implementa la navigazione al profilo del follower quando viene premuto il ListTile
-                      // Puoi utilizzare la Navigator per navigare alla pagina del profilo del follower passando l'ID del follower
-                      // Ad esempio:
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => OtherStudentProfilePage(IDStudent: follower.id),
-                      //   ),
-                      // );
-
-                      if (followee != null) {
-                        print('Navigating with student:${following[index]}');
-                        context.go('/other-student/${following[index].id}/profile');
-                      } else {
-                        print('Student is null');
-                      }
-                    },
+                      _routerService.goOtherStudentProfile(context, followee.id);
+                      },
                   ),
                 );
               },

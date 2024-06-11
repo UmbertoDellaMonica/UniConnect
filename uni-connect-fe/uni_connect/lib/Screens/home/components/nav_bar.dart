@@ -34,33 +34,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 
+class CustomAppBarLogged extends StatefulWidget implements PreferredSizeWidget {
 
-
-/// Custom App Bar Logged
-/// Used in Every Page with Logged User
-/// Perform - Profile Page
-/// Perform - Logout Page
-/// Perform - Search Bar
-class CustomAppBarLogged extends StatefulWidget implements PreferredSizeWidget{
   final Student? student_logged;
-  const CustomAppBarLogged({super.key, required this.student_logged});
+  final String? IDStudent;
+  final Function(String)? onSearch; // Now it's optional
+  final bool enableSearch;
 
-
-
+  const CustomAppBarLogged({
+    super.key,
+    this.student_logged,
+    this.onSearch, // Optional search function
+    this.IDStudent, // Optional when
+    this.enableSearch = false, // Default to false
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
   @override
   _CustomAppBarLoggedState createState() => _CustomAppBarLoggedState();
-
 }
 
 class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
-
   final LogoutService _logoutService = LogoutService();
-
   final RouterService _routerService = RouterService();
-
 
   // Secure Storage Service - retrieve
   final storage = GetIt.I.get<SecureStorageService>();
@@ -71,11 +69,8 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
     return AppBar(
       elevation: 3,
       shadowColor: const Color(0xA9D0ECFF),
@@ -86,153 +81,24 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
         children: [
           _buildTextNavBar(Constants.titleApp),
           const Spacer(),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildSearchField(),
-              ],
+          if (widget.enableSearch)
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildSearchField(),
+                ],
+              ),
             ),
-          ),
         ],
       ),
       actions: [
         const SizedBox(width: 100),
         _buildNotificationIcon(),
-        const SizedBox(width: 20,),
-        _buildHomeIcon(context,_routerService,widget.student_logged!.id),
         const SizedBox(width: 20),
-        // Aggiunge uno spazio tra l'icona di notifica e il menu
-        _buildLogoutIcon(context,_logoutService,secureStorageService),
-      ],
-    );
-  }
-
-
-
-
-  Widget _buildSearchField() {
-    return Expanded(
-      child: Container(
-        alignment: Alignment.center,
-        width: 300,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.8), // Colore di sfondo trasparente
-          borderRadius: BorderRadius.circular(20), // Bordi arrotondati
-        ),
-        child: Row(
-          children: [
-            Tooltip(
-              message: 'Cerca',
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8.0), // Aggiungi spazio tra l'icona e il testo
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.search,
-                    color: Colors.black,
-                    size: 28, // Icona di ricerca più grande
-                  ), onPressed: () { return;  },
-                ),
-              ),
-            ),
-        Expanded(
-            child: TextField(
-                onTap: () {
-                  /// TODO : Action perform Search Page
-                  _routerService.goStudentSearch(context,widget.student_logged!.id);
-                },
-              textAlign: TextAlign.start,
-              decoration: InputDecoration(
-                alignLabelWithHint: true,
-                hintText: 'Search students',
-                hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
-                border: InputBorder.none,
-              ),
-              style: const TextStyle(color: Colors.black),
-            ),
-          ),
-          ],
-        ),
-      ),
-    );
-  }
-
-
-}
-
-
-
-/// Custom App Bar Logged
-/// Used in Every Page with Logged User
-/// Perform - Profile Page
-/// Perform - Logout Page
-/// Perform - Search Bar
-class CustomAppBarLoggedSearch extends StatefulWidget implements PreferredSizeWidget{
-
-  final String IDStudent;
-  final Function(String) onSearch;
-  CustomAppBarLoggedSearch({
-    required this.IDStudent,
-    required this.onSearch
-  });
-
-
-
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-  @override
-  _CustomAppBarLoggedSearchState createState() => _CustomAppBarLoggedSearchState();
-
-}
-
-class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
-
-  LogoutService logoutService = LogoutService();
-  final RouterService _routerService = RouterService();
-
-  // Secure Storage Service - retrieve
-  final storage = GetIt.I.get<SecureStorageService>();
-  late SecureStorageService secureStorageService = storage;
-
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    
-    return AppBar(
-      elevation: 3,
-      shadowColor: const Color(0xA9D0ECFF),
-      foregroundColor: Colors.lightBlueAccent,
-      backgroundColor: const Color(0x244BCCA9),
-      leading: _buildImageAppBar(context),
-      title: Row(
-        children: [
-          _buildTextNavBar(Constants.titleApp),
-          const Spacer(),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildSearchField(),
-              ],
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        const SizedBox(width: 100),
-        _buildNotificationIcon(),
-        const SizedBox(width: 20,),
-        _buildHomeIcon(context,_routerService,widget.IDStudent),
+        _buildHomeIcon(context, _routerService, widget.IDStudent),
         const SizedBox(width: 20),
-        // Aggiunge uno spazio tra l'icona di notifica e il menu
-        _buildLogoutIcon(context,logoutService,secureStorageService),
+        _buildLogoutIcon(context, _logoutService, secureStorageService),
       ],
     );
   }
@@ -252,19 +118,34 @@ class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
             Tooltip(
               message: 'Cerca',
               child: Padding(
-                padding: const EdgeInsets.only(right: 8.0), // Aggiungi spazio tra l'icona e il testo
+                padding: const EdgeInsets.only(right: 8.0),
+                // Aggiungi spazio tra l'icona e il testo
                 child: IconButton(
                   icon: const Icon(
                     Icons.search,
                     color: Colors.black,
                     size: 28, // Icona di ricerca più grande
-                  ), onPressed: () { return;  },
+                  ),
+                  onPressed: () {
+                    if (widget.onSearch == null) {
+                      // Redirect to search page if onSearch is not provided
+                      _routerService.goStudentSearch(
+                          context, widget.student_logged!.id);
+                    }
+                  },
                 ),
               ),
             ),
             Expanded(
               child: TextField(
                 onChanged: widget.onSearch,
+                onTap: () {
+                  if (widget.onSearch == null) {
+                    // Redirect to search page if onSearch is not provided
+                    _routerService.goStudentSearch(
+                        context, widget.IDStudent);
+                  }
+                },
                 textAlign: TextAlign.start,
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
@@ -280,7 +161,6 @@ class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
       ),
     );
   }
-
 }
 
 
@@ -351,10 +231,6 @@ Widget _buildLogoutIcon(BuildContext context,LogoutService logoutService,SecureS
     },
   );
 }
-
-
-
-
 
 
 Future<void> _showLogoutConfirmationDialog(BuildContext context,LogoutService logoutService,SecureStorageService secureStorageService) async {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/shared/custom_loading_bar.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 import 'package:uni_connect/shared/services/student_service.dart';
 
 import '../../../../../models/student.dart';
@@ -20,7 +21,9 @@ class DesktopStudentSearchPage extends StatefulWidget {
 
 class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
 
-  StudentService studentService = StudentService();
+  final StudentService studentService = StudentService();
+  final RouterService routerService = RouterService();
+
   final TextEditingController _searchController = TextEditingController();
 
 
@@ -71,7 +74,7 @@ class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBarLoggedSearch(IDStudent: widget.IDStudent, onSearch: search),
+      appBar: CustomAppBarLogged(IDStudent: widget.IDStudent, onSearch: search,enableSearch: true,),
       body: Column(
         children: [
           if (_isLoading) const CustomLoadingIndicator(progress: 4.5),
@@ -85,40 +88,35 @@ class _SearchStudentsPageState extends State<DesktopStudentSearchPage> {
                 return GestureDetector(
                   onTap: () {
                     // Implementa la navigazione al profilo dello studente
-                    if (student != null) {
-                      print('Navigating with student:'+_students[index].toString());
-                      context.go('/other-student/'+_students[index].id+'/profile', extra: _students[index]);
-                    } else {
-                      print('Student is null');
-                    }
+                    routerService.goOtherStudentProfile(context, student.id);
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                    decoration: BoxDecoration(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    decoration: const BoxDecoration(
                       border: Border(bottom: BorderSide(color: Colors.grey)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           backgroundImage: AssetImage('../assets/logo.png'), // Aggiungi l'immagine dello studente
                           radius: 20.0,
                         ),
-                        SizedBox(width: 16.0),
+                        const SizedBox(width: 16.0),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 student.fullName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.0,
                                 ),
                               ),
                               Text(
                                 student.email,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.grey,
                                 ),
                               ),

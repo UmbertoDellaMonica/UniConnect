@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/nav_bar.dart';
 import 'package:uni_connect/shared/custom_loading_bar.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 import 'package:uni_connect/shared/services/student_service.dart';
 
 import '../../../../../models/student.dart';
@@ -19,6 +20,7 @@ class DesktopStudentFollowerPage extends StatefulWidget {
 class _DesktopStudentFollowerPageState extends State<DesktopStudentFollowerPage> {
   List<Student> followers = []; // Lista dei follower
   final StudentService _studentService = StudentService();
+  final RouterService _routerService = RouterService();
   bool isLoading = true;
 
   List<Student> _students = [];
@@ -89,9 +91,10 @@ class _DesktopStudentFollowerPageState extends State<DesktopStudentFollowerPage>
       return const CustomLoadingIndicator(progress: 4.5);
     }
     return Scaffold(
-      appBar: CustomAppBarLoggedSearch(
+      appBar: CustomAppBarLogged(
         IDStudent: widget.IDStudent,
         onSearch: search,
+        enableSearch: true,
       ),
       body: followers.isEmpty
           ? Center(
@@ -108,7 +111,7 @@ class _DesktopStudentFollowerPageState extends State<DesktopStudentFollowerPage>
                     TextButton(
                       onPressed: () {
                         // Torna alla home page
-                        context.go('/home-page/${widget.IDStudent}');
+                        _routerService.goStudentHome(context, widget.IDStudent);
                       },
                       child: const Text('OK'),
                     ),
@@ -155,23 +158,8 @@ class _DesktopStudentFollowerPageState extends State<DesktopStudentFollowerPage>
                     ),
                   ), // Nome e cognome del follower
                   onTap: () {
-                    // Implementa la navigazione al profilo del follower quando viene premuto il ListTile
-                    // Puoi utilizzare la Navigator per navigare alla pagina del profilo del follower passando l'ID del follower
-                    // Ad esempio:
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => OtherStudentProfilePage(IDStudent: follower.id),
-                    //   ),
-                    // );
-
-                    if (follower != null) {
-                      print('Navigating with student:${followers[index]}');
-                      context.go('/other-student/${followers[index].id}/profile');
-                    } else {
-                      print('Student is null');
-                    }
-                  },
+                    _routerService.goOtherStudentProfile(context, follower.id);
+                    },
                 ),
                 );
               },

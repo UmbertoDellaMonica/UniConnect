@@ -144,10 +144,10 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return CustomLoadingIndicator(progress: 4.5);
+      return const CustomLoadingIndicator(progress: 4.5);
     }
     return Scaffold(
-      appBar: CustomAppBarLogged(student_logged:this.student_logged),
+      appBar: CustomAppBarLogged(student_logged:this.student_logged,enableSearch: true,IDStudent: student_logged!.id,),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -163,7 +163,7 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
                   Expanded(
                     child: OtherStudentProfileInfo(student: other_student),
                   ),
-                  SizedBox(width: 20.0),
+                  const SizedBox(width: 20.0),
                   /// Logic Button - Follow - Unfollow
                   ElevatedButton(
                     onPressed: toggleFollowStatus,
@@ -177,7 +177,7 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
                         },
                       ),
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        EdgeInsets.all(24.0), // Imposta il padding del pulsante
+                        const EdgeInsets.all(24.0), // Imposta il padding del pulsante
                       ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
@@ -187,7 +187,7 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
                     ),
                     child: Text(
                       isFollowing ? 'Smetti di seguire' : 'Segui',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18.0, // Imposta la dimensione del testo
                         fontWeight: FontWeight.bold, // Imposta il grassetto
                         color: Colors.white, // Colore del testo
@@ -198,18 +198,18 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
                 ],
               ),
             ),
-            Divider(),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: OtherStudentBiographyWidget(),
             ),
-            Divider(),
+            const Divider(),
             StudentProfileRecentPost(
                 listPostResponse: this.listPostResponse,
                 studentLogged: other_student,
                 postService: this.postService
             ),
-            Divider(),
+            const Divider(),
           ],
         ),
       ),
