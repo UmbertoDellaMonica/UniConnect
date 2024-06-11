@@ -26,6 +26,10 @@ UniConnect is a comprehensive application for connecting university students. Th
     - [Install Android Studio Community](#install-android-studio-community)
     - [Install IntelliJ IDEA Community](#install-intellij-idea-community)
 6. [Run the Application](#run-the-application)
+7. [Systems](#systems)
+    - [Actors](#actors)
+    - [Pages](#pages)
+    - [Features](#features)
 
 ## 1. Install and Run Neo4j Docker Container
 
@@ -238,7 +242,7 @@ Alternatively, you can run the front-end directly from Android Studio:
 
 # Systems
 
-### Actors :
+## Actors :
 
 Sure, here's the table in English for your UniConnect app, including roles for Student and Guest:
 
@@ -247,9 +251,8 @@ Sure, here's the table in English for your UniConnect app, including roles for S
 | Student | The Student, once logged in and registered, can access all features of the UniConnect app. They can manage their profile, browse and enroll in courses, interact with other students, and more. | <img src="./docs/student.jpg" alt="Student" width="200"/> |
 | Guest | A Guest can only access the registration and login pages. They need to register or log in to use the full features of the UniConnect app. | <img src="./docs/guest.jpg" alt="Guest" width="200"/> |
 
-Here's the table in English for the technologies used in your UniConnect project:
 
-### Technologies:
+## Technologies :
 
 | Technology | Description | Image |
 | ---------- | ----------- | ----- |
@@ -257,7 +260,7 @@ Here's the table in English for the technologies used in your UniConnect project
 | Flutter | Flutter is an open-source framework developed by Google for building cross-platform mobile applications. It uses the Dart programming language and offers a wide range of customizable widgets and a fast rendering engine, allowing developers to create high-performance and visually appealing apps. | <img src="./docs/fluttericon.png" alt="Flutter" width="100"/> |
 | Neo4J | Neo4J is a powerful graph database management system that allows for efficient storage, retrieval, and management of graph data. It is particularly well-suited for applications that need to model complex relationships and perform advanced queries, such as social networks, recommendation engines, and network management systems. | <img src="./docs/neo4j.png" alt="Neo4J" width="100"/> |
 
-### Pages
+## Pages :
 
 | Page Name          | Description                                                                   | Image                                                                   |
 |--------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------|
@@ -272,37 +275,57 @@ Here's the table in English for the technologies used in your UniConnect project
 Let me know if there's anything else you'd like to add or modify!
 
 
-## 7. Features
+## Features : 
 
-### Primary Features
 
 UniConnect offers the following primary features:
 
-1. **Registration**: Each student can register on the platform and access the site.
-2. **Login**: Registered students can log in.
-3. **Profile Update/Deletion**: Students can update or delete their profile.
-4. **User Search**: Students can search for other users on the platform and view their content.
-5. **Follow**: Students can follow other users to connect with them.
-6. **Post Publishing**: Students can publish posts containing text and images.
-7. **Post Deletion**: Students can delete their own posts.
+Absolutely! Let's include multiple images for each feature in the table:
 
-### Technologies Used
+### 1. Registration
 
-UniConnect is developed using innovative technologies:
+| Feature      | Description                                                                                                                                                             | Images                                                                   |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Registration | Registration allows students to create an account on UniConnect. Users provide necessary information such as name, email, and password to gain access to the platform.   | ![Registration 1](./docs/registration.png) ![Registration 2](./docs/registration_2.png)                                   |
 
-1. **Back-End**: Spring Framework, used to create microservices in Java.
-2. **Front-End**: Flutter, which uses Dart for cross-platform development (Mobile, Web, Desktop).
-3. **Database**: Neo4J, an innovative technology that stores information using a graph structure with Cypher Query language.
+### 2. Login
 
-### Future Developments
+| Feature | Description                                                                                                                      | Images                                                        |
+|---------|----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
+| Login   | Login enables registered students to securely access their accounts by providing their credentials, such as username/email and password. | ![Login 1](./docs/login_feature.png) ![Login 2](./docs/login_feature_2.png)                            |
 
-In the future, UniConnect will be further improved with additional features:
+### 3. Profile Update/Deletion
 
-1. **Chat**: Students will be able to initiate chats with other students to exchange information about courses.
+| Feature               | Description                                                                                                                                             | Images                                                                               |
+|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| Profile Update/Deletion | Students have the ability to update or delete their profile information. Users can edit personal details, upload profile pictures, update bios, and adjust privacy settings. | ![Profile Update/Deletion 1](./docs/profile_update_deletion.png) ![Profile Update/Deletion 2](./docs/profile_update_deletion_2.png)                     |
+
+### 4. Student Search
+
+| Feature    | Description                                                                                                                                                                          | Images                                                              |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| User Search | User Search functionality allows students to discover and connect with other users. Students can search for profiles or content within the platform to find and engage with relevant users. | ![User Search 1](./docs/user_search.png) ![User Search 2](./docs/user_search_2.png)                              |
+
+### 5. Follow
+
+| Feature | Description                                                                                                                                     | Images                                                    |
+|---------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| Follow  | The Follow feature enables students to establish connections with other users. By following their profiles, students can receive updates and engage with their content. | ![Follow 1](./docs/follow.png) ![Follow 2](./docs/follow_2.png)                              |
+
+### 6. Post Publishing
+
+| Feature          | Description                                                                                                                                                                                  | Images                                                                 |
+|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| Post Publishing | Post Publishing allows students to share their thoughts, ideas, and experiences with others. Students can create and publish posts containing text and images to express themselves on the platform. | ![Post Publishing 1](./docs/post_publishing.png) ![Post Publishing 2](./docs/post_publishing_2.png)                        |
+
+### 7. Post Deletion
+
+| Feature        | Description                                                                                                                                                          | Images                                                                   |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Post Deletion | Post Deletion feature grants students the ability to manage their content on the platform. Students can delete their own posts, maintaining control over their published content. | ![Post Deletion 1](./docs/post_deletion.png) ![Post Deletion 2](./docs/post_deletion_2.png)                               |
+
 
 ---
-
-Feel free to ask if you need more adjustments or additional sections.
 
 ## Conclusion
 
@@ -315,41 +338,3 @@ This `README.md` now includes detailed instructions for running the application 
 
 
 
-
-## 7. Features
-
-### Primary Features
-
-UniConnect offre le seguenti funzionalità principali:
-
-1. **Registrazione**: Ogni studente può registrarsi alla piattaforma e accedere al sito.
-2. **Login**: Gli studenti registrati possono effettuare il login.
-3. **Aggiornamento/Cancellazione del Profilo**: Gli studenti possono aggiornare o cancellare il proprio profilo.
-4. **Ricerca Utenti**: Gli studenti possono cercare altri utenti all'interno della piattaforma e visualizzare i loro contenuti.
-5. **Follow**: Gli studenti possono seguire altri utenti per connettersi con loro.
-6. **Pubblicazione Post**: Gli studenti possono pubblicare post contenenti testo e immagini.
-7. **Eliminazione Post**: Gli studenti possono eliminare i propri post.
-
-### Tecnologie Utilizzate
-
-UniConnect è sviluppato utilizzando tecnologie innovative:
-
-1. **Back-End**: Spring Framework, utilizzato per creare microservizi in Java.
-2. **Front-End**: Flutter, che utilizza Dart per lo sviluppo multipiattaforma (Mobile, Web, Desktop).
-3. **Database**: Neo4J, una tecnologia innovativa che memorizza informazioni tramite una struttura a grafi con linguaggio Query Cypher.
-
-### Sviluppi Futuri
-
-In futuro, UniConnect sarà ulteriormente migliorato con funzionalità aggiuntive:
-
-1. **Chat**: Gli studenti potranno avviare chat con altri studenti per scambiarsi informazioni sui corsi.
-
----
-
-## Autore
-
-Umberto Della Monica - Matricola: 0522501617
-
----
-
-Questa struttura di README dovrebbe coprire tutte le informazioni necessarie per comprendere, configurare e avviare il progetto UniConnect.
