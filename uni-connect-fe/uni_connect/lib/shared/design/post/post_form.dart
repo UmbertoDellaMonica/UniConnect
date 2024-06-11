@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_connect/shared/custom_alert_dialog.dart';
 import 'package:uni_connect/shared/services/post_service.dart';
@@ -6,15 +5,20 @@ import 'package:uni_connect/shared/utils/constants.dart';
 
 class PostForm extends StatefulWidget {
   final String IDStudent;
-  const PostForm({required this.IDStudent});
+  const PostForm({super.key, required this.IDStudent});
 
   @override
   _PostFormState createState() => _PostFormState();
 }
 
 class _PostFormState extends State<PostForm> {
+
   final TextEditingController _contentController = TextEditingController();
+
   final PostService postService = PostService();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,63 +40,73 @@ class _PostFormState extends State<PostForm> {
                 ),
                 maxLines: null,
               ),
-              Divider(),
+              const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.photo, color: Colors.green),
+                    icon: const Icon(Icons.photo, color: Colors.green),
                     onPressed: () {
                       // Aggiungi foto
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.video_call, color: Colors.red),
+                    icon: const Icon(Icons.video_call, color: Colors.red),
                     onPressed: () {
                       // Aggiungi video
                     },
                   ),
                   IconButton(
-                    icon: Icon(Icons.insert_emoticon, color: Colors.yellow),
+                    icon: const Icon(Icons.insert_emoticon, color: Colors.yellow),
                     onPressed: () {
                       // Aggiungi emoji
                     },
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlue,
-                    elevation: 5,
-                    foregroundColor: Colors.blueAccent,
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    textStyle: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onPressed: () =>  PublishPost(context),
-                  child: const Text(
-                    'Pubblica',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 16),
+              /// Todo : Build Button Publish
+              _buildPublishButton()
             ],
           ),
         ),
       ),
     );
   }
-  Future<void> PublishPost(BuildContext context) async {
+
+  /// ----------------- Widget -------------------///
+
+  Widget _buildPublishButton(){
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.lightBlue,
+          elevation: 5,
+          foregroundColor: Colors.blueAccent,
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        onPressed: () =>  publishPost(context),
+        child: const Text(
+          'Pubblica',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  /// Action - Perform Creating Post ///
+  Future<void> publishPost(context) async {
     // Azione per pubblicare il post
     if (await postService.createPost(widget.IDStudent, _contentController.text) != null) {
       CustomPopUpDialog.show(context, AlertDialogType.PostCreate, CustomType.success);

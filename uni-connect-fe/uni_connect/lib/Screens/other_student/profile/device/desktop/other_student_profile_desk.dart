@@ -147,7 +147,7 @@ class _DesktopOtherStudentProfilePageState extends State<DesktopOtherStudentProf
       return CustomLoadingIndicator(progress: 4.5);
     }
     return Scaffold(
-      appBar: CustomAppBarLogged(this.student_logged),
+      appBar: CustomAppBarLogged(student_logged:this.student_logged),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

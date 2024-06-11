@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uni_connect/Screens/home/components/welcome_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uni_connect/shared/custom_alert_dialog.dart';
 import 'package:uni_connect/shared/services/logout_service.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 import 'package:uni_connect/shared/services/storage_service.dart';
 
 import '../../../models/student.dart';
@@ -15,40 +15,19 @@ import '../utils/constants_home.dart'; // Importa il pacchetto Google Fonts
 /// Custom App Bar
 /// Used in Every Page with Not Logged User
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppBar({super.key});
+
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      shadowColor: Color(0xA9D0ECFF),
+      shadowColor: const Color(0xA9D0ECFF),
       foregroundColor: Colors.lightBlueAccent,
-      backgroundColor: Color(0x244BCCA9),
+      backgroundColor: const Color(0x244BCCA9),
       leading: _buildImageAppBar(context),
       title: _buildTextNavBar(Constants.titleApp),
-    );
-  }
-  
-  GestureDetector _buildImageAppBar(BuildContext context){
-    return GestureDetector(
-      onTap: () {
-        context.go("/");  // Naviga verso la home page
-      },
-      child: RoundedImage(logoImage),
-    );
-  }
-
- /// Build Text Nav Bar with Style 
- Text _buildTextNavBar(String title){
-    return Text(
-        title,
-        style: GoogleFonts.quicksand( // Utilizza GoogleFonts.quicksand per applicare il font Quicksand
-        textStyle: TextStyle(
-            color: Colors.blueAccent, // Cambia il colore del testo
-            fontSize: 20.0, // Opzionale: Modifica la dimensione del testo
-            fontWeight: FontWeight.bold, // Opzionale: Modifica lo spessore del testo
-        ),
-      ),
     );
   }
 
@@ -63,13 +42,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 /// Perform - Logout Page
 /// Perform - Search Bar
 class CustomAppBarLogged extends StatefulWidget implements PreferredSizeWidget{
-  CustomAppBarLogged(Student? student_logged);
+  final Student? student_logged;
+  const CustomAppBarLogged({super.key, required this.student_logged});
 
 
 
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
   @override
   _CustomAppBarLoggedState createState() => _CustomAppBarLoggedState();
 
@@ -77,31 +57,19 @@ class CustomAppBarLogged extends StatefulWidget implements PreferredSizeWidget{
 
 class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
 
-  LogoutService logoutService = LogoutService();
+  final LogoutService _logoutService = LogoutService();
+
+  final RouterService _routerService = RouterService();
+
 
   // Secure Storage Service - retrieve
   final storage = GetIt.I.get<SecureStorageService>();
   late SecureStorageService secureStorageService = storage;
 
-  Student? student_logged;
-
-
   @override
   void initState() {
     super.initState();
-
-    // Esegui la navigazione solo dopo che la pagina è stata completamente costruita
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      var retrieveUser = await secureStorageService.get();
-      student_logged = retrieveUser;
-      if (student_logged != null) {
-        print("OK!");
-      } else {
-        print("Error");
-      }
-    });
   }
-
 
 
   @override
@@ -110,9 +78,9 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
 
     return AppBar(
       elevation: 3,
-      shadowColor: Color(0xA9D0ECFF),
+      shadowColor: const Color(0xA9D0ECFF),
       foregroundColor: Colors.lightBlueAccent,
-      backgroundColor: Color(0x244BCCA9),
+      backgroundColor: const Color(0x244BCCA9),
       leading: _buildImageAppBar(context),
       title: Row(
         children: [
@@ -129,46 +97,26 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
         ],
       ),
       actions: [
-        SizedBox(width: 100),
+        const SizedBox(width: 100),
         _buildNotificationIcon(),
-        SizedBox(width: 20,),
-        _buildHomeIcon(),
-        SizedBox(width: 20),
+        const SizedBox(width: 20,),
+        _buildHomeIcon(context,_routerService,widget.student_logged!.id),
+        const SizedBox(width: 20),
         // Aggiunge uno spazio tra l'icona di notifica e il menu
-        _buildLogoutIcon(context),
+        _buildLogoutIcon(context,_logoutService,secureStorageService),
       ],
     );
   }
 
 
-  GestureDetector _buildImageAppBar(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go("/");  // Navigate to the home page
-      },
-      child: RoundedImage(logoImage),
-    );
-  }
 
-  Text _buildTextNavBar(String title) {
-    return Text(
-      title,
-      style: GoogleFonts.quicksand(
-        textStyle: TextStyle(
-          color: Colors.blueAccent,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
 
   Widget _buildSearchField() {
     return Expanded(
       child: Container(
         alignment: Alignment.center,
         width: 300,
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.8), // Colore di sfondo trasparente
           borderRadius: BorderRadius.circular(20), // Bordi arrotondati
@@ -180,7 +128,7 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 8.0), // Aggiungi spazio tra l'icona e il testo
                 child: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.search,
                     color: Colors.black,
                     size: 28, // Icona di ricerca più grande
@@ -191,7 +139,8 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
         Expanded(
             child: TextField(
                 onTap: () {
-                  context.go('/student/'+this.student_logged!.id+'/search');
+                  /// TODO : Action perform Search Page
+                  _routerService.goStudentSearch(context,widget.student_logged!.id);
                 },
               textAlign: TextAlign.start,
               decoration: InputDecoration(
@@ -200,7 +149,7 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
                 hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
                 border: InputBorder.none,
               ),
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
           ],
@@ -209,99 +158,6 @@ class _CustomAppBarLoggedState extends State<CustomAppBarLogged> {
     );
   }
 
-
-  Widget _buildLogoutIcon(BuildContext context) {
-    return IconButton(
-      icon: const Tooltip(
-        message: 'Logout',
-        child: Icon(Icons.power_settings_new_rounded, color: Colors.redAccent),
-      ),
-      onPressed: () async {
-        await _showLogoutConfirmationDialog(context);
-      },
-    );
-  }
-
-
-  Widget _buildNotificationIcon() {
-    return Tooltip(
-      message: 'Notifiche',
-      child: IconButton(
-        icon: Icon(
-          Icons.notifications,
-          color: Colors.blueAccent,
-          size: 28, // Aumenta le dimensioni dell'icona
-        ),
-        onPressed: () {
-          // Handle notification logic here
-        },
-      ),
-    );
-
-  }
-
-
-
-  Future<void> _showLogoutConfirmationDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.yellow[100], // Imposta il colore di sfondo
-          title: Column( // Utilizza una colonna per posizionare l'icona sopra il titolo
-            mainAxisSize: MainAxisSize.min, // Imposta la dimensione principale della colonna a minimo
-            children: [
-              Icon(Icons.warning, color: Colors.yellow[700], size: 40), // Icona di avviso gialla
-              SizedBox(height: 8), // Spazio tra l'icona e il testo del titolo
-              Text('Conferma Logout', style: TextStyle(color: Colors.black)), // Testo del titolo
-            ],
-          ),
-          content: Text('Sei sicuro di voler effettuare il logout?', style: TextStyle(color: Colors.black)), // Testo del contenuto
-          actions: <Widget>[
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop(); // Chiudi il dialogo di conferma
-                await _LogoutChoicePressed(); // Esegui la funzione di logout
-              },
-              child: Text('Conferma', style: TextStyle(color: Colors.redAccent)), // Stile del testo di conferma
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Chiudi il dialogo di conferma
-              },
-              child: Text('Annulla', style: TextStyle(color: Colors.blueAccent)), // Stile del testo di annulla
-            ),
-          ],
-        );
-
-      },
-    );
-  }
-  
-  
-
-  Future<void> _LogoutChoicePressed() async{
-    // Handle logout logic here
-    print("Sto per cancellare i dati di sessione!");
-    if(await logoutService.logoutStudent(secureStorageService)) {
-      print("Ho cancellato i dati di sessione!");
-      CustomPopUpDialog.show(context, AlertDialogType.Logout, CustomType.success,path: '/');
-    }else{
-      CustomPopUpDialog.show(context, AlertDialogType.Logout, CustomType.error);
-      return;
-    }
-  }
-
-  Widget _buildHomeIcon() {
-    return IconButton(
-      icon: Icon(Icons.home),
-      onPressed: () {
-        // Naviga alla home page
-        context.go('/home-page/'+this.student_logged!.id);
-      },
-      tooltip: 'Home', // Tooltip per l'icona della home
-    );
-  }
 
 }
 
@@ -325,7 +181,7 @@ class CustomAppBarLoggedSearch extends StatefulWidget implements PreferredSizeWi
 
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
   @override
   _CustomAppBarLoggedSearchState createState() => _CustomAppBarLoggedSearchState();
 
@@ -334,6 +190,7 @@ class CustomAppBarLoggedSearch extends StatefulWidget implements PreferredSizeWi
 class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
 
   LogoutService logoutService = LogoutService();
+  final RouterService _routerService = RouterService();
 
   // Secure Storage Service - retrieve
   final storage = GetIt.I.get<SecureStorageService>();
@@ -345,17 +202,14 @@ class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
-
+    
     return AppBar(
       elevation: 3,
-      shadowColor: Color(0xA9D0ECFF),
+      shadowColor: const Color(0xA9D0ECFF),
       foregroundColor: Colors.lightBlueAccent,
-      backgroundColor: Color(0x244BCCA9),
+      backgroundColor: const Color(0x244BCCA9),
       leading: _buildImageAppBar(context),
       title: Row(
         children: [
@@ -372,37 +226,14 @@ class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
         ],
       ),
       actions: [
-        SizedBox(width: 100),
+        const SizedBox(width: 100),
         _buildNotificationIcon(),
-        SizedBox(width: 20,),
-        _buildHomeIcon(context),
-        SizedBox(width: 20),
+        const SizedBox(width: 20,),
+        _buildHomeIcon(context,_routerService,widget.IDStudent),
+        const SizedBox(width: 20),
         // Aggiunge uno spazio tra l'icona di notifica e il menu
-        _buildLogoutIcon(context),
+        _buildLogoutIcon(context,logoutService,secureStorageService),
       ],
-    );
-  }
-
-
-  GestureDetector _buildImageAppBar(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go("/");  // Navigate to the home page
-      },
-      child: RoundedImage(logoImage),
-    );
-  }
-
-  Text _buildTextNavBar(String title) {
-    return Text(
-      title,
-      style: GoogleFonts.quicksand(
-        textStyle: TextStyle(
-          color: Colors.blueAccent,
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
     );
   }
 
@@ -411,7 +242,7 @@ class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
       child: Container(
         alignment: Alignment.center,
         width: 300,
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.8), // Colore di sfondo trasparente
           borderRadius: BorderRadius.circular(20), // Bordi arrotondati
@@ -423,7 +254,7 @@ class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 8.0), // Aggiungi spazio tra l'icona e il testo
                 child: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.search,
                     color: Colors.black,
                     size: 28, // Icona di ricerca più grande
@@ -441,7 +272,7 @@ class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
                   hintStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
                   border: InputBorder.none,
                 ),
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
           ],
@@ -450,98 +281,128 @@ class _CustomAppBarLoggedSearchState extends State<CustomAppBarLoggedSearch> {
     );
   }
 
+}
 
-  Widget _buildLogoutIcon(BuildContext context) {
-    return IconButton(
-      icon: const Tooltip(
-        message: 'Logout',
-        child: Icon(Icons.power_settings_new_rounded, color: Colors.redAccent),
+
+/// Build Text Nav Bar
+Widget _buildTextNavBar(String title){
+  return Text(
+    title,
+    style: GoogleFonts.quicksand( // Utilizza GoogleFonts.quicksand per applicare il font Quicksand
+      textStyle: const TextStyle(
+        color: Colors.blueAccent, // Cambia il colore del testo
+        fontSize: 20.0, // Opzionale: Modifica la dimensione del testo
+        fontWeight: FontWeight.bold, // Opzionale: Modifica lo spessore del testo
       ),
-      onPressed: () async {
-        await _showLogoutConfirmationDialog(context);
-      },
-    );
-  }
+    ),
+  );
+}
 
+/// Build Image to App Bar
+GestureDetector _buildImageAppBar(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      context.go("/");  // Navigate to the home page
+    },
+    child: RoundedImage(logoImage),
+  );
+}
 
-  Widget _buildNotificationIcon() {
-    return Tooltip(
-      message: 'Notifiche',
-      child: IconButton(
-        icon: Icon(
-          Icons.notifications,
-          color: Colors.blueAccent,
-          size: 28, // Aumenta le dimensioni dell'icona
-        ),
-        onPressed: () {
-          // Handle notification logic here
-        },
+/// Build Notification Icon App Bar
+Widget _buildNotificationIcon() {
+  return Tooltip(
+    message: 'Notifiche',
+    child: IconButton(
+      icon: const Icon(
+        Icons.notifications,
+        color: Colors.blueAccent,
+        size: 28, // Aumenta le dimensioni dell'icona
       ),
-    );
-
-  }
-
-
-
-  Future<void> _showLogoutConfirmationDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.yellow[100], // Imposta il colore di sfondo
-          title: Column( // Utilizza una colonna per posizionare l'icona sopra il titolo
-            mainAxisSize: MainAxisSize.min, // Imposta la dimensione principale della colonna a minimo
-            children: [
-              Icon(Icons.warning, color: Colors.yellow[700], size: 40), // Icona di avviso gialla
-              SizedBox(height: 8), // Spazio tra l'icona e il testo del titolo
-              Text('Conferma Logout', style: TextStyle(color: Colors.black)), // Testo del titolo
-            ],
-          ),
-          content: Text('Sei sicuro di voler effettuare il logout?', style: TextStyle(color: Colors.black)), // Testo del contenuto
-          actions: <Widget>[
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop(); // Chiudi il dialogo di conferma
-                await _LogoutChoicePressed(); // Esegui la funzione di logout
-              },
-              child: Text('Conferma', style: TextStyle(color: Colors.redAccent)), // Stile del testo di conferma
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Chiudi il dialogo di conferma
-              },
-              child: Text('Annulla', style: TextStyle(color: Colors.blueAccent)), // Stile del testo di annulla
-            ),
-          ],
-        );
-
-      },
-    );
-  }
-
-
-
-  Future<void> _LogoutChoicePressed() async{
-    // Handle logout logic here
-    print("Sto per cancellare i dati di sessione!");
-    if(await logoutService.logoutStudent(secureStorageService)) {
-      print("Ho cancellato i dati di sessione!");
-      CustomPopUpDialog.show(context, AlertDialogType.Logout, CustomType.success,path: '/');
-    }else{
-      CustomPopUpDialog.show(context, AlertDialogType.Logout, CustomType.error);
-      return;
-    }
-  }
-
-  Widget _buildHomeIcon(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.home),
       onPressed: () {
-        // Naviga alla home page
-        context.go('/home-page/'+widget.IDStudent);
+        // Handle notification logic here
       },
-      tooltip: 'Home', // Tooltip per l'icona della home
-    );
-  }
+    ),
+  );
 
+}
+
+
+Widget _buildHomeIcon(context,routerService,id) {
+
+  return IconButton(
+    icon: const Icon(Icons.home),
+    onPressed: () {
+      // Naviga alla home page
+      routerService.goStudentHome(context,id);
+    },
+    tooltip: 'Home', // Tooltip per l'icona della home
+  );
+}
+
+
+Widget _buildLogoutIcon(BuildContext context,LogoutService logoutService,SecureStorageService secureStorageService) {
+  return IconButton(
+    icon: const Tooltip(
+      message: 'Logout',
+      child: Icon(Icons.power_settings_new_rounded, color: Colors.redAccent),
+    ),
+    onPressed: () async {
+      await _showLogoutConfirmationDialog(context,logoutService,secureStorageService);
+    },
+  );
+}
+
+
+
+
+
+
+Future<void> _showLogoutConfirmationDialog(BuildContext context,LogoutService logoutService,SecureStorageService secureStorageService) async {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.yellow[100], // Imposta il colore di sfondo
+        title: Column( // Utilizza una colonna per posizionare l'icona sopra il titolo
+          mainAxisSize: MainAxisSize.min, // Imposta la dimensione principale della colonna a minimo
+          children: [
+            Icon(Icons.warning, color: Colors.yellow[700], size: 40), // Icona di avviso gialla
+            const SizedBox(height: 8), // Spazio tra l'icona e il testo del titolo
+            const Text('Conferma Logout', style: TextStyle(color: Colors.black)), // Testo del titolo
+          ],
+        ),
+        content: const Text('Sei sicuro di voler effettuare il logout?', style: TextStyle(color: Colors.black)), // Testo del contenuto
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop(); // Chiudi il dialogo di conferma
+              await _LogoutChoicePressed(context,logoutService,secureStorageService); // Esegui la funzione di logout
+            },
+            child: const Text('Conferma', style: TextStyle(color: Colors.redAccent)), // Stile del testo di conferma
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Chiudi il dialogo di conferma
+            },
+            child: const Text('Annulla', style: TextStyle(color: Colors.blueAccent)), // Stile del testo di annulla
+          ),
+        ],
+      );
+
+    },
+  );
+}
+
+
+
+Future<void> _LogoutChoicePressed(context,logoutService,secureStorageService) async{
+  // Handle logout logic here
+  print("Sto per cancellare i dati di sessione!");
+  if(await logoutService.logoutStudent(secureStorageService)) {
+    print("Ho cancellato i dati di sessione!");
+    CustomPopUpDialog.show(context, AlertDialogType.Logout, CustomType.success,path: '/');
+  }else{
+    CustomPopUpDialog.show(context, AlertDialogType.Logout, CustomType.error);
+    return;
+  }
 }

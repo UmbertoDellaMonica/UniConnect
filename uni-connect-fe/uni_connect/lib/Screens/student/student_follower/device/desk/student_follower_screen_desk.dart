@@ -10,7 +10,7 @@ import '../../../../../models/student.dart';
 class DesktopStudentFollowerPage extends StatefulWidget {
   final String IDStudent;
 
-  const DesktopStudentFollowerPage({Key? key, required this.IDStudent}) : super(key: key);
+  const DesktopStudentFollowerPage({super.key, required this.IDStudent});
 
   @override
   _DesktopStudentFollowerPageState createState() => _DesktopStudentFollowerPageState();
@@ -18,7 +18,7 @@ class DesktopStudentFollowerPage extends StatefulWidget {
 
 class _DesktopStudentFollowerPageState extends State<DesktopStudentFollowerPage> {
   List<Student> followers = []; // Lista dei follower
-  StudentService _studentService = StudentService();
+  final StudentService _studentService = StudentService();
   bool isLoading = true;
 
   List<Student> _students = [];
@@ -86,7 +86,7 @@ class _DesktopStudentFollowerPageState extends State<DesktopStudentFollowerPage>
   @override
   Widget build(BuildContext context) {
     if(isLoading){
-      return CustomLoadingIndicator(progress: 4.5);
+      return const CustomLoadingIndicator(progress: 4.5);
     }
     return Scaffold(
       appBar: CustomAppBarLoggedSearch(
@@ -102,28 +102,28 @@ class _DesktopStudentFollowerPageState extends State<DesktopStudentFollowerPage>
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Nessun Follower'),
-                  content: Text('Al momento non hai nessun follower.'),
+                  title: const Text('Nessun Follower'),
+                  content: const Text('Al momento non hai nessun follower.'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () {
                         // Torna alla home page
-                        context.go('/home-page/'+widget.IDStudent);
+                        context.go('/home-page/${widget.IDStudent}');
                       },
-                      child: Text('OK'),
+                      child: const Text('OK'),
                     ),
                   ],
                 );
               },
             );
           },
-          child: Text('Torna alla Home Page'),
+          child: const Text('Torna alla Home Page'),
         ),
       )
           : Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(20), // Aggiunge spazio attorno al titolo
             child: Text(
               'I Miei Follower', // Testo del titolo
@@ -140,16 +140,16 @@ class _DesktopStudentFollowerPageState extends State<DesktopStudentFollowerPage>
                 final follower = followers[index];
                 return Card(
                     elevation: 3, // Aggiunge un'ombra al card per farlo risaltare
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Margine attorno al card
+                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20), // Margine attorno al card
                 child: ListTile(
-                  contentPadding: EdgeInsets.all(20), // Padding interno al ListTile
-                  leading: CircleAvatar(
+                  contentPadding: const EdgeInsets.all(20), // Padding interno al ListTile
+                  leading: const CircleAvatar(
                     radius: 30, // Dimensione del CircleAvatar
                     backgroundImage: NetworkImage('../assets/images/welcome.jpg'), // Immagine di profilo del follower
                   ),
                   title: Text(
                     follower.fullName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20, // Dimensione del testo del nome del follower
                       fontWeight: FontWeight.bold, // Stile del testo del nome del follower
                     ),

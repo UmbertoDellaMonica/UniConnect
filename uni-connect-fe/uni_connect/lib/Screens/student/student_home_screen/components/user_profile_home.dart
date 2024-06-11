@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:uni_connect/models/student.dart';
+import 'package:uni_connect/shared/services/router_service.dart';
 
-class UserProfileHome extends StatelessWidget {
+class UserProfileHome extends StatefulWidget {
 
   final Student? student_logged;
-  UserProfileHome({super.key, required this.student_logged});
+  const UserProfileHome({super.key, required this.student_logged});
+
+  @override
+  State<UserProfileHome> createState() => _UserProfileHomeState();
+}
+
+class _UserProfileHomeState extends State<UserProfileHome> {
+
+  final RouterService _routerService = RouterService();
 
   @override
   Widget build(BuildContext context) {
+
+    String fullName = widget.student_logged!.fullName;
+    String id = widget.student_logged!.id;
+
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(
@@ -18,24 +30,28 @@ class UserProfileHome extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            CircleAvatar(
+            /// Image - Profile
+            const CircleAvatar(
               radius: 50,
               backgroundColor: Colors.blue,
               child: Text('U'), // Placeholder per l'immagine del profilo
             ),
-            SizedBox(height: 50),
-            Text(this.student_logged!.fullName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
+            const SizedBox(height: 50),
+            /// Name and Suname - User
+            Text(fullName, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            /// Profile - Section
             UserProfileSection(
               icon: Icons.account_circle,
               title: 'Profile',
               onPressed: () {
                 // Azione per andare alle impostazioni del profilo
-                context.go('/student/'+this.student_logged!.id+'/profile');
+                _routerService.goStudentProfile(context,id);
               },
               iconColor: Colors.blue,
               textColor: Colors.black,
             ),
+            /// Photo - Section
             UserProfileSection(
               icon: Icons.image_rounded,
               title: 'Le mie Foto',
@@ -45,23 +61,24 @@ class UserProfileHome extends StatelessWidget {
               iconColor: Colors.green,
               textColor: Colors.black,
             ),
+            /// Follower - Section
             UserProfileSection(
               icon: Icons.account_circle,
               title: 'Followers',
               onPressed: () {
                 // Azione per visualizzare la lista dei follower dell'utente
-                /// TODO: Action to retrieve all Followers
-                context.go('/student/'+student_logged!.id+'/follower');
+                _routerService.goStudentFollower(context, id);
               },
               iconColor: Colors.red,
               textColor: Colors.black,
             ),
+            /// Followee - Section
             UserProfileSection(
               icon: Icons.people,
               title: 'Seguiti',
               onPressed: () {
                 // Azione per visualizzare la lista degli utenti seguiti dall'utente
-                context.go('/student/'+student_logged!.id+'/following');
+                _routerService.goStudentFollowing(context,id);
               },
               iconColor: Colors.blueAccent,
               textColor: Colors.black,
@@ -70,9 +87,11 @@ class UserProfileHome extends StatelessWidget {
         ),
       ),
     );
-
   }
 }
+
+
+
 
 class UserProfileSection extends StatelessWidget {
   final IconData icon;
@@ -82,18 +101,17 @@ class UserProfileSection extends StatelessWidget {
   final Color textColor;
 
   const UserProfileSection({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.onPressed,
     this.iconColor = Colors.black, // Colore predefinito per l'icona
     this.textColor = Colors.black, // Colore predefinito per il testo
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-
       onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
@@ -105,11 +123,8 @@ class UserProfileSection extends StatelessWidget {
           child: Row(
             children: [
               Icon(icon, color: iconColor),
-              SizedBox(width: 10),
-              Text(
-                title,
-                style: TextStyle(color: textColor, fontSize: 16),
-              ),
+              const SizedBox(width: 10),
+              Text(title, style: TextStyle(color: textColor, fontSize: 16)),
             ],
           ),
         ),

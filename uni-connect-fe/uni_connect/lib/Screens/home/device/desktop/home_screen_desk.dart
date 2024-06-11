@@ -26,7 +26,7 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
     super.initState();
     _scrollController.addListener(_scrollListener);
     // Simula un caricamento asincrono dei dati per 2 secondi
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         isLoading = false; // Imposta isLoading su false quando il caricamento è completo
       });
@@ -54,7 +54,7 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
   @override
   Widget build(BuildContext context) {
     if(isLoading){
-      return CustomLoadingIndicator(progress: 4.5);
+      return const CustomLoadingIndicator(progress: 4.5);
     }
     return Scaffold(
       appBar: CustomAppBar(),
@@ -62,7 +62,7 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
         Stack(
           children:[
                 _buildBody(),
-                SizedBox(height: 100),
+                const SizedBox(height: 100),
             if (_showFooter)
                 FooterBar()
         ],
@@ -93,30 +93,30 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'Benvenuto in UniConnect!',
                             style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(height: 20),
-                          Text(
+                          const SizedBox(height: 20),
+                          const Text(
                             homePageDescription,
                             style: TextStyle(fontSize: 18),
                           ),
-                          SizedBox(height: 40),
+                          const SizedBox(height: 40),
                           ElevatedButton(
                             onPressed: () {
                               // Azione per il pulsante di accesso
                               context.go('/signup');
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: Colors.blueAccent, padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Colore del testo del pulsante
+                              foregroundColor: Colors.white, backgroundColor: Colors.blueAccent, padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24), // Colore del testo del pulsante
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30), // Bordi arrotondati
-                                side: BorderSide(color: Colors.blueAccent), // Bordo del pulsante
+                                side: const BorderSide(color: Colors.blueAccent), // Bordo del pulsante
                               ),
                               elevation: 3, // Aggiungi un'ombra leggera
                             ),
-                            child: Text(
+                            child: const Text(
                               "Registrati",
                               style: TextStyle(fontSize: 18), // Aggiorna le dimensioni del testo
                             ),
@@ -137,7 +137,7 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
                       description: homePageLoginDescription,
                       reverseOrder: true,
                     ),
-                    SizedBox(height: 100),
+                    const SizedBox(height: 100),
 
                     ContentRow(
                       imagePath: chatImage,
@@ -145,7 +145,7 @@ class _DesktopWelcomePageState extends State<DesktopWelcomePage> {
                       description: homePageSignupDescription,
                       reverseOrder: false,
                     ),
-                    SizedBox(height: 100),
+                    const SizedBox(height: 100),
                     ContentRow(
                       imagePath: followImage,
                       titleContent: "Follow us",

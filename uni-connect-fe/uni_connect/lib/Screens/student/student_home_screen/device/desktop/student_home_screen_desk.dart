@@ -74,7 +74,7 @@ class _DesktopStudentHomePageState extends State<DesktopStudentHomePage> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child:
         Scaffold(
-          appBar: CustomAppBarLogged(student_logged),
+          appBar: CustomAppBarLogged(student_logged: student_logged,),
           backgroundColor: Colors.white,
           resizeToAvoidBottomInset: false,
           body: Padding(

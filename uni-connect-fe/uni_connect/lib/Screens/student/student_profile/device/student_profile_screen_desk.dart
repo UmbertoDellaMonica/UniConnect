@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:uni_connect/Screens/student/student_profile/components/student_profile_bio.dart';
 import 'package:uni_connect/Screens/student/student_profile/components/student_profile_images.dart';
 import 'package:uni_connect/Screens/student/student_profile/components/student_profile_info.dart';
-import 'package:uni_connect/Screens/student/student_profile/components/student_profile_recent_photo.dart';
 import 'package:uni_connect/Screens/student/student_profile/components/student_profile_recent_post.dart';
 import 'package:uni_connect/models/payload/post_dto.dart';
 import 'package:uni_connect/shared/services/post_service.dart';
@@ -96,17 +94,17 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
   Widget build(BuildContext context) {
 
     if(isLoading){
-      return CustomLoadingIndicator(progress: 4.5);
+      return const CustomLoadingIndicator(progress: 4.5);
     }
     return Scaffold(
-      appBar: CustomAppBarLogged(this.student_logged),
+      appBar: CustomAppBarLogged(student_logged:this.student_logged),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             /// Cover -Image Profile
             CoverImageWidget(
-                userEmail: this.student_logged!.email,
+                userEmail: student_logged!.email,
                 imageUploadService: _imageUploadService),
             /// Information and BioGraphy- Profile
             Row(
@@ -115,19 +113,19 @@ class _DesktopStudentProfilePageState extends State<DesktopStudentProfilePage> {
                 Expanded(
                   child: StudentProfileInfo(student: this.student_logged),
                 ),
-                SizedBox(width: 20.0), // Spazio tra le due sezioni
+                const SizedBox(width: 20.0), // Spazio tra le due sezioni
                 Expanded(
                   child: BiographyWidget(),
                 ),
               ],
             ),
-            Divider(),
+            const Divider(),
             StudentProfileRecentPost(
                 listPostResponse: this.listPostResponse,
                 studentLogged: this.student_logged,
                 postService: this.postService
             ),
-            Divider(),
+            const Divider(),
             //StudentProfileRecentPhoto(imagePaths: studentImagePaths)
             ],
         ),
