@@ -249,7 +249,7 @@ Sure, here's the table in English for your UniConnect app, including roles for S
 | Role | Description | Image |
 | ---- | ----------- | ----- |
 | Student | The Student, once logged in and registered, can access all features of the UniConnect app. They can manage their profile, browse and enroll in courses, interact with other students, and more. | <img src="./docs/student.jpg" alt="Student" width="200"/> |
-| Guest | A Guest can only access the registration and login pages. They need to register or log in to use the full features of the UniConnect app. | <img src="./docs/guest.jpg" alt="Guest" width="200"/> |
+| Guest | A Guest can only access the registration and login pages. They need to register or log in to use the full features of the UniConnect app. | <img src="./docs/guest.png" alt="Guest" width="200"/> |
 
 
 ## Technologies :
@@ -331,7 +331,7 @@ Absolutely! Let's include multiple images for each feature in the table:
 
 By following these steps, you will be able to set up and run the UniConnect application
 
-, generate mock data, copy it into the Neo4j Docker container, and import it into the database using Cypher Shell. This `README.md` file contains all the necessary instructions to mock student data, copy it into the Neo4j Docker container, and import it into the database. Be sure to adjust any paths or specific details to fit your development environment.
+Generate mock data, copy it into the Neo4j Docker container, and import it into the database using Cypher Shell. This `README.md` file contains all the necessary instructions to mock student data, copy it into the Neo4j Docker container, and import it into the database. Be sure to adjust any paths or specific details to fit your development environment.
 
 This `README.md` now includes detailed instructions for running the application directly from the main entry points in Android Studio and IntelliJ IDEA, ensuring users can set up and execute the project efficiently.
 
