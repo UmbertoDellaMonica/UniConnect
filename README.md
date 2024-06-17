@@ -14,18 +14,22 @@ UniConnect is a comprehensive application for connecting university students. Th
 
 ## Table of Contents
 
-1. [Install and Run Neo4j Docker Container](#install-and-run-neo4j-docker-container)
-2. [Generate Mock Data](#generate-mock-data)
-3. [Copy CSV File to Docker Container](#copy-csv-file-to-docker-container)
-4. [Import Data into Neo4j](#import-data-into-neo4j)
-5. [Set Up the Application](#set-up-the-application)
+1. [Install and Run Neo4j Docker Container](#1-install-and-run-neo4j-docker-container)
+2. [Generate Mock Data](#2-generate-mock-data)
+3. [Copy CSV File to Docker Container](#3-copy-csv-file-to-docker-container)
+4. [Import Data into Neo4j](#4-import-data-into-neo4j)
+5. [Set Up the Application](#5-set-up-the-application)
     - [Install Java JDK 17](#install-java-jdk-17)
     - [Install Flutter SDK](#install-flutter-sdk)
     - [Backend Setup (Maven)](#backend-setup-maven)
     - [Frontend Setup (Flutter)](#frontend-setup-flutter)
     - [Install Android Studio Community](#install-android-studio-community)
     - [Install IntelliJ IDEA Community](#install-intellij-idea-community)
-6. [Run the Application](#run-the-application)
+6. [Run the Application](#6-run-the-application)
+7. [Systems](#systems)
+    - [Actors](#actors-)
+    - [Pages](#pages-)
+    - [Features](#features-)
 
 ## 1. Install and Run Neo4j Docker Container
 
@@ -87,11 +91,12 @@ for _ in range(num_students):
     last_name = name_parts[-1].lower()
     email = f"{first_name}.{last_name}@gmail.com"
     password_hash = hash_password("Ciao1002!")
+    biography = " "
     departement_unisa = fake.random_element(departments)
-    data.append([student_id, full_name, email, password_hash, departement_unisa])
+    data.append([student_id, full_name, email, password_hash, departement_unisa,biography])
 
 # Create a DataFrame and save to a CSV
-df = pd.DataFrame(data, columns=["ID", "fullName", "email", "passwordHash", "departementUnisa"])
+df = pd.DataFrame(data, columns=["ID", "fullName", "email", "passwordHash", "departementUnisa"."biography"])
 df.to_csv("mock_students.csv", index=False)
 ```
 
@@ -123,7 +128,7 @@ Run the following command in the Cypher Shell to import the data from the CSV fi
 
 ```cypher
 LOAD CSV WITH HEADERS FROM 'file:///mock_students.csv' AS row
-CREATE (:Student {ID: row.ID, fullName: row.fullName, email: row.email, passwordHash: row.passwordHash, departementUnisa: row.departementUnisa});
+CREATE (:Student {ID: row.ID, fullName: row.fullName, email: row.email, passwordHash: row.passwordHash, departementUnisa: row.departementUnisa, row.biography});
 ```
 
 ## 5. Set Up the Application
@@ -235,10 +240,105 @@ Alternatively, you can run the front-end directly from Android Studio:
 
 > **Note:** If you encounter issues with device selection or running the application, refer to the [official Flutter guide](https://flutter.dev/docs/get-started/install) for setting up devices in Android Studio.
 
+
+# Systems
+
+## Actors :
+
+
+| Role | Description | Image |
+| ---- | ----------- | ----- |
+| Student | The Student, once logged in and registered, can access all features of the UniConnect app. They can manage their profile, browse and enroll in courses, interact with other students, and more. | <img src="./docs/actor/student.jpg" alt="Student" width="200"/> |
+| Guest | A Guest can only access the registration and login pages. They need to register or log in to use the full features of the UniConnect app. | <img src="./docs/actor/guest.png" alt="Guest" width="200"/> |
+
+
+## Technologies :
+
+| Technology | Description | Image |
+| ---------- | ----------- | ----- |
+| Spring | Spring is a comprehensive framework for enterprise Java development. It provides a robust infrastructure for building scalable and secure web applications, offering features like dependency injection, aspect-oriented programming, and a wide range of modules for various enterprise needs. | <img src="./docs/logo/Spring.png" alt="Spring" width="100"/> |
+| Flutter | Flutter is an open-source framework developed by Google for building cross-platform mobile applications. It uses the Dart programming language and offers a wide range of customizable widgets and a fast rendering engine, allowing developers to create high-performance and visually appealing apps. | <img src="./docs/logo/Flutter.jpg" alt="Flutter" width="100"/> |
+| Neo4J | Neo4J is a powerful graph database management system that allows for efficient storage, retrieval, and management of graph data. It is particularly well-suited for applications that need to model complex relationships and perform advanced queries, such as social networks, recommendation engines, and network management systems. | <img src="./docs/logo/Neo4J.png" alt="Neo4J" width="100"/> |
+
+## Pages :
+
+| Page Name          | Description                                                                   | Image                                                                   |
+|--------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Home               | The Home page serves as the initial landing point for users who haven't logged in yet. It provides an overview of the platform's features and encourages users to sign up or log in. | ![Home](./docs/pages/home.png)                                                |
+| Signup             | The Signup page is where new users can register to create an account on the platform. It typically collects basic information such as name, email, and password to set up a new user profile. | ![Signup](./docs/pages/signup.png)                                            |
+| Signin             | The Signin page is the entry point for registered users to access their accounts. It prompts users to enter their credentials (username/email and password) to log in securely. | ![Signin](./docs/pages/signin.png)                                            |
+| HomePageStudent    | The HomePageStudent is the central hub for logged-in students, offering a variety of functionalities tailored to their needs. It may include features like recent activity updates, recommended connections, and quick access to essential tools. | ![HomePageStudent](./docs/pages/home-page-student.png)                        |
+| ProfileStudent     | The ProfileStudent page enables students to view and manage their profile information. Users can edit personal details, upload a profile picture, update their bio, and adjust privacy settings as needed. | ![ProfileStudent](./docs/pages/profile-student.png)                          |
+| SearchPageStudent  | The SearchPageStudent allows students to explore and discover other users or content within the app. It typically includes search filters and sorting options to help users find relevant profiles, posts, or resources. | ![SearchPageStudent](./docs/pages/search-student.png)                   |
+| OtherStudentPage   | The OtherStudentPage displays detailed profiles and activities of other users within the platform, facilitating interaction and networking among students. Users can view interests, connections, recent posts, and more on this page. | ![OtherStudentPage](./docs/pages/other-student-profile.png)                     |
+
+Got it! Here's a table with three images enclosed in one row, each in a separate column:
+
+| Students                                                                                          | Follows-Relationship                                                                                          | Created-by-Relationship                                                                                           |
+|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| ![Students](./docs/features/Student-nodes.png)                                                      | ![Follows as Relationship](./docs/features/Follow-relationship.png)                                                    | ![Created-by Relationship](./docs/features/Follow-relationship2.png)                                                    |
+
+This format places each image in its own column within a single row. Let me know if you need further assistance!
+
+## Features : 
+
+
+UniConnect offers the following primary features:
+
+Absolutely! Let's include multiple images for each feature in the table:
+
+### 1. Registration
+
+| Feature      | Description                                                                                                                                                             | Images                                                                   |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Registration | Registration allows students to create an account on UniConnect. Users provide necessary information such as name, email, and password to gain access to the platform.   | ![Registration 1](./docs/pages/signup.png) ![Registration 2](./docs/features/signup_success.png)                                   |
+
+### 2. Login
+
+| Feature | Description                                                                                                                      | Images                                                        |
+|---------|----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
+| Login   | Login enables registered students to securely access their accounts by providing their credentials, such as username/email and password. | ![Login 1](./docs/pages/signin.png) ![Login 2](./docs/features/login_success.png)                            |
+
+### 3. Profile Update/Deletion
+
+| Feature               | Description                                                                                                                                             | Images                                                                               |
+|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| Profile Update/Deletion | Students have the ability to update or delete their profile information. Users can edit personal details, upload profile pictures, update bios, and adjust privacy settings. | ![Profile Update/Deletion 1](./docs/features/modifica_biography.png) ![Profile Update/Deletion 2](./docs/features/modifica_post.png)                     |
+
+### 4. Student Search
+
+| Feature    | Description                                                                                                                                                                          | Images                                                              |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| User Search | User Search functionality allows students to discover and connect with other users. Students can search for profiles or content within the platform to find and engage with relevant users. | ![User Search 1](./docs/pages/search-student.png)                        |
+
+### 5. Follow
+
+| Feature | Description                                                                                                                                     | Images                                                    |
+|---------|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
+| Follow  | The Follow feature enables students to establish connections with other users. By following their profiles, students can receive updates and engage with their content. | ![Follow 1](./docs/features/follow_success.png) ![Follow 2](./docs/features/follow_success2.png)                              |
+
+### 6. Post Publishing
+
+| Feature          | Description                                                                                                                                                                                  | Images                                                                 |
+|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| Post Publishing | Post Publishing allows students to share their thoughts, ideas, and experiences with others. Students can create and publish posts containing text and images to express themselves on the platform. | ![Post Publishing 1](./docs/features/publish_post_success.png)                         |
+
+### 7. Post Deletion
+
+| Feature        | Description                                                                                                                                                          | Images                                                                   |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Post Deletion | Post Deletion feature grants students the ability to manage their content on the platform. Students can delete their own posts, maintaining control over their published content. | ![Post Deletion 1](./docs/features/delete_process.png) ![Post Deletion 2](./docs/features/delete_success.png)                               |
+
+
+
 ## Conclusion
 
 By following these steps, you will be able to set up and run the UniConnect application
 
-, generate mock data, copy it into the Neo4j Docker container, and import it into the database using Cypher Shell. This `README.md` file contains all the necessary instructions to mock student data, copy it into the Neo4j Docker container, and import it into the database. Be sure to adjust any paths or specific details to fit your development environment.
+Generate mock data, copy it into the Neo4j Docker container, and import it into the database using Cypher Shell. This `README.md` file contains all the necessary instructions to mock student data, copy it into the Neo4j Docker container, and import it into the database. Be sure to adjust any paths or specific details to fit your development environment.
 
 This `README.md` now includes detailed instructions for running the application directly from the main entry points in Android Studio and IntelliJ IDEA, ensuring users can set up and execute the project efficiently.
+
+
+
+
