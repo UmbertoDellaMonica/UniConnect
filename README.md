@@ -272,13 +272,11 @@ Alternatively, you can run the front-end directly from Android Studio:
 | SearchPageStudent  | The SearchPageStudent allows students to explore and discover other users or content within the app. It typically includes search filters and sorting options to help users find relevant profiles, posts, or resources. | ![SearchPageStudent](./docs/pages/search-student.png)                   |
 | OtherStudentPage   | The OtherStudentPage displays detailed profiles and activities of other users within the platform, facilitating interaction and networking among students. Users can view interests, connections, recent posts, and more on this page. | ![OtherStudentPage](./docs/pages/other-student-profile.png)                     |
 
-Got it! Here's a table with three images enclosed in one row, each in a separate column:
 
 | Students                                                                                          | Follows-Relationship                                                                                          | Created-by-Relationship                                                                                           |
 |--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
 | ![Students](./docs/features/Student-nodes.png)                                                      | ![Follows as Relationship](./docs/features/Follow-relationship.png)                                                    | ![Created-by Relationship](./docs/features/Follow-relationship2.png)                                                    |
 
-This format places each image in its own column within a single row. Let me know if you need further assistance!
 
 ## Features : 
 

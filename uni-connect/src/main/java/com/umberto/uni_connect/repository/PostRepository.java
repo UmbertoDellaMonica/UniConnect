@@ -25,4 +25,15 @@ public interface PostRepository extends Neo4jRepository<PostEntity,UUID> {
             "SET p.content = $content " +
             "RETURN p")
     PostEntity updatePostContent(UUID ID, String content);
+
+    @Query("MATCH (student:Student {ID: $studentId}) " +
+            "CREATE (post:Post {ID: $postId, author: $author, content: $content, created_at: $createdAt, likes: $likes}) " +
+            "CREATE (student)-[:CREATED_BY]->(post) " +
+            "RETURN post")
+    PostEntity createPost(UUID studentId, UUID postId, String author, String content, String createdAt, int likes);
+
+    @Query("MATCH (post:Post {ID: $postId}) " +
+            "DETACH DELETE post")
+    void deletePost(UUID postId);
+
 }
