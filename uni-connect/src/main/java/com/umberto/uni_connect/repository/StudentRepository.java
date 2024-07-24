@@ -13,6 +13,54 @@ import java.util.UUID;
 public interface StudentRepository extends Neo4jRepository<StudentEntity, UUID> {
 
     /**
+     * Register Student - Registra uno studente all'interno del database
+     * @param ID
+     * @param fullName
+     * @param email
+     * @param passwordHash
+     * @param biography
+     * @param departementUnisa
+     */
+    @Query("CREATE (s:Student { " +
+            "ID: $ID, " +
+            "fullName: $fullName, " +
+            "email: $email, " +
+            "passwordHash: $passwordHash, " +
+            "biography: $biography, " +
+            "departementUnisa: $departementUnisa }) " +
+            "RETURN s")
+    StudentEntity createStudent(UUID ID, String fullName, String email,
+                                String passwordHash, String biography, String departementUnisa);
+
+
+    /**
+     * Update Student - Aggiorna i dati dello studente una volta che è stato ricercato tramite il suo ID
+     * Aggiorna tutti i suoi dati di seguito :
+     * - ID
+     * - fullName
+     * - email
+     * - password
+     * - biography
+     * - departement
+     * @param ID
+     * @param fullName
+     * @param email
+     * @param passwordHash
+     * @param biography
+     * @param departementUnisa
+     */
+    @Query("MATCH (s:Student {ID: $ID}) " +
+            "SET s.fullName = $fullName, " +
+            "s.email = $email, " +
+            "s.passwordHash = $passwordHash, " +
+            "s.biography = $biography, " +
+            "s.departementUnisa = $departementUnisa " +
+            "RETURN s")
+    StudentEntity updateStudent(UUID ID, String fullName, String email,
+                                String passwordHash, String biography, String departementUnisa);
+
+
+    /**
      * ExistsByEmail - Metodo che verifica se uno Studente esiste
      * @param email dello studente
      * @return True se esiste , False se non esiste

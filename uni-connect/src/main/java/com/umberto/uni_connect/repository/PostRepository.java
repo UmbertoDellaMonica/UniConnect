@@ -19,4 +19,10 @@ public interface PostRepository extends Neo4jRepository<PostEntity,UUID> {
     @Query("MATCH (u:Student {ID: $IDStudent})-[:FOLLOWS]->(f:Student)-[:CREATED_BY]->(p:Post) " +
             "RETURN p ORDER BY p.created_at DESC")
     List<PostEntity> findRecentPostsByFollowedUsers(UUID IDStudent);
+
+
+    @Query("MATCH (p:Post {ID: $ID}) " +
+            "SET p.content = $content " +
+            "RETURN p")
+    PostEntity updatePostContent(UUID ID, String content);
 }

@@ -364,8 +364,9 @@ class _DesktopSigninPageState extends State<DesktopSigninPage> {
     /// SignIn Student - Action
     bool loginStatus = await signinService.signInStudent(
         email, password, _selectedItem);
+    print("Login Status : "+loginStatus.toString());
     if (loginStatus) {
-
+      print("Email :"+email);
       /// Show Success Login
       Student? userLogged = await signinService.onLoginSuccess(email);
 

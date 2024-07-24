@@ -248,7 +248,7 @@ class _MobileSignupPageState extends State<MobileSignupPage> {
       style: Constants.kTextFormFieldStyle(),
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.person),
-        hintText: 'Username',
+        hintText: 'Nome e Cognome',
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),

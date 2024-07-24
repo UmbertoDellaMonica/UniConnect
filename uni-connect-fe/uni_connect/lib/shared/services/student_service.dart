@@ -92,6 +92,7 @@ class StudentService {
       );
 
       if (response.statusCode == 200) {
+        print("Login effettuato!");
         return true;
       } else {
         print("Error: Erorre della risposta :"+response.body.toString());

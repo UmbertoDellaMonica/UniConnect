@@ -247,7 +247,7 @@ class _DesktopSignupPageState extends State<DesktopSignupPage> {
       style: Constants.kTextFormFieldStyle(),
       decoration: const InputDecoration(
         prefixIcon: Icon(Icons.person),
-        hintText: 'Username',
+        hintText: 'Nome e Cognome',
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),

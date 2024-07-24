@@ -46,6 +46,8 @@ public class StudentServiceImpl implements StudentService {
             StudentEntity studentEntity = new StudentEntity();
             studentEntity = mapper.map(studentModel, StudentEntity.class);
             studentEntity = studentRepository.save(studentEntity);
+            //System.out.println("Sono arrivato qui!");
+            //studentEntity = studentRepository.registerStudent(studentEntity.getID(), studentEntity.getFullName(), studentEntity.getEmail(), studentEntity.getPasswordHash(), " ", studentEntity.getDepartementUnisa().toString());
             // Return the Entity
             newStudentModel = mapper.map(studentEntity, StudentModel.class);
         }
