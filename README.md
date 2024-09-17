@@ -331,6 +331,12 @@ Absolutely! Let's include multiple images for each feature in the table:
 |----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
 | Post Deletion | Post Deletion feature grants students the ability to manage their content on the platform. Students can delete their own posts, maintaining control over their published content. | ![Post Deletion 1](./docs/features/delete_process.png) ![Post Deletion 2](./docs/features/delete_success.png)                               |
 
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
 ## Conclusion
 
 By following these steps, you will be able to set up and run the UniConnect application
