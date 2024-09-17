@@ -1,5 +1,5 @@
 # UniConnect
-
+<br>
 <p align="center">
   <img width="150" src="./logo/logo_unisa.svg" style="border-radius: 10px;">
 </p>
