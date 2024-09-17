@@ -1,5 +1,13 @@
 # UniConnect
 
+<p align="center">
+  <img width="150" src="./docs/logo/logo_unisa.svg" style="border-radius: 10px;">
+</p>
+
+<p align="center" dir="auto">
+  A project developed for the course Databases 2 at University of Salerno.<br>
+</p>
+
 UniConnect is a comprehensive application for connecting university students. This guide provides detailed steps to set up and run the application, generate mock data, and import it into a Neo4j database.
 
 ## Prerequisites
@@ -159,7 +167,7 @@ mvn clean install
 
 #### Dependencies (Maven)
 
-If you have any necessity to add dependencies to your `pom.xml` file, below there is an example of use it: 
+If you have any necessity to add dependencies to your `pom.xml` file, below there is an example of use it:
 
 ```xml
 <dependencies>
@@ -176,7 +184,8 @@ If you have any necessity to add dependencies to your `pom.xml` file, below ther
     <!-- Add other necessary dependencies -->
 </dependencies>
 ```
-There are all dependencies in the Spring module, so you can download by Intellij setting or with the command of mvn 
+
+There are all dependencies in the Spring module, so you can download by Intellij setting or with the command of mvn
 
 ### Frontend Setup (Flutter)
 
@@ -186,10 +195,11 @@ Ensure you have Flutter installed. Navigate to your Flutter project directory an
 flutter pub get 
 ```
 
-This command is important if there are any dependencies older than your version of sdk 
+This command is important if there are any dependencies older than your version of sdk
+
 ```sh
 flutter pub outdated 
-``` 
+```
 
 #### Dependencies (Flutter)
 
@@ -240,19 +250,16 @@ Alternatively, you can run the front-end directly from Android Studio:
 
 > **Note:** If you encounter issues with device selection or running the application, refer to the [official Flutter guide](https://flutter.dev/docs/get-started/install) for setting up devices in Android Studio.
 
-
 # Systems
 
-## Actors :
-
+## Actors
 
 | Role | Description | Image |
 | ---- | ----------- | ----- |
 | Student | The Student, once logged in and registered, can access all features of the UniConnect app. They can manage their profile, browse and enroll in courses, interact with other students, and more. | <img src="./docs/actor/student.jpg" alt="Student" width="200"/> |
 | Guest | A Guest can only access the registration and login pages. They need to register or log in to use the full features of the UniConnect app. | <img src="./docs/actor/guest.png" alt="Guest" width="200"/> |
 
-
-## Technologies :
+## Technologies
 
 | Technology | Description | Image |
 | ---------- | ----------- | ----- |
@@ -260,7 +267,7 @@ Alternatively, you can run the front-end directly from Android Studio:
 | Flutter | Flutter is an open-source framework developed by Google for building cross-platform mobile applications. It uses the Dart programming language and offers a wide range of customizable widgets and a fast rendering engine, allowing developers to create high-performance and visually appealing apps. | <img src="./docs/logo/Flutter.jpg" alt="Flutter" width="100"/> |
 | Neo4J | Neo4J is a powerful graph database management system that allows for efficient storage, retrieval, and management of graph data. It is particularly well-suited for applications that need to model complex relationships and perform advanced queries, such as social networks, recommendation engines, and network management systems. | <img src="./docs/logo/Neo4J.png" alt="Neo4J" width="100"/> |
 
-## Pages :
+## Pages
 
 | Page Name          | Description                                                                   | Image                                                                   |
 |--------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------|
@@ -272,14 +279,11 @@ Alternatively, you can run the front-end directly from Android Studio:
 | SearchPageStudent  | The SearchPageStudent allows students to explore and discover other users or content within the app. It typically includes search filters and sorting options to help users find relevant profiles, posts, or resources. | ![SearchPageStudent](./docs/pages/search-student.png)                   |
 | OtherStudentPage   | The OtherStudentPage displays detailed profiles and activities of other users within the platform, facilitating interaction and networking among students. Users can view interests, connections, recent posts, and more on this page. | ![OtherStudentPage](./docs/pages/other-student-profile.png)                     |
 
-
 | Students                                                                                          | Follows-Relationship                                                                                          | Created-by-Relationship                                                                                           |
 |--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
 | ![Students](./docs/features/Student-nodes.png)                                                      | ![Follows as Relationship](./docs/features/Follow-relationship.png)                                                    | ![Created-by Relationship](./docs/features/Follow-relationship2.png)                                                    |
 
-
-## Features : 
-
+## Features
 
 UniConnect offers the following primary features:
 
@@ -327,8 +331,6 @@ Absolutely! Let's include multiple images for each feature in the table:
 |----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
 | Post Deletion | Post Deletion feature grants students the ability to manage their content on the platform. Students can delete their own posts, maintaining control over their published content. | ![Post Deletion 1](./docs/features/delete_process.png) ![Post Deletion 2](./docs/features/delete_success.png)                               |
 
-
-
 ## Conclusion
 
 By following these steps, you will be able to set up and run the UniConnect application
@@ -336,7 +338,3 @@ By following these steps, you will be able to set up and run the UniConnect appl
 Generate mock data, copy it into the Neo4j Docker container, and import it into the database using Cypher Shell. This `README.md` file contains all the necessary instructions to mock student data, copy it into the Neo4j Docker container, and import it into the database. Be sure to adjust any paths or specific details to fit your development environment.
 
 This `README.md` now includes detailed instructions for running the application directly from the main entry points in Android Studio and IntelliJ IDEA, ensuring users can set up and execute the project efficiently.
-
-
-
-
